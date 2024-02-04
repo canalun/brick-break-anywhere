@@ -39,13 +39,16 @@ function removeBlock(block: Block) {
     return
   }
 
+  const originalVisibilities = []
+  Array.from(block.element.children).forEach((childEl) => {
+    originalVisibilities.push(getComputedStyleWithCache(childEl).visibility)
+  })
   Object.assign(block.element.style, {
     visibility: "hidden"
   })
-  Array.from(block.element.children).forEach((childEl) => {
-    if (getComputedStyleWithCache(childEl).visibility === "hidden") return
+  Array.from(block.element.children).forEach((childEl, i) => {
     Object.assign(childEl.style, {
-      visibility: "visible"
+      visibility: originalVisibilities[i]
     })
   })
 }
