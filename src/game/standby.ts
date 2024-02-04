@@ -37,7 +37,6 @@ export function standby(ball: Ball, bar: Bar, blocks: Block[]) {
   }
 
   function getXYFromTouchEvent(event: TouchEvent | MouseEvent) {
-    console.log(event.type)
     if (event instanceof MouseEvent) {
       return { x: event.clientX, y: event.clientY }
     } else {

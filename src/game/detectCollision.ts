@@ -77,7 +77,6 @@ export function updateDirectionByCollisionWithBlocks(
         block.rect.bottom - collisionPointOnBall.y <=
           widthOfEdgeOfCollisionWithBlocks
       ) {
-        // console.log("hit from bottom:", block)
         block.remain = false
         return { x: currentBallDirection.x, y: -1 }
       }
@@ -90,7 +89,6 @@ export function updateDirectionByCollisionWithBlocks(
         collisionPointOnBall.y - block.rect.top <=
           widthOfEdgeOfCollisionWithBlocks
       ) {
-        // console.log("hit from top:", block)
         block.remain = false
         return { x: currentBallDirection.x, y: 1 }
       }
@@ -103,7 +101,6 @@ export function updateDirectionByCollisionWithBlocks(
         block.rect.bottom <= collisionPointOnBall.y &&
         collisionPointOnBall.y <= block.rect.top
       ) {
-        // console.log("hit from right:", block)
         block.remain = false
         return { x: -1, y: currentBallDirection.y }
       }
@@ -116,7 +113,6 @@ export function updateDirectionByCollisionWithBlocks(
         block.rect.bottom <= collisionPointOnBall.y &&
         collisionPointOnBall.y <= block.rect.top
       ) {
-        // console.log("hit from left:", block)
         block.remain = false
         return { x: 1, y: currentBallDirection.y }
       }

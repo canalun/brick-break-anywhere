@@ -80,10 +80,9 @@ export function getCollisionPointsOnBall(
     }
   }
 
-  // debug
+  // for debug
   // for (let i = 0; i < collisionPointsOnBall.length; i++) {
   //   const collisionPointOnBall = collisionPointsOnBall[i]
-  //   console.log(collisionPointOnBall)
   //   divsForCollisionPointsOnBall[i].style.left = `${collisionPointOnBall.x}px`
   //   divsForCollisionPointsOnBall[i].style.bottom = `${collisionPointOnBall.y}px`
   // }
