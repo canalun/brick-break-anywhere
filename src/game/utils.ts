@@ -5,7 +5,8 @@ export type Vector = {
   y: number
 }
 
-// TODO: ちゃんとした反射の計算を入れる。内積とかでできるようにした方がいい。意味わからん計算だから
+// TODO: Adopt mathematical way of vector calculation.
+//       The current implementation is not clear for others.
 export function vectorProduction(a: Vector, b: Vector): Vector {
   return {
     x: a.x * b.x,

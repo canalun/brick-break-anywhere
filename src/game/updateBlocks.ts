@@ -2,6 +2,8 @@ import { getRectOfBlock, type Block } from "./blocks"
 import { getComputedStyleWithCache } from "./getComputedStyleWithCache"
 import { assert, isFrameElement, isPenetrableFrame } from "./utils"
 
+// TODO: Changing the value of `remain` of a block to `false` is done in `detectCollision.ts`.
+//       It might be better to move the logic to here.
 export function requestBlockRemoveAnimation(blocks: Block[]) {
   requestAnimationFrame(() => {
     for (let i = 0; i < blocks.length; i++) {
