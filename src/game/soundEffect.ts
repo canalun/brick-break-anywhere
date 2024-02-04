@@ -1,11 +1,16 @@
-// TODO: Implement sound effect for browser extension.
-// The below code is from the original demo for JSConf and doesn't work in the browser extension.
 export function setSoundEffect() {
-  for (let i = 1; i < 5; i++) {
-    const soundEffect = document.createElement("audio")
-    soundEffect.src = `/brick-block-anywhere-demo/sound/${i}.mp3`
-    soundEffect.id = `se${i}`
-    soundEffect.autoplay = true
+  // plasmo uses parcel, so we can use url: to import audio files.
+  // see: https://github.com/parcel-bundler/parcel/issues/1911#issuecomment-1042854678
+  const sound1 = require("url:../../assets/sound/1.mp3")
+  const sound2 = require("url:../../assets/sound/2.mp3")
+  const sound3 = require("url:../../assets/sound/3.mp3")
+  const sound4 = require("url:../../assets/sound/4.mp3")
+  const sounds = [sound1, sound2, sound3, sound4]
+
+  for (let i = 0; i < 4; i++) {
+    const soundEffect = new Audio(sounds[i])
+    soundEffect.id = `se${i + 1}`
+    // soundEffect.autoplay = true
     document.body.appendChild(soundEffect)
   }
 

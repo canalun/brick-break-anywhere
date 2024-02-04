@@ -2,13 +2,12 @@ import type { Ball } from "./ball"
 import type { Bar } from "./bar"
 import type { Block } from "./blocks"
 import { ballSetting, barSetting } from "./settings"
+import { setSoundEffect } from "./soundEffect"
 import { startBallAnimation } from "./updateBall"
 import { requestBlockRemoveAnimation } from "./updateBlocks"
 
 export function standby(ball: Ball, bar: Bar, blocks: Block[]) {
-  // See soundEffect.ts.
-  // const ring = setSoundEffect()
-  const ring = () => {}
+  const ring = setSoundEffect()
 
   window.addEventListener("mousemove", TableAndBallMove)
   window.addEventListener("touchmove", TableAndBallMove)
