@@ -5,7 +5,7 @@
   "description": "You can break bricks anywhere!!",
   "author": "canalun",
   "scripts": {
-    "dev": "plasmo dev",
+    "dev": "plasmo dev --verbose",
     "build": "plasmo build",
     "package": "plasmo package"
   },
