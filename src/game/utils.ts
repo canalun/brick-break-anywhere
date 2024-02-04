@@ -55,8 +55,14 @@ export function isPenetrableFrame(
 export function visualizeBlocks(blocks: Block[]) {
   for (let i = 0; i < blocks.length; i++) {
     const blockElement = blocks[i].element
-    Object.assign(blockElement.style, {
-      border: "0.1px solid red"
-    })
+    if (blocks[i].remain) {
+      Object.assign(blockElement.style, {
+        border: "0.1px solid red"
+      })
+    } else {
+      Object.assign(blockElement.style, {
+        border: "none"
+      })
+    }
   }
 }

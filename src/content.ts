@@ -31,11 +31,9 @@ chrome.runtime.onMessage.addListener(function (request) {
 
 chrome.runtime.onMessage.addListener(function (request) {
   if (request.message === "test") {
-    const blocks = getBlocks()
-    setTimeout(() => {
-      // @ts-ignore
-      window.bbaDebugBlocks = blocks
+    setInterval(() => {
+      const blocks = getBlocks()
       visualizeBlocks(blocks)
-    }, 3000)
+    }, 1000)
   }
 })
