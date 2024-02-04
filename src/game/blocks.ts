@@ -34,13 +34,13 @@ export function getRectOfBlock(element: Element) {
     right: __rect.right
   }
 
-  addFrameOffsetToRect(element, _rect)
+  const offsetAddedRect = addFrameOffsetToRect(element, _rect)
 
   const rect = {
-    top: window.innerHeight - _rect.top,
-    bottom: window.innerHeight - _rect.bottom,
-    left: _rect.left,
-    right: _rect.right
+    top: window.innerHeight - offsetAddedRect.top,
+    bottom: window.innerHeight - offsetAddedRect.bottom,
+    left: offsetAddedRect.left,
+    right: offsetAddedRect.right
   }
 
   return rect
