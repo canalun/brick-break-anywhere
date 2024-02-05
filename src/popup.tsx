@@ -3,9 +3,11 @@ function IndexPopup() {
     <div style={{ padding: "16px" }}>
       <h2>let's play a game!</h2>
       <button onClick={sendMessageToIsolatedWorldOnActiveTab}>start!!</button>
-      <button onClick={sendMessageToIsolatedWorldOnActiveTabForTest}>
-        debug mode
-      </button>
+      {process.env.NODE_ENV === "development" ? (
+        <button onClick={sendMessageToIsolatedWorldOnActiveTabForTest}>
+          debug mode
+        </button>
+      ) : null}
     </div>
   )
 }

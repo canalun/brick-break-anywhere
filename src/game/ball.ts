@@ -28,7 +28,12 @@ export function initializeBall(): Ball {
     borderRadius: "50%",
     zIndex: ballZIndex
   })
-  return ball as Ball // phantom type
+
+  if (process.env.NODE_ENV === "development") {
+    visualizeCollisionPointsOnBall()
+  }
+
+  return ball as Ball
 }
 
 export function getBallCenterPosition(ball: Ball): Vector {
@@ -38,22 +43,6 @@ export function getBallCenterPosition(ball: Ball): Vector {
     y: window.innerHeight - rect.bottom + ballSetting.height / 2
   }
 }
-
-// debug
-// const divsForCollisionPointsOnBall: HTMLDivElement[] = []
-// for (let i = 0; i < numberOfCollisionPoints; i++) {
-//   const collisionPointOnBall = document.createElement("div")
-//   Object.assign(collisionPointOnBall.style, {
-//     position: "absolute",
-//     width: "3px",
-//     height: "3px",
-//     backgroundColor: "black",
-//     borderRadius: "50%",
-//     zIndex: ballZIndex + 1
-//   })
-//   divsForCollisionPointsOnBall.push(collisionPointOnBall)
-// }
-// document.body.append(...divsForCollisionPointsOnBall)
 
 export function getCollisionPointsOnBall(
   ballPosition: Vector,
@@ -80,12 +69,37 @@ export function getCollisionPointsOnBall(
     }
   }
 
-  // for debug
-  // for (let i = 0; i < collisionPointsOnBall.length; i++) {
-  //   const collisionPointOnBall = collisionPointsOnBall[i]
-  //   divsForCollisionPointsOnBall[i].style.left = `${collisionPointOnBall.x}px`
-  //   divsForCollisionPointsOnBall[i].style.bottom = `${collisionPointOnBall.y}px`
-  // }
+  if (process.env.NODE_ENV === "development") {
+    updateVisualizedCollisionPointsOnBall(collisionPointsOnBall)
+  }
 
   return collisionPointsOnBall
 }
+
+// for debug //////////////////////////////////////////
+const divsForCollisionPointsOnBall: HTMLDivElement[] = []
+function visualizeCollisionPointsOnBall() {
+  for (let i = 0; i < numberOfCollisionPoints; i++) {
+    const collisionPointOnBall = document.createElement("div")
+    Object.assign(collisionPointOnBall.style, {
+      position: "fixed",
+      width: "3px",
+      height: "3px",
+      backgroundColor: "black",
+      borderRadius: "50%",
+      zIndex: ballZIndex + 1
+    })
+    divsForCollisionPointsOnBall.push(collisionPointOnBall)
+  }
+  document.body.append(...divsForCollisionPointsOnBall)
+}
+function updateVisualizedCollisionPointsOnBall(
+  collisionPointsOnBall: Vector[]
+) {
+  for (let i = 0; i < collisionPointsOnBall.length; i++) {
+    const collisionPointOnBall = collisionPointsOnBall[i]
+    divsForCollisionPointsOnBall[i].style.left = `${collisionPointOnBall.x}px`
+    divsForCollisionPointsOnBall[i].style.bottom = `${collisionPointOnBall.y}px`
+  }
+}
+///////////////////////////////////////////////////////
