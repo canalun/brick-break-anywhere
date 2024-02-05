@@ -4,28 +4,15 @@ import { isFrameElement, isPenetrableFrame } from "./utils"
 
 export function getBlockElements(): Element[] {
   const blockElements: Element[] = []
-  const canBeBlock = (el: Element) => {
-    return isVisible(el) && !isTiny(el)
-  }
-  collectBlockElements(
-    document.documentElement,
-    canBeBlock,
-    false,
-    blockElements
-  )
+  collectBlockElements(document.documentElement, isVisible, blockElements)
   return blockElements
 }
 
 function collectBlockElements(
   element: Element,
-  _canBeBlock: (el: Element) => boolean,
-  isParentElementTiny: boolean,
+  canBeBlock: (el: Element) => boolean,
   blockElements: Element[]
 ) {
-  const canBeBlock = isParentElementTiny
-    ? (el: Element) => !isSetOverflowHidden(el) && _canBeBlock(el)
-    : _canBeBlock
-
   if (canBeBlock(element)) {
     if (process.env.NODE_ENV === "development") {
       element.classList.add("bba-block")
@@ -38,15 +25,13 @@ function collectBlockElements(
       element.contentWindow.document.readyState === "complete"
         ? collectBlockElements(
             element.contentWindow.document.documentElement,
-            _canBeBlock,
-            isParentElementTiny || isTiny(element),
+            canBeBlock,
             blockElements
           )
         : element.addEventListener("load", () => {
             collectBlockElements(
               element.contentWindow.document.documentElement,
-              _canBeBlock,
-              isParentElementTiny || isTiny(element),
+              canBeBlock,
               blockElements
             )
           })
@@ -54,21 +39,11 @@ function collectBlockElements(
   } else {
     const children = Array.from(element.children)
     for (const child of children) {
-      collectBlockElements(
-        child,
-        _canBeBlock,
-        isParentElementTiny || isTiny(element),
-        blockElements
-      )
+      collectBlockElements(child, canBeBlock, blockElements)
     }
     if (element.shadowRoot) {
       for (const child of Array.from(element.shadowRoot.children)) {
-        collectBlockElements(
-          child,
-          _canBeBlock,
-          isParentElementTiny || isTiny(element),
-          blockElements
-        )
+        collectBlockElements(child, canBeBlock, blockElements)
       }
     }
   }
@@ -85,7 +60,15 @@ function isVisible(element: Element): boolean {
     return false
   }
 
-  // First, ensure the minimum visibility with checkVisibility.
+  if (
+    element.tagName === "IMG" ||
+    element.tagName === "VIDEO" ||
+    element.tagName === "svg" ||
+    element.tagName === "SELECT"
+  ) {
+    return true
+  }
+
   if (
     // TODO: polyfill
     element.checkVisibility &&
@@ -96,13 +79,8 @@ function isVisible(element: Element): boolean {
     return false
   }
 
-  if (
-    element.tagName === "IMG" ||
-    element.tagName === "VIDEO" ||
-    element.tagName === "svg" ||
-    element.tagName === "SELECT"
-  ) {
-    return true
+  if (isTiny(element)) {
+    return isOverflowVisibleAndHasVisibleChildNodes(element)
   }
 
   if (
@@ -114,6 +92,7 @@ function isVisible(element: Element): boolean {
   ) {
     return false
   }
+
   return true
 }
 
@@ -131,44 +110,38 @@ function hasNoTextNode(element: Element): boolean {
 // To detect elements hidden by overflow:hidden,
 // we need to check the size of the element.
 // So, elements with a width or height of 0,
-// and ones with both a width and height of 5 or less are considered as "tiny".
+// and ones with both a width and height of 2 or less are considered as "tiny".
 const isTinyCache = new Map<Element, boolean>()
 function isTiny(element: Element): boolean {
   const cache = isTinyCache.get(element)
-  if (cache) {
+  if (cache !== undefined) {
     return cache
-  } else {
-    if (element.tagName === "HTML") {
-      return false
-    }
-    const rect = element.getBoundingClientRect()
-    const result =
-      rect.width === 0 ||
-      rect.height === 0 ||
-      (rect.width <= 5 && rect.height <= 5)
-        ? true
-        : false
-    isTinyCache.set(element, result)
-    result &&
-      process.env.NODE_ENV === "development" &&
-      element.classList.add("bba-tiny")
-    return result
   }
-}
 
-function isSetOverflowHidden(element: Element): boolean {
-  const style = getComputedStyleWithCache(element)
+  if (element.tagName === "HTML") {
+    return false
+  }
+  const rect = element.getBoundingClientRect()
   const result =
-    style.overflowX === "hidden" ||
-    style.overflowY === "hidden" ||
-    style.overflow === "hidden"
+    rect.width === 0 ||
+    rect.height === 0 ||
+    (rect.width <= 2 && rect.height <= 2)
+      ? true
+      : false
+  isTinyCache.set(element, result)
   result &&
     process.env.NODE_ENV === "development" &&
-    element.classList.add("bba-overflow-hidden")
+    element.classList.add("bba-tiny")
   return result
 }
 
+const hasNoBorderCache = new Map<Element, boolean>()
 function hasNoBorder(element: Element): boolean {
+  const cache = hasNoBorderCache.get(element)
+  if (cache !== undefined) {
+    return cache
+  }
+
   const bodyBackgroundColor = window.getComputedStyle(
     window.document.body
   ).backgroundColor
@@ -183,6 +156,7 @@ function hasNoBorder(element: Element): boolean {
       const result = style.borderColor.match(/rgba\(.*0\)/)?.length
       return !!result && result > 0
     })()
+  hasNoBorderCache.set(element, result)
   result &&
     process.env.NODE_ENV === "development" &&
     element.classList.add("bba-no-border")
@@ -230,5 +204,38 @@ function hasNoBackgroundImage(element: Element): boolean {
   result &&
     process.env.NODE_ENV === "development" &&
     element.classList.add("bba-no-background-image")
+  return result
+}
+
+function isOverflowVisibleAndHasVisibleChildNodes(element: Element): boolean {
+  return isOverflowVisible(element) && hasVisibleChildNodes(element)
+}
+
+function isOverflowVisible(element: Element): boolean {
+  const style = getComputedStyleWithCache(element)
+  const result =
+    style.overflowX === "visible" ||
+    style.overflowY === "visible" ||
+    style.overflow === "visible"
+  result &&
+    process.env.NODE_ENV === "development" &&
+    element.classList.add("bba-overflow-visible")
+  return result
+}
+
+function hasVisibleChildNodes(element: Element): boolean {
+  const result = Array.from(element.childNodes).some((node) => {
+    switch (node.nodeType) {
+      case Node.ELEMENT_NODE:
+        return isVisible(node as Element)
+      case Node.TEXT_NODE:
+        return node.textContent.trim() !== ""
+      default:
+        return false
+    }
+  })
+  result &&
+    process.env.NODE_ENV === "development" &&
+    element.classList.add("bba-visible-child-nodes")
   return result
 }
