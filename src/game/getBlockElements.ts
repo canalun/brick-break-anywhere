@@ -27,6 +27,9 @@ function collectBlockElements(
     : _canBeBlock
 
   if (canBeBlock(element)) {
+    if (process.env.NODE_ENV === "development") {
+      element.classList.add("bba-block")
+    }
     blockElements.push(element)
   }
 
@@ -88,6 +91,8 @@ function isVisible(element: Element): boolean {
     element.checkVisibility &&
     !element.checkVisibility({ checkVisibilityCSS: true, checkOpacity: true })
   ) {
+    process.env.NODE_ENV === "development" &&
+      element.classList.add("bba-check-visibility-false")
     return false
   }
 
@@ -114,9 +119,13 @@ function isVisible(element: Element): boolean {
 
 function hasNoTextNode(element: Element): boolean {
   const childNodes = Array.from(element.childNodes)
-  return !childNodes.some(
+  const result = !childNodes.some(
     (node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim()
   )
+  result &&
+    process.env.NODE_ENV === "development" &&
+    element.classList.add("bba-no-text-node")
+  return result
 }
 
 // To detect elements hidden by overflow:hidden, we need to check the size of the element.
@@ -128,6 +137,9 @@ function isTiny(element: Element): boolean {
   if (cache) {
     return cache
   } else {
+    if (element.tagName === "HTML") {
+      return false
+    }
     const rect = element.getBoundingClientRect()
     const result =
       rect.width === 0 ||
@@ -136,20 +148,23 @@ function isTiny(element: Element): boolean {
         ? true
         : false
     isTinyCache.set(element, result)
+    result &&
+      process.env.NODE_ENV === "development" &&
+      element.classList.add("bba-tiny")
     return result
   }
 }
 
 function isSetOverflowHidden(element: Element): boolean {
   const style = getComputedStyleWithCache(element)
-  if (
+  const result =
     style.overflowX === "hidden" ||
     style.overflowY === "hidden" ||
     style.overflow === "hidden"
-  ) {
-    return true
-  }
-  return false
+  result &&
+    process.env.NODE_ENV === "development" &&
+    element.classList.add("bba-overflow-hidden")
+  return result
 }
 
 function hasNoBorder(element: Element): boolean {
@@ -157,7 +172,7 @@ function hasNoBorder(element: Element): boolean {
     window.document.body
   ).backgroundColor
   const style = getComputedStyleWithCache(element)
-  return (
+  const result =
     style.border === "" ||
     style.borderStyle === "none" ||
     style.borderWidth === "0px" ||
@@ -167,19 +182,25 @@ function hasNoBorder(element: Element): boolean {
       const result = style.borderColor.match(/rgba\(.*0\)/)?.length
       return !!result && result > 0
     })()
-  )
+  result &&
+    process.env.NODE_ENV === "development" &&
+    element.classList.add("bba-no-border")
+  return result
 }
 
 function hasNoShadow(element: Element): boolean {
   const style = getComputedStyleWithCache(element)
-  return (
+  const result =
     style.boxShadow === "" ||
     style.boxShadow === "none" ||
     (() => {
       const result = style.boxShadow.match(/rgba\(.*0\)/)?.length
       return !!result && result > 0
     })()
-  )
+  result &&
+    process.env.NODE_ENV === "development" &&
+    element.classList.add("bba-has-no-shadow")
+  return result
 }
 
 function hasNoBackgroundColor(element: Element): boolean {
@@ -187,14 +208,17 @@ function hasNoBackgroundColor(element: Element): boolean {
     window.document.body
   ).backgroundColor
   const style = getComputedStyleWithCache(element)
-  return (
+  const result =
     style.backgroundColor === "" ||
     style.backgroundColor === bodyBackgroundColor ||
     (() => {
       const result = style.backgroundColor.match(/rgba\(.*0\)/)?.length
       return !!result && result > 0
     })()
-  )
+  result &&
+    process.env.NODE_ENV === "development" &&
+    element.classList.add("bba-no-background-color")
+  return result
 }
 
 // TODO: use the below function when it becomes necessary to consider background-image
