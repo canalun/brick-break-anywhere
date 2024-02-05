@@ -20,15 +20,16 @@ export function requestBlockRemoveAnimation(blocks: Block[]) {
 // TODO: separate removal and position update
 function removeBlockAndUpdateBlocksPosition(block: Block, blocks: Block[]) {
   // make to-be-removed element red just a moment before removing it
-  const originalBorderWidth = getComputedStyleWithCache(
-    block.element
-  ).borderWidth
   const element = block.element as HTMLElement // TODO: remove type assertion
-  element.style.border = "1px solid red"
-  element.style.borderWidth = originalBorderWidth
+  const originalBorderWidth = getComputedStyleWithCache(element).borderWidth
+  element.style.border = `${originalBorderWidth === "0px" ? "1px" : originalBorderWidth} solid red`
 
   setTimeout(() => {
     removeBlock(block)
+    // edge case
+    if (element.tagName === "TH" || element.tagName === "TD") {
+      element.style.borderWidth = "0px"
+    }
     updatePositionOfRemainingBlocks(blocks)
   }, 100)
 }
