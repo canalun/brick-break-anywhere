@@ -18,7 +18,9 @@ export function getBlocks(): Block[] {
 
 function convertElementToBlock(element: Element): Block {
   return {
-    uuid: crypto.randomUUID(),
+    // crypto.randomUUID() is not available in HTTP pages :)
+    // e.g. http://abehiroshi.la.coocan.jp/
+    uuid: Math.random().toString(36).slice(-8),
     element,
     rect: getRectOfBlock(element),
     remain: true
