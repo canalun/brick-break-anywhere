@@ -5,8 +5,10 @@ export function initializeBallAndBar() {
   const ball = initializeBall()
   const table = initializeBar()
 
-  document.body.insertAdjacentElement("beforeend", ball)
-  document.body.insertAdjacentElement("beforeend", table)
+  const container = document.createElement("div")
+  document.documentElement.insertAdjacentElement("beforeend", container)
+  container.insertAdjacentElement("beforeend", ball)
+  container.insertAdjacentElement("beforeend", table)
 
   return { ball, table }
 }
