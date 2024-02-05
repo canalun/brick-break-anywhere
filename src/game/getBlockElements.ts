@@ -109,7 +109,7 @@ function isVisible(element: Element): boolean {
     hasNoBorder(element) &&
     hasNoBackgroundColor(element) &&
     hasNoShadow(element) &&
-    // hasNoBackgroundImage(element) &&
+    hasNoBackgroundImage(element) &&
     hasNoTextNode(element)
   ) {
     return false
@@ -128,9 +128,10 @@ function hasNoTextNode(element: Element): boolean {
   return result
 }
 
-// To detect elements hidden by overflow:hidden, we need to check the size of the element.
-// Elements with a width or height of 0 and ones with both a width and height of 5 or less
-// are considered "tiny" elements.
+// To detect elements hidden by overflow:hidden,
+// we need to check the size of the element.
+// So, elements with a width or height of 0,
+// and ones with both a width and height of 5 or less are considered as "tiny".
 const isTinyCache = new Map<Element, boolean>()
 function isTiny(element: Element): boolean {
   const cache = isTinyCache.get(element)
@@ -221,9 +222,13 @@ function hasNoBackgroundColor(element: Element): boolean {
   return result
 }
 
-// TODO: use the below function when it becomes necessary to consider background-image
-//       e.g. twitter might possibly use background-image to implement image preview with div element.
-// function hasNoBackgroundImage(element: Element): boolean {
-//   const style = getComputedStyleWithCache(element)
-//   return style.backgroundImage === ""
-// }
+function hasNoBackgroundImage(element: Element): boolean {
+  const style = getComputedStyleWithCache(element)
+  // initial value is 'none'
+  // ref: https://drafts.csswg.org/css-backgrounds/#background-image
+  const result = style.backgroundImage === "none"
+  result &&
+    process.env.NODE_ENV === "development" &&
+    element.classList.add("bba-no-background-image")
+  return result
+}
