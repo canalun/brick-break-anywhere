@@ -71,7 +71,8 @@ function collectBlockElements(
   }
 }
 
-// TODO: For elements inside iframes, determine visibility by checking if they intersect with the frame's rectangle.
+// TODO: For elements inside iframes,
+//       determine visibility by checking if they intersect with the frame's rectangle.
 function isVisible(element: Element): boolean {
   if (
     element.id === ballId ||
@@ -117,8 +118,9 @@ function hasNoTextNode(element: Element): boolean {
   )
 }
 
-// 幅や高さが0の要素は見えない、また高さと幅がともに5以下の要素は微小要素であると判断する
-// (高さが5だけどめちゃ平べったい要素に注意)
+// To detect elements hidden by overflow:hidden, we need to check the size of the element.
+// Elements with a width or height of 0 and ones with both a width and height of 5 or less
+// are considered "tiny" elements.
 const isTinyCache = new Map<Element, boolean>()
 function isTiny(element: Element): boolean {
   const cache = isTinyCache.get(element)
@@ -195,7 +197,7 @@ function hasNoBackgroundColor(element: Element): boolean {
 }
 
 // TODO: use the below function when it becomes necessary to consider background-image
-// (e.g. twitter might possibly use background-image to implement image preview with div element)
+//       e.g. twitter might possibly use background-image to implement image preview with div element.
 // function hasNoBackgroundImage(element: Element): boolean {
 //   const style = getComputedStyleWithCache(element)
 //   return style.backgroundImage === ""
