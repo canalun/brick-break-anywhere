@@ -93,6 +93,11 @@ function isVisible(element: Element): boolean {
     return false
   }
 
+  // Ultra edge case on Google Search page.
+  if (isClippedToTinySize(element)) {
+    return false
+  }
+
   return true
 }
 
@@ -265,5 +270,16 @@ function hasVisibleChildNodes(element: Element): boolean {
   result &&
     process.env.NODE_ENV === "development" &&
     element.classList.add("bba-visible-child-nodes")
+  return result
+}
+
+// Element with `clip: rect(1px, 1px, 1px, 1px)` is not visible,
+// but it can have visible child nodes and its DOMRect is not 1x1.
+function isClippedToTinySize(element: Element): boolean {
+  const style = getComputedStyleWithCache(element)
+  const result = style.clip === "rect(1px, 1px, 1px, 1px)"
+  result &&
+    process.env.NODE_ENV === "development" &&
+    element.classList.add("bba-clipped-to-tiny-size")
   return result
 }
