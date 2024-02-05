@@ -35,6 +35,10 @@ export function assert(condition: boolean, message: string): asserts condition {
   }
 }
 
+export function isSVGElement(element: Element): element is SVGElement {
+  return element.tagName === "svg"
+}
+
 export function isFrameElement(
   element: Element
 ): element is HTMLIFrameElement | HTMLFrameElement {

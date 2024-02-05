@@ -1,6 +1,11 @@
 import { getRectOfBlock, type Block } from "./blocks"
 import { getComputedStyleWithCache } from "./getComputedStyleWithCache"
-import { assert, isFrameElement, isPenetrableFrame } from "./utils"
+import {
+  assert,
+  isFrameElement,
+  isPenetrableFrame,
+  isSVGElement
+} from "./utils"
 
 // TODO: Changing the value of `remain` of a block to `false` is done in `detectCollision.ts`.
 //       It might be better to move the logic to here.
@@ -35,8 +40,15 @@ function removeBlockAndUpdateBlocksPosition(block: Block, blocks: Block[]) {
 }
 
 function removeBlock(block: Block) {
-  if (isFrameElement(block.element)) {
+  const element = block.element
+
+  if (isFrameElement(element)) {
     removeBlockOfFrameElement(block)
+    return
+  }
+
+  if (isSVGElement(element)) {
+    removeBlockOfSVGElement(block)
     return
   }
 
@@ -70,6 +82,12 @@ function removeBlockOfFrameElement(block: Block) {
     })
   }
   return
+}
+
+function removeBlockOfSVGElement(block: Block) {
+  Object.assign(block.element.style, {
+    visibility: "hidden"
+  })
 }
 
 function updatePositionOfRemainingBlocks(blocks: Block[]) {
