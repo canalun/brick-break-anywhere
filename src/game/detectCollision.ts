@@ -78,6 +78,8 @@ export function updateDirectionByCollisionWithBlocks(
           widthOfEdgeOfCollisionWithBlocks
       ) {
         block.remain = false
+        process.env.NODE_ENV === "development" &&
+          console.log("removed by collision with bottom edge:", block.element)
         return { x: currentBallDirection.x, y: -1 }
       }
       // top edge
@@ -90,6 +92,8 @@ export function updateDirectionByCollisionWithBlocks(
           widthOfEdgeOfCollisionWithBlocks
       ) {
         block.remain = false
+        process.env.NODE_ENV === "development" &&
+          console.log("removed by collision with top edge:", block.element)
         return { x: currentBallDirection.x, y: 1 }
       }
       // left edge
@@ -102,6 +106,8 @@ export function updateDirectionByCollisionWithBlocks(
         collisionPointOnBall.y <= block.rect.top
       ) {
         block.remain = false
+        process.env.NODE_ENV === "development" &&
+          console.log("removed by collision with left edge:", block.element)
         return { x: -1, y: currentBallDirection.y }
       }
       // right edge
@@ -114,6 +120,8 @@ export function updateDirectionByCollisionWithBlocks(
         collisionPointOnBall.y <= block.rect.top
       ) {
         block.remain = false
+        process.env.NODE_ENV === "development" &&
+          console.log("removed by collision with right edge:", block.element)
         return { x: 1, y: currentBallDirection.y }
       }
     }

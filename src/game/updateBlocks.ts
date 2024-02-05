@@ -10,6 +10,7 @@ import {
 // TODO: Changing the value of `remain` of a block to `false` is done in `detectCollision.ts`.
 //       It might be better to move the logic to here.
 export function requestBlockRemoveAnimation(blocks: Block[]) {
+  let id = null
   requestAnimationFrame(() => {
     for (let i = 0; i < blocks.length; i++) {
       const block = blocks[i]
@@ -18,8 +19,14 @@ export function requestBlockRemoveAnimation(blocks: Block[]) {
         blocks.splice(i, 1)
       }
     }
-    requestAnimationFrame(() => requestBlockRemoveAnimation(blocks))
+    id = requestAnimationFrame(() => requestBlockRemoveAnimation(blocks))
   })
+
+  if (process.env.NODE_ENV === "development") {
+    window.addEventListener("click", () => {
+      id && cancelAnimationFrame(id)
+    })
+  }
 }
 
 // TODO: separate removal and position update

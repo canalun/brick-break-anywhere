@@ -32,10 +32,16 @@ export function startBallAnimation(
     updateBallPositionAndVelocity(ball)
   })
 
+  let id = null
   function updateBallPositionAndVelocity(ball: Ball): void {
     updateBallVelocity(ball)
     updateBallPosition(ball)
-    requestAnimationFrame(() => updateBallPositionAndVelocity(ball))
+    id = requestAnimationFrame(() => updateBallPositionAndVelocity(ball))
+  }
+  if (process.env.NODE_ENV === "development") {
+    window.addEventListener("click", () => {
+      id && cancelAnimationFrame(id)
+    })
   }
 
   function updateBallPosition(ball: Ball): void {
