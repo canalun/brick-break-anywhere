@@ -58,6 +58,10 @@ function isVisible(element: Element): boolean {
     return false
   }
 
+  if (isFrameElement(element)) {
+    return true
+  }
+
   if (
     // TODO: polyfill
     element.checkVisibility &&
