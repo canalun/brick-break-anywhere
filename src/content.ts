@@ -1,4 +1,5 @@
 import { getBlocks } from "~game/blocks"
+import { dragAndMoveBall } from "~game/dragAndMoveBall"
 import { main } from "~game/main"
 import { visualizeBlocks } from "~game/utils"
 
@@ -19,8 +20,8 @@ chrome.runtime.onMessage.addListener(function (request) {
   if (request.message === "start") {
     // Execute when the document has finished loading,
     // as document.body is required for preventScroll,
-    // and it's necessary to calculate the blocks after the iframe elements have loaded.
-    // so use the "complete" event rather than the "interactive".
+    // and it should be after iframes have been loaded to calculate the blocks.
+    // So, use the "complete" event rather than the "interactive".
     if (window.document.readyState === "complete") {
       main()
     } else {
@@ -29,11 +30,12 @@ chrome.runtime.onMessage.addListener(function (request) {
   }
 })
 
-chrome.runtime.onMessage.addListener(function (request) {
-  if (request.message === "test") {
-    setInterval(() => {
+if (process.env.NODE_ENV === "development") {
+  chrome.runtime.onMessage.addListener(function (request) {
+    if (request.message === "test") {
       const blocks = getBlocks()
       visualizeBlocks(blocks)
-    }, 1000)
-  }
-})
+      dragAndMoveBall(blocks)
+    }
+  })
+}
