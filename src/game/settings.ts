@@ -1,7 +1,8 @@
 import type { Vector } from "./utils"
 
-export const ballId = "dom_breaker_ball"
-export const barId = "dom_breaker_bar"
+export const ballId = "bba-ball"
+export const barId = "bba-bar"
+export const collisionPointOnBallClass = "bba-collision-point-on-ball"
 
 type BarSetting = {
   width: number

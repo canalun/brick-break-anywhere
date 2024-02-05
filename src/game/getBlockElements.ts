@@ -1,10 +1,12 @@
 import { getComputedStyleWithCache } from "./getComputedStyleWithCache"
-import { ballId, barId } from "./settings"
-import { isFrameElement, isPenetrableFrame } from "./utils"
+import { isBBAElement, isFrameElement, isPenetrableFrame } from "./utils"
 
 export function getBlockElements(): Element[] {
   const blockElements: Element[] = []
-  collectBlockElements(document.documentElement, isVisible, blockElements)
+  const canBeBlock = (el: Element) => {
+    return !isBBAElement(el) && isVisible(el)
+  }
+  collectBlockElements(document.documentElement, canBeBlock, blockElements)
   return blockElements
 }
 
@@ -52,21 +54,8 @@ function collectBlockElements(
 // TODO: For elements inside iframes,
 //       determine visibility by checking if they intersect with the frame's rectangle.
 function isVisible(element: Element): boolean {
-  if (
-    element.id === ballId ||
-    element.id === barId ||
-    element.tagName === "BODY"
-  ) {
+  if (element.tagName === "BODY") {
     return false
-  }
-
-  if (
-    element.tagName === "IMG" ||
-    element.tagName === "VIDEO" ||
-    element.tagName === "svg" ||
-    element.tagName === "SELECT"
-  ) {
-    return true
   }
 
   if (
@@ -79,8 +68,19 @@ function isVisible(element: Element): boolean {
     return false
   }
 
+  if (
+    element.tagName === "IMG" ||
+    element.tagName === "VIDEO" ||
+    element.tagName === "svg" ||
+    element.tagName === "SELECT"
+  ) {
+    return true
+  }
+
   if (isTiny(element)) {
-    return isOverflowVisibleAndHasVisibleChildNodes(element)
+    return (
+      !hasNoBorder(element) || isOverflowVisibleAndHasVisibleChildNodes(element)
+    )
   }
 
   if (
@@ -142,20 +142,48 @@ function hasNoBorder(element: Element): boolean {
     return cache
   }
 
-  const bodyBackgroundColor = window.getComputedStyle(
-    window.document.body
-  ).backgroundColor
   const style = getComputedStyleWithCache(element)
-  const result =
-    style.border === "" ||
-    style.borderStyle === "none" ||
-    style.borderWidth === "0px" ||
-    style.borderColor === bodyBackgroundColor ||
-    style.borderColor === "transparent" ||
-    (() => {
-      const result = style.borderColor.match(/rgba\(.*0\)/)?.length
-      return !!result && result > 0
-    })()
+
+  const hasBorder =
+    !(
+      style.border === "" &&
+      style.borderTop === "" &&
+      style.borderRight === "" &&
+      style.borderBottom === "" &&
+      style.borderLeft === ""
+    ) &&
+    !(
+      style.borderStyle === "none" &&
+      style.borderTopStyle === "none" &&
+      style.borderRightStyle === "none" &&
+      style.borderBottomStyle === "none" &&
+      style.borderLeftStyle === "none"
+    ) &&
+    !(
+      style.borderWidth === "0px" &&
+      style.borderTopWidth === "0px" &&
+      style.borderRightWidth === "0px" &&
+      style.borderBottomWidth === "0px" &&
+      style.borderLeftWidth === "0px"
+    )
+  if (!hasBorder) {
+    hasNoBorderCache.set(element, true)
+    element.classList.add("bba-no-border")
+    return true
+  }
+
+  const hasColoredBorder =
+    style.borderColor &&
+    !(
+      style.borderColor ===
+        getComputedStyleWithCache(window.document.body).backgroundColor ||
+      style.borderColor === "transparent" ||
+      (() => {
+        const result = style.borderColor.match(/rgba\(.*0\)/)?.length
+        return !!result && result > 0
+      })()
+    )
+  const result = !hasColoredBorder
   hasNoBorderCache.set(element, result)
   result &&
     process.env.NODE_ENV === "development" &&

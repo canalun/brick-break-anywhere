@@ -1,4 +1,5 @@
 import { type Block } from "./blocks"
+import { ballId, barId, collisionPointOnBallClass } from "./settings"
 
 export type Vector = {
   x: number
@@ -54,6 +55,14 @@ export function isPenetrableFrame(
     return false
   }
   return true
+}
+
+export function isBBAElement(element: Element): boolean {
+  return (
+    element.id === ballId ||
+    element.id === barId ||
+    element.classList.contains(collisionPointOnBallClass)
+  )
 }
 
 // for debug

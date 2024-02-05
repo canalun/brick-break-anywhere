@@ -3,6 +3,7 @@ import {
   ballSetting,
   ballZIndex,
   barSetting,
+  collisionPointOnBallClass,
   initialBottom,
   numberOfCollisionPoints
 } from "./settings"
@@ -81,6 +82,7 @@ const divsForCollisionPointsOnBall: HTMLDivElement[] = []
 function visualizeCollisionPointsOnBall() {
   for (let i = 0; i < numberOfCollisionPoints; i++) {
     const collisionPointOnBall = document.createElement("div")
+    collisionPointOnBall.classList.add(collisionPointOnBallClass)
     Object.assign(collisionPointOnBall.style, {
       position: "fixed",
       width: "3px",
