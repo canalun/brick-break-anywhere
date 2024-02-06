@@ -7,6 +7,11 @@ export function freezePage() {
   preventScroll(window.top)
 }
 
+// Set veil **not only** to prevent user from clicking the page,
+// **but also** to fire mousemove event on the veil to move the bar and ball.
+// For example, the web page of Hiroshi Abe is as follows: document > frameset > frame x 2.
+// In such a case, document.body indicates the frameset element,
+// and setting the veil to document.body does not work.
 function setVeil() {
   const veil = document.createElement("div")
   Object.assign(veil.style, {
@@ -18,7 +23,7 @@ function setVeil() {
     backgroundColor: `rgba(0, 0, 0, 0)`,
     zIndex: veilZIndex
   })
-  document.body.appendChild(veil)
+  document.documentElement.insertAdjacentElement("beforeend", veil)
 }
 
 function clearTimeoutAll() {
