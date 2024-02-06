@@ -3,12 +3,12 @@ import { initializeBar } from "./bar"
 
 export function initializeBallAndBar() {
   const ball = initializeBall()
-  const table = initializeBar()
+  const bar = initializeBar()
 
   const container = document.createElement("div")
   document.documentElement.insertAdjacentElement("beforeend", container)
   container.insertAdjacentElement("beforeend", ball)
-  container.insertAdjacentElement("beforeend", table)
+  container.insertAdjacentElement("beforeend", bar)
 
-  return { ball, table }
+  return { ball, bar }
 }

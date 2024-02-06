@@ -9,29 +9,29 @@ import { requestBlockRemoveAnimation } from "./updateBlocks"
 export function standby(ball: Ball, bar: Bar, blocks: Block[]) {
   const ring = setSoundEffect()
 
-  window.addEventListener("mousemove", TableAndBallMove)
-  window.addEventListener("touchmove", TableAndBallMove)
+  window.addEventListener("mousemove", moveBarAndBall)
+  window.addEventListener("touchmove", moveBarAndBall)
 
   window.addEventListener("click", function start() {
     window.removeEventListener("click", start)
 
-    window.removeEventListener("mousemove", TableAndBallMove)
-    window.removeEventListener("touchmove", TableAndBallMove)
+    window.removeEventListener("mousemove", moveBarAndBall)
+    window.removeEventListener("touchmove", moveBarAndBall)
 
-    window.addEventListener("mousemove", TableMove)
-    window.addEventListener("touchmove", TableMove)
+    window.addEventListener("mousemove", moveBar)
+    window.addEventListener("touchmove", moveBar)
 
     startBallAnimation(ball, bar, blocks, ring)
     requestBlockRemoveAnimation(blocks)
   })
 
-  function TableAndBallMove(e: MouseEvent | TouchEvent) {
+  function moveBarAndBall(e: MouseEvent | TouchEvent) {
     const { x } = getXYFromTouchEvent(e)
     bar.style.left = `${x - barSetting.width / 2}px`
     ball.style.left = `${x - ballSetting.width / 2}px`
   }
 
-  function TableMove(e: MouseEvent | TouchEvent) {
+  function moveBar(e: MouseEvent | TouchEvent) {
     const { x } = getXYFromTouchEvent(e)
     bar.style.left = `${x - barSetting.width / 2}px`
   }

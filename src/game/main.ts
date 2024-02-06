@@ -8,11 +8,11 @@ export function main() {
 
   freezePage()
 
-  const { ball, table } = initializeBallAndBar()
+  const { ball, bar } = initializeBallAndBar()
   const blocks = getBlocks()
 
   try {
-    standby(ball, table, blocks)
+    standby(ball, bar, blocks)
   } catch (e) {
     console.log(e)
   }
