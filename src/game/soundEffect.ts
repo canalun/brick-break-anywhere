@@ -11,7 +11,7 @@ export function setSoundEffect() {
     const soundEffect = new Audio(sounds[i])
     soundEffect.id = `se${i + 1}`
     // soundEffect.autoplay = true
-    document.body.appendChild(soundEffect)
+    document.documentElement.insertAdjacentElement("beforeend", soundEffect)
   }
 
   let current: HTMLAudioElement | null = null

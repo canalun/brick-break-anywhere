@@ -91,9 +91,12 @@ function visualizeCollisionPointsOnBall() {
       borderRadius: "50%",
       zIndex: ballZIndex + 1
     })
+    document.documentElement.insertAdjacentElement(
+      "beforeend",
+      collisionPointOnBall
+    )
     divsForCollisionPointsOnBall.push(collisionPointOnBall)
   }
-  document.body.append(...divsForCollisionPointsOnBall)
 }
 function updateVisualizedCollisionPointsOnBall(
   collisionPointsOnBall: Vector[]
