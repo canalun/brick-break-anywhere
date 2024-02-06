@@ -4,48 +4,44 @@ import { isBBAElement, isFrameElement, isPenetrableFrame } from "./utils"
 export function getBlockElements(): Element[] {
   const blockElements: Element[] = []
   const canBeBlock = (el: Element) => {
-    return !isBBAElement(el) && isVisible(el)
+    return !isBBAElement(el) && isVisibleWithCache(el)
   }
-  collectBlockElements(document.documentElement, canBeBlock, blockElements)
+  collectBlockElements(document, canBeBlock, blockElements)
   return blockElements
 }
 
 function collectBlockElements(
-  element: Element,
+  topNode: Document | ShadowRoot,
   canBeBlock: (el: Element) => boolean,
   blockElements: Element[]
 ) {
-  if (canBeBlock(element)) {
-    if (process.env.NODE_ENV === "development") {
-      element.classList.add("bba-block")
+  const elements = Array.from(topNode.querySelectorAll("*"))
+  for (let i = 0; i < elements.length; i++) {
+    const element = elements[i]
+    if (canBeBlock(element)) {
+      if (process.env.NODE_ENV === "development") {
+        element.classList.add("bba-block")
+      }
+      blockElements.push(element)
     }
-    blockElements.push(element)
-  }
-
-  if (isFrameElement(element)) {
-    if (isPenetrableFrame(element)) {
-      element.contentWindow.document.readyState === "complete"
-        ? collectBlockElements(
-            element.contentWindow.document.documentElement,
-            canBeBlock,
-            blockElements
-          )
-        : element.addEventListener("load", () => {
-            collectBlockElements(
-              element.contentWindow.document.documentElement,
+    if (element.shadowRoot) {
+      collectBlockElements(element.shadowRoot, canBeBlock, blockElements)
+    }
+    if (isFrameElement(element)) {
+      if (isPenetrableFrame(element)) {
+        element.contentWindow.document.readyState === "complete"
+          ? collectBlockElements(
+              element.contentDocument,
               canBeBlock,
               blockElements
             )
-          })
-    }
-  } else {
-    const children = Array.from(element.children)
-    for (const child of children) {
-      collectBlockElements(child, canBeBlock, blockElements)
-    }
-    if (element.shadowRoot) {
-      for (const child of Array.from(element.shadowRoot.children)) {
-        collectBlockElements(child, canBeBlock, blockElements)
+          : element.addEventListener("load", () => {
+              collectBlockElements(
+                element.contentDocument,
+                canBeBlock,
+                blockElements
+              )
+            })
       }
     }
   }
@@ -53,6 +49,16 @@ function collectBlockElements(
 
 // TODO: For elements inside iframes,
 //       determine visibility by checking if they intersect with the frame's rectangle.
+const isVisibleCache = new Map<Element, boolean>()
+function isVisibleWithCache(element: Element): boolean {
+  const cache = isVisibleCache.get(element)
+  if (cache !== undefined) {
+    return cache
+  }
+  const result = isVisible(element)
+  isVisibleCache.set(element, result)
+  return result
+}
 function isVisible(element: Element): boolean {
   if (element.tagName === "BODY") {
     return false
@@ -264,7 +270,7 @@ function hasVisibleChildNodes(element: Element): boolean {
   const result = Array.from(element.childNodes).some((node) => {
     switch (node.nodeType) {
       case Node.ELEMENT_NODE:
-        return isVisible(node as Element)
+        return isVisibleWithCache(node as Element)
       case Node.TEXT_NODE:
         return node.textContent.trim() !== ""
       default:
