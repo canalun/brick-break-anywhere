@@ -20,7 +20,7 @@ function sendMessageToIsolatedWorldOnActiveTab() {
     if (!activeTab.id) {
       return
     }
-    chrome.tabs.sendMessage(activeTab.id, { message: "start" })
+    chrome.tabs.sendMessage(activeTab.id, { type: "start" })
   })
 }
 
@@ -30,6 +30,6 @@ function sendMessageToIsolatedWorldOnActiveTabForTest() {
     if (!activeTab.id) {
       return
     }
-    chrome.tabs.sendMessage(activeTab.id, { message: "test" })
+    chrome.tabs.sendMessage(activeTab.id, { type: "test" })
   })
 }

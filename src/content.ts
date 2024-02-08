@@ -16,8 +16,8 @@ console.log("content script loaded.")
 //   all_frames: true
 // }
 
-chrome.runtime.onMessage.addListener(function (request) {
-  if (request.message === "start") {
+chrome.runtime.onMessage.addListener(function (message) {
+  if (message.type === "start") {
     // Execute when the document has finished loading,
     // as document.body is required for preventScroll,
     // and it should be after iframes have been loaded to calculate the blocks.
@@ -31,8 +31,8 @@ chrome.runtime.onMessage.addListener(function (request) {
 })
 
 if (process.env.NODE_ENV === "development") {
-  chrome.runtime.onMessage.addListener(function (request) {
-    if (request.message === "test") {
+  chrome.runtime.onMessage.addListener(function (message) {
+    if (message.type === "test") {
       const blocks = getBlocks()
       visualizeBlocks(blocks)
       dragAndMoveBall(blocks)
