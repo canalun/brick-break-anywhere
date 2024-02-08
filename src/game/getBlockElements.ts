@@ -18,6 +18,9 @@ function collectBlockElements(
   const elements = Array.from(topNode.querySelectorAll("*"))
   for (let i = 0; i < elements.length; i++) {
     const element = elements[i]
+    if (isOutsideOfViewport(element)) {
+      continue
+    }
     if (canBeBlock(element)) {
       if (process.env.NODE_ENV === "development") {
         element.classList.add("bba-block")
@@ -45,6 +48,16 @@ function collectBlockElements(
       }
     }
   }
+}
+
+function isOutsideOfViewport(element: Element): boolean {
+  const rect = element.getBoundingClientRect()
+  return (
+    rect.bottom < 0 ||
+    window.innerHeight < rect.top ||
+    rect.right < 0 ||
+    window.innerWidth < rect.left
+  )
 }
 
 // TODO: For elements inside iframes,
