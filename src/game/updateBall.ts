@@ -29,14 +29,14 @@ export function startBallAnimation(
   )
 
   requestAnimationFrame(() => {
-    updateBallPositionAndVelocity(ball)
+    updateBall(ball)
   })
 
   let id = null
-  function updateBallPositionAndVelocity(ball: Ball): void {
+  function updateBall(ball: Ball): void {
     updateBallVelocity(ball)
     updateBallPosition(ball)
-    id = requestAnimationFrame(() => updateBallPositionAndVelocity(ball))
+    id = requestAnimationFrame(() => updateBall(ball))
   }
   if (process.env.NODE_ENV === "development") {
     window.addEventListener("click", () => {
