@@ -21,8 +21,15 @@ export function initializeBall(): Ball {
   ball.id = ballId
   Object.assign(ball.style, {
     position: "fixed",
-    left: `${window.innerWidth / 2 - ballSetting.width / 2}px`,
-    bottom: `${initialBottom + barSetting.height}px`,
+    transform:
+      `translate(` +
+      `${window.innerWidth / 2 - ballSetting.width / 2}px,` +
+      `${-(initialBottom + barSetting.height)}px` +
+      `)`,
+    // left: `${window.innerWidth / 2 - ballSetting.width / 2}px`,
+    // bottom: `${initialBottom + barSetting.height}px`,
+    left: "0px",
+    bottom: "0px",
     width: `${ballSetting.width}px`,
     height: `${ballSetting.height}px`,
     backgroundColor: ballSetting.color,
@@ -85,6 +92,8 @@ function visualizeCollisionPointsOnBall() {
     collisionPointOnBall.classList.add(collisionPointOnBallClass)
     Object.assign(collisionPointOnBall.style, {
       position: "fixed",
+      left: "0px",
+      bottom: "0px",
       width: "3px",
       height: "3px",
       backgroundColor: "black",
@@ -103,8 +112,13 @@ function updateVisualizedCollisionPointsOnBall(
 ) {
   for (let i = 0; i < collisionPointsOnBall.length; i++) {
     const collisionPointOnBall = collisionPointsOnBall[i]
-    divsForCollisionPointsOnBall[i].style.left = `${collisionPointOnBall.x}px`
-    divsForCollisionPointsOnBall[i].style.bottom = `${collisionPointOnBall.y}px`
+    divsForCollisionPointsOnBall[i].style.transform =
+      `translate(` +
+      `${collisionPointOnBall.x}px,` +
+      `${-collisionPointOnBall.y}px` +
+      `)`
+    // divsForCollisionPointsOnBall[i].style.left = `${collisionPointOnBall.x}px`
+    // divsForCollisionPointsOnBall[i].style.bottom = `${collisionPointOnBall.y}px`
   }
 }
 ///////////////////////////////////////////////////////

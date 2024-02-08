@@ -9,6 +9,7 @@ import {
 } from "./detectCollision"
 import {
   ballAcceleration,
+  ballSetting,
   initialBallAbsoluteVelocity,
   initialBallDirection
 } from "./settings"
@@ -44,9 +45,15 @@ export function startBallAnimation(
   return stopBallAnimation
 
   function updateBallPosition(ball: Ball): void {
+    const currentBallPosition = getBallCenterPosition(ball)
     Object.assign(ball.style, {
-      left: `${parseInt(ball.style.left) + currentBallVelocity.x}px`,
-      bottom: `${parseInt(ball.style.bottom) + currentBallVelocity.y}px`
+      transform:
+        `translate(` +
+        `${currentBallPosition.x - ballSetting.width / 2 + currentBallVelocity.x}px, ` +
+        `${-(currentBallPosition.y - ballSetting.height / 2 + currentBallVelocity.y)}px` +
+        `)`
+      // left: `${parseInt(ball.style.left) + currentBallVelocity.x}px`,
+      // bottom: `${parseInt(ball.style.bottom) + currentBallVelocity.y}px`
     })
   }
 

@@ -1,7 +1,7 @@
-import type { Ball } from "./ball"
+import { getBallCenterPosition, type Ball } from "./ball"
 import type { Block } from "./blocks"
 import type { Scoreboard } from "./initializeScoreboard"
-import { veilZIndex } from "./settings"
+import { ballSetting, veilZIndex } from "./settings"
 
 export function startCheckIsGameOver(
   ball: Ball,
@@ -12,7 +12,8 @@ export function startCheckIsGameOver(
   requestAnimationFrame(checkIsGameOver)
 
   function checkIsGameOver() {
-    const isBallTouchBottom = parseInt(ball.style.bottom) <= 0
+    const isBallTouchBottom =
+      getBallCenterPosition(ball).y - ballSetting.height / 2 <= 0
     if (isBallTouchBottom) {
       gameOver(blocks, { withScoreboard: !!scoreboard })
       stopAnimationFuncs.forEach((f) => f())

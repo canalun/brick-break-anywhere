@@ -3,7 +3,7 @@ import type { Bar } from "./bar"
 import type { Block } from "./blocks"
 import { startCheckIsGameOver } from "./gameOver"
 import type { Scoreboard } from "./initializeScoreboard"
-import { ballSetting, barSetting } from "./settings"
+import { ballSetting, barSetting, initialBottom } from "./settings"
 import { setSoundEffect } from "./soundEffect"
 import { startBallAnimation } from "./updateBall"
 import { startBlockAndScoreUpdate } from "./updateBlocks"
@@ -43,13 +43,28 @@ export function standby(
 
   function moveBarAndBall(e: MouseEvent | TouchEvent) {
     const { x } = getXYFromTouchEvent(e)
-    bar.style.left = `${x - barSetting.width / 2}px`
-    ball.style.left = `${x - ballSetting.width / 2}px`
+    bar.style.transform =
+      `translate(` +
+      `${x - barSetting.width / 2}px, ` +
+      `${-1 * initialBottom}px` +
+      `)`
+    ball.style.transform =
+      `translate(` +
+      `${x - ballSetting.width / 2}px, ` +
+      `${-(initialBottom + barSetting.height)}px` +
+      `)`
+    // bar.style.left = `${x - barSetting.width / 2}px`
+    // ball.style.left = `${x - ballSetting.width / 2}px`
   }
 
   function moveBar(e: MouseEvent | TouchEvent) {
     const { x } = getXYFromTouchEvent(e)
-    bar.style.left = `${x - barSetting.width / 2}px`
+    bar.style.transform =
+      `translate(` +
+      `${x - barSetting.width / 2}px, ` +
+      `${-1 * initialBottom}px` +
+      `)`
+    // bar.style.left = `${x - barSetting.width / 2}px`
   }
 
   function getXYFromTouchEvent(event: TouchEvent | MouseEvent) {

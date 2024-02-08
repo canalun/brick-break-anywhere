@@ -8,8 +8,15 @@ export function initializeBar(): Bar {
   bar.id = barId
   Object.assign(bar.style, {
     position: "fixed",
-    left: `${window.innerWidth / 2 - barSetting.width / 2}px`,
-    bottom: `${initialBottom}px`,
+    transform:
+      `translate(` +
+      `${window.innerWidth / 2 - barSetting.width / 2}px,` +
+      `${-1 * initialBottom}px` +
+      `)`,
+    // left: `${window.innerWidth / 2 - barSetting.width / 2}px`,
+    // bottom: `${initialBottom}px`,
+    left: "0px",
+    bottom: "0px",
     width: `${barSetting.width}px`,
     height: `${barSetting.height}px`,
     backgroundColor: barSetting.color,
