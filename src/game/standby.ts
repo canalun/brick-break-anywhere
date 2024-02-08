@@ -27,19 +27,13 @@ export function standby(ball: Ball, bar: Bar, blocks: Block[]) {
 
   function moveBarAndBall(e: MouseEvent | TouchEvent) {
     const { x } = getXYFromTouchEvent(e)
-    Object.assign(ball.style, {
-      transform: `translate(${x - ballSetting.width / 2}px, 0px)`
-    })
-    Object.assign(bar.style, {
-      transform: `translate(${x - barSetting.width / 2}px, 0px)`
-    })
+    bar.style.left = `${x - barSetting.width / 2}px`
+    ball.style.left = `${x - ballSetting.width / 2}px`
   }
 
   function moveBar(e: MouseEvent | TouchEvent) {
     const { x } = getXYFromTouchEvent(e)
-    Object.assign(bar.style, {
-      transform: `translate(${x - barSetting.width / 2}px, 0px)`
-    })
+    bar.style.left = `${x - barSetting.width / 2}px`
   }
 
   function getXYFromTouchEvent(event: TouchEvent | MouseEvent) {

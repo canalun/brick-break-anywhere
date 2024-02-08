@@ -46,11 +46,8 @@ export function startBallAnimation(
 
   function updateBallPosition(ball: Ball): void {
     Object.assign(ball.style, {
-      transform:
-        `translate(` +
-        `${parseInt(ball.style.left) + currentBallVelocity.x}px,` +
-        `${-1 * (parseInt(ball.style.bottom) + currentBallVelocity.y)}px` +
-        `)`
+      left: `${parseInt(ball.style.left) + currentBallVelocity.x}px`,
+      bottom: `${parseInt(ball.style.bottom) + currentBallVelocity.y}px`
     })
   }
 

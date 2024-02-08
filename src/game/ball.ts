@@ -103,13 +103,8 @@ function updateVisualizedCollisionPointsOnBall(
 ) {
   for (let i = 0; i < collisionPointsOnBall.length; i++) {
     const collisionPointOnBall = collisionPointsOnBall[i]
-    Object.assign(divsForCollisionPointsOnBall[i].style, {
-      transform:
-        `translate(` +
-        `${collisionPointOnBall.x}px,` +
-        `${-1 * collisionPointOnBall.y}px` +
-        `)`
-    })
+    divsForCollisionPointsOnBall[i].style.left = `${collisionPointOnBall.x}px`
+    divsForCollisionPointsOnBall[i].style.bottom = `${collisionPointOnBall.y}px`
   }
 }
 ///////////////////////////////////////////////////////
