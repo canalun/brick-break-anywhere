@@ -7,7 +7,7 @@ import type { Block } from "./blocks"
 import { updateDirectionByCollisionWithBlocks } from "./detectCollision"
 import { main } from "./main"
 import { ballId } from "./settings"
-import { requestBlockRemoveAnimation } from "./updateBlocks"
+import { startBlockRemoveAnimation } from "./updateBlocks"
 
 // WARNING: Don't use in production.
 //          It's definitely for debug. unsafe. memory-leaky.
@@ -19,7 +19,7 @@ export function dragAndMoveBall(blocks: Block[]) {
     return
   }
 
-  requestBlockRemoveAnimation(blocks)
+  startBlockRemoveAnimation(blocks)
 
   // drag and move ball
   let isDragging = false

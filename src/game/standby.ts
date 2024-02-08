@@ -4,7 +4,7 @@ import type { Block } from "./blocks"
 import { ballSetting, barSetting } from "./settings"
 import { setSoundEffect } from "./soundEffect"
 import { startBallAnimation } from "./updateBall"
-import { requestBlockRemoveAnimation } from "./updateBlocks"
+import { startBlockRemoveAnimation } from "./updateBlocks"
 
 export function standby(ball: Ball, bar: Bar, blocks: Block[]) {
   const ring = setSoundEffect()
@@ -22,7 +22,7 @@ export function standby(ball: Ball, bar: Bar, blocks: Block[]) {
     window.addEventListener("touchmove", moveBar)
 
     startBallAnimation(ball, bar, blocks, ring)
-    requestBlockRemoveAnimation(blocks)
+    startBlockRemoveAnimation(blocks)
   })
 
   function moveBarAndBall(e: MouseEvent | TouchEvent) {
