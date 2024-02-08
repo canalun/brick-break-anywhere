@@ -64,4 +64,12 @@ function gameOver(blocks: Block[]) {
   gameOverMessage.appendChild(replayButton)
 }
 
-function replay() {}
+function replay() {
+  chrome.runtime.onMessage.addListener((message) => {
+    if (message.type === "ReplayIsConfirmedOnBackground") {
+      location.reload()
+    }
+  })
+
+  chrome.runtime.sendMessage({ type: "RequestReplayToBackground" })
+}

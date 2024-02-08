@@ -16,6 +16,8 @@ console.log("content script loaded.")
 //   all_frames: true
 // }
 
+chrome.runtime.sendMessage({ type: "ContentIsReady" })
+
 chrome.runtime.onMessage.addListener(function (message) {
   if (message.type === "start") {
     // Execute when the document has finished loading,
