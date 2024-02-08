@@ -1,6 +1,7 @@
 import type { Ball } from "./ball"
 import type { Bar } from "./bar"
 import type { Block } from "./blocks"
+import { startCheckIsGameOver } from "./gameOver"
 import { ballSetting, barSetting } from "./settings"
 import { setSoundEffect } from "./soundEffect"
 import { startBallAnimation } from "./updateBall"
@@ -21,8 +22,17 @@ export function standby(ball: Ball, bar: Bar, blocks: Block[]) {
     window.addEventListener("mousemove", moveBar)
     window.addEventListener("touchmove", moveBar)
 
-    startBallAnimation(ball, bar, blocks, ring)
-    startBlockRemoveAnimation(blocks)
+    const stopBallAnimation = startBallAnimation(ball, bar, blocks, ring)
+    const stopBlockRemoveAnimation = startBlockRemoveAnimation(blocks)
+
+    startCheckIsGameOver(ball, blocks, [
+      stopBallAnimation,
+      stopBlockRemoveAnimation,
+      () => {
+        window.removeEventListener("mousemove", moveBar)
+        window.removeEventListener("touchmove", moveBar)
+      }
+    ])
   })
 
   function moveBarAndBall(e: MouseEvent | TouchEvent) {

@@ -28,21 +28,20 @@ export function startBallAnimation(
     currentBallDirection
   )
 
-  requestAnimationFrame(() => {
+  let id = requestAnimationFrame(() => {
     updateBall(ball)
   })
-
-  let id = null
   function updateBall(ball: Ball): void {
     updateBallVelocity(ball)
     updateBallPosition(ball)
     id = requestAnimationFrame(() => updateBall(ball))
   }
+
+  const stopBallAnimation = () => cancelAnimationFrame(id)
   if (process.env.NODE_ENV === "development") {
-    window.addEventListener("click", () => {
-      id && cancelAnimationFrame(id)
-    })
+    window.addEventListener("click", stopBallAnimation)
   }
+  return stopBallAnimation
 
   function updateBallPosition(ball: Ball): void {
     Object.assign(ball.style, {

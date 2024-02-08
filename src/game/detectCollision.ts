@@ -25,7 +25,9 @@ export function updateDirectionByCollisionWithWall(
     return { x: currentBallDirection.x, y: -1 }
   }
   if (minYOfCollisionPointsOnBall <= 0) {
-    throw new Error("Game Over") // TODO
+    // It's not necessary to update the direction by collision with the bottom wall
+    // because the game is over.
+    return { x: currentBallDirection.x, y: currentBallDirection.y }
   }
   return { x: currentBallDirection.x, y: currentBallDirection.y }
 }
