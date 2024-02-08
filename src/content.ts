@@ -25,9 +25,11 @@ chrome.runtime.onMessage.addListener(function (message) {
     // and it should be after iframes have been loaded to calculate the blocks.
     // So, use the "complete" event rather than the "interactive".
     if (window.document.readyState === "complete") {
-      main()
+      main({ withScoreboard: message.withScoreboard })
     } else {
-      window.addEventListener("load", main)
+      window.addEventListener("load", () => {
+        main({ withScoreboard: message.withScoreboard })
+      })
     }
   }
 })

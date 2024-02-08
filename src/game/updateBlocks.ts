@@ -1,5 +1,6 @@
 import { getRectOfBlock, type Block } from "./blocks"
 import { getComputedStyleWithCache } from "./getComputedStyleWithCache"
+import type { Scoreboard } from "./initializeScoreboard"
 import {
   assert,
   isFrameElement,
@@ -9,16 +10,24 @@ import {
 
 // TODO: Changing the value of `remain` of a block to `false` is done in `detectCollision.ts`.
 //       It might be better to move the logic to here.
-export function startBlockRemoveAnimation(blocks: Block[]) {
-  let id = requestAnimationFrame(updateBlockRemoveAnimation)
-  function updateBlockRemoveAnimation() {
+export function startBlockAndScoreUpdate(
+  blocks: Block[],
+  scoreboard?: Scoreboard
+) {
+  let id = requestAnimationFrame(removeBlockAndUpdateScore)
+  function removeBlockAndUpdateScore() {
+    let score = 0
     for (let i = 0; i < blocks.length; i++) {
       const block = blocks[i]
       if (!block.remain) {
         removeBlockAndUpdateBlocksPosition(block, blocks)
+        scoreboard && score++
       }
     }
-    id = requestAnimationFrame(updateBlockRemoveAnimation)
+    scoreboard &&
+      (scoreboard.textContent = `Score: ${score} / ${blocks.length}`)
+
+    id = requestAnimationFrame(removeBlockAndUpdateScore)
   }
 
   const stopBlockRemoveAnimation = () => cancelAnimationFrame(id)

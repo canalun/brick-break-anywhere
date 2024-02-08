@@ -5,21 +5,22 @@ import {
 } from "./ball"
 import type { Block } from "./blocks"
 import { updateDirectionByCollisionWithBlocks } from "./detectCollision"
+import type { Scoreboard } from "./initializeScoreboard"
 import { main } from "./main"
-import { ballId } from "./settings"
-import { startBlockRemoveAnimation } from "./updateBlocks"
+import { ballId, scoreboardHeight } from "./settings"
+import { startBlockAndScoreUpdate } from "./updateBlocks"
 
 // WARNING: Don't use in production.
 //          It's definitely for debug. unsafe. memory-leaky.
 export function dragAndMoveBall(blocks: Block[]) {
-  main()
+  main({ withScoreboard: false })
 
   const ball = document.getElementById(ballId)
   if (!ball) {
     return
   }
 
-  startBlockRemoveAnimation(blocks)
+  startBlockAndScoreUpdate(blocks)
 
   // drag and move ball
   let isDragging = false

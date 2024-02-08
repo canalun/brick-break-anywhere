@@ -1,5 +1,10 @@
 import { type Block } from "./blocks"
-import { ballId, barId, collisionPointOnBallClass } from "./settings"
+import {
+  ballId,
+  barId,
+  collisionPointOnBallClass,
+  scoreboardId
+} from "./settings"
 
 export type Vector = {
   x: number
@@ -61,6 +66,7 @@ export function isBBAElement(element: Element): boolean {
   return (
     element.id === ballId ||
     element.id === barId ||
+    element.id === scoreboardId ||
     element.classList.contains(collisionPointOnBallClass)
   )
 }

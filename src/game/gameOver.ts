@@ -1,10 +1,12 @@
 import type { Ball } from "./ball"
 import type { Block } from "./blocks"
+import type { Scoreboard } from "./initializeScoreboard"
 import { veilZIndex } from "./settings"
 
 export function startCheckIsGameOver(
   ball: Ball,
   blocks: Block[],
+  scoreboard: Scoreboard | undefined,
   stopAnimationFuncs: (() => void)[]
 ) {
   requestAnimationFrame(checkIsGameOver)
@@ -12,13 +14,13 @@ export function startCheckIsGameOver(
   function checkIsGameOver() {
     const isBallTouchBottom = parseInt(ball.style.bottom) <= 0
     if (isBallTouchBottom) {
-      gameOver(blocks)
+      gameOver(blocks, { withScoreboard: !!scoreboard })
       stopAnimationFuncs.forEach((f) => f())
       return
     }
     const isAllBlocksDestroyed = !blocks.some((b) => b.remain)
     if (isAllBlocksDestroyed) {
-      gameOver(blocks)
+      gameOver(blocks, { withScoreboard: !!scoreboard })
       stopAnimationFuncs.forEach((f) => f())
       return
     }
@@ -26,7 +28,7 @@ export function startCheckIsGameOver(
   }
 }
 
-function gameOver(blocks: Block[]) {
+function gameOver(blocks: Block[], options: { withScoreboard: boolean }) {
   const gameOverMessage = document.createElement("div")
   gameOverMessage.style.position = "absolute"
   gameOverMessage.style.top = "50%"
@@ -59,17 +61,17 @@ function gameOver(blocks: Block[]) {
   replayButton.style.fontSize = "20px"
   replayButton.textContent = "Replay(Reload Page)"
   replayButton.onclick = () => {
-    replay()
+    replay(options)
   }
   gameOverMessage.appendChild(replayButton)
 }
 
-function replay() {
+function replay(options: { withScoreboard: boolean }) {
   chrome.runtime.onMessage.addListener((message) => {
     if (message.type === "ReplayIsConfirmedOnBackground") {
       location.reload()
     }
   })
 
-  chrome.runtime.sendMessage({ type: "RequestReplayToBackground" })
+  chrome.runtime.sendMessage({ type: "RequestReplayToBackground", options })
 }
