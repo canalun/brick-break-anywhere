@@ -95,7 +95,8 @@ function isVisible(element: Element): boolean {
     element.tagName === "IMG" ||
     element.tagName === "VIDEO" ||
     element.tagName === "svg" ||
-    element.tagName === "SELECT"
+    element.tagName === "SELECT" ||
+    element.tagName === "CANVAS"
   ) {
     return true
   }
