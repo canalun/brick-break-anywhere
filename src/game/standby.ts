@@ -17,16 +17,13 @@ export function standby(
   const ring = setSoundEffect()
 
   window.addEventListener("mousemove", moveBarAndBall)
-  window.addEventListener("touchmove", moveBarAndBall)
 
   window.addEventListener("click", function start() {
     window.removeEventListener("click", start)
 
     window.removeEventListener("mousemove", moveBarAndBall)
-    window.removeEventListener("touchmove", moveBarAndBall)
 
     window.addEventListener("mousemove", moveBar)
-    window.addEventListener("touchmove", moveBar)
 
     const stopBallAnimation = startBallAnimation(ball, bar, blocks, ring)
     const stopBlockAndScoreUpdate = startBlockAndScoreUpdate(blocks, scoreboard)
@@ -36,39 +33,28 @@ export function standby(
       stopBlockAndScoreUpdate,
       () => {
         window.removeEventListener("mousemove", moveBar)
-        window.removeEventListener("touchmove", moveBar)
       }
     ])
   })
 
-  function moveBarAndBall(e: MouseEvent | TouchEvent) {
-    const { x } = getXYFromTouchEvent(e)
+  function moveBarAndBall(e: MouseEvent) {
     bar.style.transform =
       `translate(` +
-      `${x - barSetting.width / 2}px, ` +
+      `${e.clientX - barSetting.width / 2}px, ` +
       `${-1 * initialBottom}px` +
       `)`
     ball.style.transform =
       `translate(` +
-      `${x - ballSetting.width / 2}px, ` +
+      `${e.clientX - ballSetting.width / 2}px, ` +
       `${-(initialBottom + barSetting.height)}px` +
       `)`
   }
 
-  function moveBar(e: MouseEvent | TouchEvent) {
-    const { x } = getXYFromTouchEvent(e)
+  function moveBar(e: MouseEvent) {
     bar.style.transform =
       `translate(` +
-      `${x - barSetting.width / 2}px, ` +
+      `${e.clientX - barSetting.width / 2}px, ` +
       `${-1 * initialBottom}px` +
       `)`
-  }
-
-  function getXYFromTouchEvent(event: TouchEvent | MouseEvent) {
-    if (event instanceof MouseEvent) {
-      return { x: event.clientX, y: event.clientY }
-    } else {
-      return { x: event.touches[0].clientX, y: event.touches[0].clientY }
-    }
   }
 }
