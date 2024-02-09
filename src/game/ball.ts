@@ -26,8 +26,6 @@ export function initializeBall(): Ball {
       `${window.innerWidth / 2 - ballSetting.width / 2}px,` +
       `${-(initialBottom + barSetting.height)}px` +
       `)`,
-    // left: `${window.innerWidth / 2 - ballSetting.width / 2}px`,
-    // bottom: `${initialBottom + barSetting.height}px`,
     left: "0px",
     bottom: "0px",
     width: `${ballSetting.width}px`,
@@ -117,8 +115,6 @@ function updateVisualizedCollisionPointsOnBall(
       `${collisionPointOnBall.x}px,` +
       `${-collisionPointOnBall.y}px` +
       `)`
-    // divsForCollisionPointsOnBall[i].style.left = `${collisionPointOnBall.x}px`
-    // divsForCollisionPointsOnBall[i].style.bottom = `${collisionPointOnBall.y}px`
   }
 }
 ///////////////////////////////////////////////////////

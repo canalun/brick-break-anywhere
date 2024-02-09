@@ -53,8 +53,6 @@ export function standby(
       `${x - ballSetting.width / 2}px, ` +
       `${-(initialBottom + barSetting.height)}px` +
       `)`
-    // bar.style.left = `${x - barSetting.width / 2}px`
-    // ball.style.left = `${x - ballSetting.width / 2}px`
   }
 
   function moveBar(e: MouseEvent | TouchEvent) {
@@ -64,7 +62,6 @@ export function standby(
       `${x - barSetting.width / 2}px, ` +
       `${-1 * initialBottom}px` +
       `)`
-    // bar.style.left = `${x - barSetting.width / 2}px`
   }
 
   function getXYFromTouchEvent(event: TouchEvent | MouseEvent) {

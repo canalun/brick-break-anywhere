@@ -13,8 +13,6 @@ export function initializeBar(): Bar {
       `${window.innerWidth / 2 - barSetting.width / 2}px,` +
       `${-1 * initialBottom}px` +
       `)`,
-    // left: `${window.innerWidth / 2 - barSetting.width / 2}px`,
-    // bottom: `${initialBottom}px`,
     left: "0px",
     bottom: "0px",
     width: `${barSetting.width}px`,
