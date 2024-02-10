@@ -25,3 +25,11 @@ chrome.runtime.onMessage.addListener((message, sender) => {
     })
   }
 })
+
+// Display the instruction page after installation
+chrome.runtime.onInstalled.addListener(function (object) {
+  let internalUrl = chrome.runtime.getURL("/options.html")
+  if (object.reason === chrome.runtime.OnInstalledReason.INSTALL) {
+    chrome.tabs.create({ url: internalUrl })
+  }
+})
