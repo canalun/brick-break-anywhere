@@ -26,11 +26,49 @@ export function getNorm(a: Vector): number {
   return Math.sqrt(getInnerProduct(a, a))
 }
 
-export function addVector(a: Vector, b: Vector): Vector {
+export function addVectors(a: Vector, b: Vector): Vector {
   return {
     x: a.x + b.x,
     y: a.y + b.y
   }
+}
+
+export function flipVector(
+  v: Vector,
+  direction: "horizontal" | "vertical"
+): Vector {
+  switch (direction) {
+    case "horizontal":
+      return {
+        x: -1 * v.x,
+        y: v.y
+      }
+    case "vertical":
+      return {
+        x: v.x,
+        y: -1 * v.y
+      }
+  }
+}
+
+export function rotateVector(v: Vector, radian: number): Vector {
+  const rotateMatrix = getRotateMatrix(radian)
+  return multiplyMatrixToVector(rotateMatrix, v)
+}
+type Matrix = number[][]
+
+function multiplyMatrixToVector(m: Matrix, v: Vector): Vector {
+  return {
+    x: m[0][0] * v.x + m[0][1] * v.y,
+    y: m[1][0] * v.x + m[1][1] * v.y
+  }
+}
+
+function getRotateMatrix(radian: number): Matrix {
+  return [
+    [Math.cos(radian), -1 * Math.sin(radian)],
+    [Math.sin(radian), Math.cos(radian)]
+  ]
 }
 
 export function assert(condition: boolean, message: string): asserts condition {
