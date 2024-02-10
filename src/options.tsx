@@ -46,6 +46,18 @@ function NewTab() {
           </strong>
         </p>
         <img style={{ width: "300px" }} src={startButton}></img>
+        <p>FAQ</p>
+        <p>
+          Q: Is this game safe to play thought it looks like breaking the web
+          page...
+        </p>
+        <p>
+          A: It's safe! It just uses a little magic to make the web page looking
+          like broken.
+        </p>
+        <p>
+          In short, it's a kind of elaborate jokes. So don't worry and enjoy!
+        </p>
       </div>
       <hr />
       <div style={{ fontSize: "18px" }}>
@@ -79,6 +91,16 @@ function NewTab() {
           </strong>
         </p>
         <img style={{ width: "300px" }} src={startButton}></img>
+        <p>よくある質問</p>
+        <p>
+          Q:
+          ウェブページを本当に壊してしまっていますか？遊んでも大丈夫なのでしょうか？
+        </p>
+        <p>
+          A:
+          大丈夫です！本当には壊していません。壊しているように見せているだけです😊
+        </p>
+        <p>要するに、手品のようなものです。安心して気軽にお楽しみください！</p>
       </div>
     </>
   )
