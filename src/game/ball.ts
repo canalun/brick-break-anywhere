@@ -52,6 +52,8 @@ export function getBallCenterPosition(ball: Ball): Vector {
 
 export type CollisionPointOnBall = Vector & { _collisionPointOnBall: never }
 
+// For the sake of efficiency, collision detection considers
+// only the points front in the direction of the ball.
 export function getCurrentCollisionPointsOnBall(
   ballPosition: Vector,
   ballDirection: Vector
