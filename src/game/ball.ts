@@ -7,7 +7,12 @@ import {
   initialBottom,
   numberOfCollisionPoints
 } from "./settings"
-import { getInnerProduct, type Vector } from "./utils"
+import {
+  getInnerProduct,
+  getSumOfVectors,
+  getVectorMultipliedWithScalar,
+  type Vector
+} from "./utils"
 
 export type Ball = HTMLDivElement & { _ball: never }
 
@@ -18,13 +23,13 @@ export function initializeBall(): Ball {
     position: "fixed",
     transform:
       `translate(` +
-      `${window.innerWidth / 2 - ballSetting.width / 2}px,` +
+      `${window.innerWidth / 2 - ballSetting.radius}px,` +
       `${-(initialBottom + barSetting.height)}px` +
       `)`,
     left: "0px",
     bottom: "0px",
-    width: `${ballSetting.width}px`,
-    height: `${ballSetting.height}px`,
+    width: `${ballSetting.radius * 2}px`,
+    height: `${ballSetting.radius * 2}px`,
     backgroundColor: ballSetting.color,
     borderRadius: "50%",
     zIndex: ballZIndex
@@ -40,8 +45,8 @@ export function initializeBall(): Ball {
 export function getBallCenterPosition(ball: Ball): Vector {
   const rect = ball.getBoundingClientRect()
   return {
-    x: rect.left + ballSetting.width / 2,
-    y: window.innerHeight - rect.bottom + ballSetting.height / 2
+    x: rect.left + ballSetting.radius,
+    y: window.innerHeight - rect.bottom + ballSetting.radius
   }
 }
 
@@ -52,14 +57,20 @@ export function getCurrentCollisionPointsOnBall(
   ballDirection: Vector
 ): CollisionPointOnBall[] {
   const collisionPointsOnBall: CollisionPointOnBall[] = []
+  const unitTheta = (2 * Math.PI) / numberOfCollisionPoints
   for (let i = 0; i < numberOfCollisionPoints; i++) {
-    const theta = ((2 * Math.PI) / numberOfCollisionPoints) * i
+    const theta = unitTheta * i
     const vectorForCollisionPoint = { x: Math.cos(theta), y: Math.sin(theta) }
     if (getInnerProduct(vectorForCollisionPoint, ballDirection) > 0) {
-      collisionPointsOnBall.push({
-        x: ballPosition.x + Math.cos(theta) * (ballSetting.width / 2),
-        y: ballPosition.y + Math.sin(theta) * (ballSetting.height / 2)
-      } as CollisionPointOnBall)
+      collisionPointsOnBall.push(
+        getSumOfVectors(
+          ballPosition,
+          getVectorMultipliedWithScalar(
+            ballSetting.radius,
+            vectorForCollisionPoint
+          )
+        ) as CollisionPointOnBall
+      )
     }
   }
 

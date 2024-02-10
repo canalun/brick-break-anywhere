@@ -13,7 +13,7 @@ export function startCheckIsGameOver(
 
   function checkIsGameOver() {
     const isBallTouchBottom =
-      getBallCenterPosition(ball).y - ballSetting.height / 2 <= 0
+      getBallCenterPosition(ball).y - ballSetting.radius <= 0
     if (isBallTouchBottom) {
       gameOver(blocks, { withScoreboard: !!scoreboard })
       stopAnimationFuncs.forEach((f) => f())

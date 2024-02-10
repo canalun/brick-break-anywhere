@@ -20,19 +20,17 @@ export const barSetting: BarSetting = (() => {
   }
 })()
 
+// The magic numbers of `ballRadius` have no reason.
+// Just trial and error led me to this value.
+const ballRadius = Math.max((window.innerWidth * 2) / 250, 25) / 2
 type BallSetting = {
-  width: number
-  height: number
+  radius: number
   color: string
 }
-export const ballSetting: BallSetting = (() => {
-  const width = window.innerWidth * 0.2
-  return {
-    width: Math.max((10 * width) / 250, 25),
-    height: Math.max((10 * width) / 250, 25),
-    color: "red"
-  }
-})()
+export const ballSetting: BallSetting = {
+  radius: ballRadius,
+  color: "red"
+}
 
 export const initialBottom = 30
 

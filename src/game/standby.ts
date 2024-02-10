@@ -45,7 +45,7 @@ export function standby(
       `)`
     ball.style.transform =
       `translate(` +
-      `${e.clientX - ballSetting.width / 2}px, ` +
+      `${e.clientX - ballSetting.radius}px, ` +
       `${-(initialBottom + barSetting.height)}px` +
       `)`
   }

@@ -49,8 +49,8 @@ export function startBallAnimation(
     Object.assign(ball.style, {
       transform:
         `translate(` +
-        `${currentBallPosition.x - ballSetting.width / 2 + currentBallVelocity.x}px, ` +
-        `${-(currentBallPosition.y - ballSetting.height / 2 + currentBallVelocity.y)}px` +
+        `${currentBallPosition.x - ballSetting.radius + currentBallVelocity.x}px, ` +
+        `${-(currentBallPosition.y - ballSetting.radius + currentBallVelocity.y)}px` +
         `)`
     })
   }
