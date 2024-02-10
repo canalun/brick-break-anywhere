@@ -27,18 +27,25 @@ function IndexPopup() {
   }, [])
 
   return (
-    <div style={{ padding: "16px" }}>
+    <div
+      style={{
+        maxWidth: "220px",
+        minWidth: "220px",
+        padding: "16px"
+      }}>
       <h2>Brick Break Anywhere</h2>
       <button onClick={sendMessageToIsolatedWorldOnActiveTab}>Start!</button>
       <br />
-      <label>
-        <input
-          type="checkbox"
-          checked={withScoreboard}
-          onChange={(e) => setWithScoreboard(e.target.checked)}
-        />
-        score board (experimental)
-      </label>
+      <div style={{ marginTop: "16px" }}>
+        <label>
+          <input
+            type="checkbox"
+            checked={withScoreboard}
+            onChange={(e) => setWithScoreboard(e.target.checked)}
+          />
+          with score board (experimental)
+        </label>
+      </div>
       <br />
       {process.env.NODE_ENV === "development" ? (
         <button onClick={sendMessageToIsolatedWorldOnActiveTabForTest}>
