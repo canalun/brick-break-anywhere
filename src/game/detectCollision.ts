@@ -1,8 +1,13 @@
 import type { CollisionPointOnBall } from "./ball"
 import { getBarCenterPosition, type Bar } from "./bar"
 import type { Block } from "./blocks"
-import { barSetting, widthOfEdgeOfCollisionWithBlocks } from "./settings"
-import { getFlippedVector, type Vector } from "./utils"
+import {
+  barSetting,
+  minimumRadianBetweenBallDirectionAndBar,
+  redundancyOfCollisionWithBar,
+  redundancyOfCollisionWithBlocks
+} from "./settings"
+import { getFlippedVector, getRotatedVector, type Vector } from "./utils"
 
 export function updateDirectionByCollisionWithWall(
   collisionPointsOnBall: CollisionPointOnBall[],
@@ -29,6 +34,10 @@ export function updateDirectionByCollisionWithWall(
   return currentBallDirection
 }
 
+// It's not necessary to consider the initial value of `previousBarPosition`,
+// because the value is updated immediately after the game starts.
+let previousBarPosition: Vector = { x: 0, y: 0 }
+let counter = 0
 export function updateDirectionByCollisionWithBar(
   collisionPointsOnBall: Vector[],
   bar: Bar,
@@ -41,18 +50,56 @@ export function updateDirectionByCollisionWithBar(
     return currentBallDirection
   }
 
-  if (
+  const isCollidingWithBar =
+    currentBallDirection.y < 0 && // ball must be going down
     Math.abs(
       mostBottomPointsOnBall.y -
         getBarCenterPosition(bar).y +
         barSetting.height / 2
-    ) <= 10 &&
+    ) <= redundancyOfCollisionWithBar &&
     Math.abs(getBarCenterPosition(bar).x - mostBottomPointsOnBall.x) <=
       barSetting.width / 2
-  ) {
-    return getFlippedVector(currentBallDirection, "vertical")
+
+  if (!isCollidingWithBar) {
+    previousBarPosition = getBarCenterPosition(bar)
+    return currentBallDirection
   }
-  return currentBallDirection
+
+  const currentBarPosition = getBarCenterPosition(bar)
+  const dx = (currentBarPosition.x - previousBarPosition.x) / 50
+  const updatedDirection = getRotatedVector(
+    getFlippedVector(currentBallDirection, "vertical"),
+    (Math.PI / 6) * (Math.abs(dx) < 1 ? dx : dx / Math.abs(dx))
+  )
+
+  const isUpdatedDirectionWithinLimit =
+    0 <= updatedDirection.y &&
+    Math.cos(Math.PI - minimumRadianBetweenBallDirectionAndBar) <=
+      updatedDirection.x &&
+    updatedDirection.x <= Math.cos(minimumRadianBetweenBallDirectionAndBar)
+
+  return throttledAssign(previousBarPosition, currentBarPosition) &&
+    isUpdatedDirectionWithinLimit
+    ? updatedDirection
+    : 0 <= updatedDirection.x
+      ? {
+          x: Math.cos(minimumRadianBetweenBallDirectionAndBar),
+          y: Math.sin(minimumRadianBetweenBallDirectionAndBar)
+        }
+      : {
+          x: Math.cos(Math.PI - minimumRadianBetweenBallDirectionAndBar),
+          y: Math.sin(Math.PI - minimumRadianBetweenBallDirectionAndBar)
+        }
+
+  ////////////////////////////////////////
+  function throttledAssign<T>(variable: T, value: T) {
+    if (counter === 7) {
+      counter = 0
+      return (variable = value) && variable
+    }
+    counter++
+    return variable
+  }
 }
 
 export function updateDirectionByCollisionWithBlocks(
@@ -74,7 +121,7 @@ export function updateDirectionByCollisionWithBlocks(
         collisionPointOnBall.x <= block.rect.right &&
         0 <= block.rect.bottom - collisionPointOnBall.y &&
         block.rect.bottom - collisionPointOnBall.y <=
-          widthOfEdgeOfCollisionWithBlocks
+          redundancyOfCollisionWithBlocks
       ) {
         block.remain = false
         process.env.NODE_ENV === "development" &&
@@ -91,7 +138,7 @@ export function updateDirectionByCollisionWithBlocks(
         collisionPointOnBall.x <= block.rect.right &&
         0 <= collisionPointOnBall.y - block.rect.top &&
         collisionPointOnBall.y - block.rect.top <=
-          widthOfEdgeOfCollisionWithBlocks
+          redundancyOfCollisionWithBlocks
       ) {
         block.remain = false
         process.env.NODE_ENV === "development" &&
@@ -106,7 +153,7 @@ export function updateDirectionByCollisionWithBlocks(
         currentBallDirection.x > 0 && // ball must be going right
         0 <= block.rect.left - collisionPointOnBall.x &&
         block.rect.left - collisionPointOnBall.x <=
-          widthOfEdgeOfCollisionWithBlocks &&
+          redundancyOfCollisionWithBlocks &&
         block.rect.bottom <= collisionPointOnBall.y &&
         collisionPointOnBall.y <= block.rect.top
       ) {
@@ -123,7 +170,7 @@ export function updateDirectionByCollisionWithBlocks(
         currentBallDirection.x < 0 && // ball must be going left
         0 <= collisionPointOnBall.x - block.rect.right &&
         collisionPointOnBall.x - block.rect.right <=
-          widthOfEdgeOfCollisionWithBlocks &&
+          redundancyOfCollisionWithBlocks &&
         block.rect.bottom <= collisionPointOnBall.y &&
         collisionPointOnBall.y <= block.rect.top
       ) {

@@ -49,5 +49,8 @@ export const initialBallDirection: Vector = {
 // per frame
 export const ballAcceleration = 0.002
 
+export const minimumRadianBetweenBallDirectionAndBar = Math.PI / 6
+
 export const numberOfCollisionPoints = 36
-export const widthOfEdgeOfCollisionWithBlocks = 3
+export const redundancyOfCollisionWithBlocks = 3
+export const redundancyOfCollisionWithBar = 15
