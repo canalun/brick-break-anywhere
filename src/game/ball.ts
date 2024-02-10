@@ -8,9 +8,9 @@ import {
   numberOfCollisionPoints
 } from "./settings"
 import {
-  vectorInnerProduct,
-  vectorNorm,
-  vectorProduction,
+  getInnerProduct,
+  getNorm,
+  multiplyScalarToVector,
   type Vector
 } from "./utils"
 
@@ -53,21 +53,19 @@ export function getBallCenterPosition(ball: Ball): Vector {
 export function getCollisionPointsOnBall(
   ballPosition: Vector,
   ballDirection: Vector,
-  ballAbsoluteVelocity: Vector
+  ballSpeed: number
 ) {
-  const ballVelocity = vectorProduction(ballDirection, ballAbsoluteVelocity)
+  const ballVelocity = multiplyScalarToVector(ballSpeed, ballDirection)
   const normalizedBallVelocity = {
-    x: ballVelocity.x / vectorNorm(ballVelocity),
-    y: ballVelocity.y / vectorNorm(ballVelocity)
+    x: ballVelocity.x / getNorm(ballVelocity),
+    y: ballVelocity.y / getNorm(ballVelocity)
   }
 
   const collisionPointsOnBall: Vector[] = []
   for (let i = 0; i < numberOfCollisionPoints; i++) {
     const theta = ((2 * Math.PI) / numberOfCollisionPoints) * i
     const vectorForCollisionPoint = { x: Math.cos(theta), y: Math.sin(theta) }
-    if (
-      vectorInnerProduct(vectorForCollisionPoint, normalizedBallVelocity) > 0
-    ) {
+    if (getInnerProduct(vectorForCollisionPoint, normalizedBallVelocity) > 0) {
       collisionPointsOnBall.push({
         x: ballPosition.x + Math.cos(theta) * (ballSetting.width / 2),
         y: ballPosition.y + Math.sin(theta) * (ballSetting.height / 2)

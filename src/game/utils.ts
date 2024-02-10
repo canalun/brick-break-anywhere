@@ -11,24 +11,22 @@ export type Vector = {
   y: number
 }
 
-// TODO: Adopt mathematical way of vector calculation.
-//       The current implementation is not clear for others.
-export function vectorProduction(a: Vector, b: Vector): Vector {
+export function multiplyScalarToVector(a: number, v: Vector): Vector {
   return {
-    x: a.x * b.x,
-    y: a.y * b.y
+    x: a * v.x,
+    y: a * v.y
   }
 }
 
-export function vectorInnerProduct(a: Vector, b: Vector): number {
+export function getInnerProduct(a: Vector, b: Vector): number {
   return a.x * b.x + a.y * b.y
 }
 
-export function vectorNorm(a: Vector): number {
-  return Math.sqrt(vectorInnerProduct(a, a))
+export function getNorm(a: Vector): number {
+  return Math.sqrt(getInnerProduct(a, a))
 }
 
-export function vectorAdd(a: Vector, b: Vector): Vector {
+export function addVector(a: Vector, b: Vector): Vector {
   return {
     x: a.x + b.x,
     y: a.y + b.y

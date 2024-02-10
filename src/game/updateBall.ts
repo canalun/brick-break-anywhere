@@ -10,11 +10,11 @@ import {
 import {
   ballAcceleration,
   ballSetting,
-  initialBallAbsoluteVelocity,
-  initialBallDirection
+  initialBallDirection,
+  initialBallSpeed
 } from "./settings"
 import type { Vector } from "./utils"
-import { vectorAdd, vectorProduction } from "./utils"
+import { multiplyScalarToVector } from "./utils"
 
 export function startBallAnimation(
   ball: Ball,
@@ -22,10 +22,10 @@ export function startBallAnimation(
   blocks: Block[],
   ringSoundEffect: () => void
 ) {
-  let currentBallAbsoluteVelocity: Vector = initialBallAbsoluteVelocity
+  let currentBallSpeed = initialBallSpeed
   let currentBallDirection: Vector = initialBallDirection
-  let currentBallVelocity: Vector = vectorProduction(
-    currentBallAbsoluteVelocity,
+  let currentBallVelocity: Vector = multiplyScalarToVector(
+    currentBallSpeed,
     currentBallDirection
   )
 
@@ -57,9 +57,7 @@ export function startBallAnimation(
 
   function updateBallVelocity(ball: Ball): void {
     // acceleration
-    currentBallAbsoluteVelocity = getUpdatedBallAbsoluteVelocity(
-      currentBallAbsoluteVelocity
-    )
+    currentBallSpeed = getUpdatedBallSpeed(currentBallSpeed)
 
     // collision detection
     currentBallDirection = getUpdatedBallDirection(
@@ -67,19 +65,19 @@ export function startBallAnimation(
       bar,
       blocks,
       currentBallDirection,
-      currentBallAbsoluteVelocity,
+      currentBallSpeed,
       ringSoundEffect
     )
 
-    currentBallVelocity = vectorProduction(
-      currentBallAbsoluteVelocity,
+    currentBallVelocity = multiplyScalarToVector(
+      currentBallSpeed,
       currentBallDirection
     )
   }
 }
 
-function getUpdatedBallAbsoluteVelocity(currentBallAbsoluteVelocity: Vector) {
-  return vectorAdd(currentBallAbsoluteVelocity, ballAcceleration)
+function getUpdatedBallSpeed(currentBallSpeed: number) {
+  return currentBallSpeed + ballAcceleration
 }
 
 function getUpdatedBallDirection(
@@ -87,13 +85,13 @@ function getUpdatedBallDirection(
   bar: Bar,
   blocks: Block[],
   currentBallDirection: Vector,
-  currentBallAbsoluteVelocity: Vector,
+  currentBallSpeed: number,
   ringSoundEffect: () => void
 ): Vector {
   const collisionPointsOnBall = getCollisionPointsOnBall(
     getBallCenterPosition(ball),
     currentBallDirection,
-    currentBallAbsoluteVelocity
+    currentBallSpeed
   )
 
   const directionUpdatedByWall = updateDirectionByCollisionWithWall(

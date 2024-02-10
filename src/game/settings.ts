@@ -43,19 +43,13 @@ export const barZIndex = ballZIndex
 export const veilZIndex = ballZIndex - 1
 
 // per frame
-export const initialBallAbsoluteVelocity: Vector = {
-  x: 1.8,
-  y: 1.8
-}
+export const initialBallSpeed = 2.5
 export const initialBallDirection: Vector = {
-  x: 1,
-  y: 1
+  x: Math.cos(Math.PI / 4),
+  y: Math.cos(Math.PI / 4)
 }
 // per frame
-export const ballAcceleration: Vector = {
-  x: 0.002,
-  y: 0.002
-}
+export const ballAcceleration = 0.002
 
 export const numberOfCollisionPoints = 36
 export const widthOfEdgeOfCollisionWithBlocks = 3
