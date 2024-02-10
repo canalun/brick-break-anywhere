@@ -44,8 +44,8 @@ export const veilZIndex = ballZIndex - 1
 
 // per frame
 export const initialBallAbsoluteVelocity: Vector = {
-  x: 2.5,
-  y: 2.5
+  x: 1.2,
+  y: 1.2
 }
 export const initialBallDirection: Vector = {
   x: 1,
@@ -53,8 +53,8 @@ export const initialBallDirection: Vector = {
 }
 // per frame
 export const ballAcceleration: Vector = {
-  x: 0.002,
-  y: 0.002
+  x: 0.001,
+  y: 0.001
 }
 
 export const numberOfCollisionPoints = 36
