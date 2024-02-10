@@ -14,7 +14,7 @@ import {
   initialBallSpeed
 } from "./settings"
 import type { Vector } from "./utils"
-import { multiplyScalarToVector } from "./utils"
+import { getVectorMultipliedWithScalar } from "./utils"
 
 export function startBallAnimation(
   ball: Ball,
@@ -24,7 +24,7 @@ export function startBallAnimation(
 ) {
   let currentBallSpeed = initialBallSpeed
   let currentBallDirection: Vector = initialBallDirection
-  let currentBallVelocity: Vector = multiplyScalarToVector(
+  let currentBallVelocity: Vector = getVectorMultipliedWithScalar(
     currentBallSpeed,
     currentBallDirection
   )
@@ -69,7 +69,7 @@ export function startBallAnimation(
       ringSoundEffect
     )
 
-    currentBallVelocity = multiplyScalarToVector(
+    currentBallVelocity = getVectorMultipliedWithScalar(
       currentBallSpeed,
       currentBallDirection
     )

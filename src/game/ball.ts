@@ -10,7 +10,7 @@ import {
 import {
   getInnerProduct,
   getNorm,
-  multiplyScalarToVector,
+  getVectorMultipliedWithScalar,
   type Vector
 } from "./utils"
 
@@ -57,7 +57,7 @@ export function getCollisionPointsOnBall(
   ballDirection: Vector,
   ballSpeed: number
 ): CollisionPointOnBall[] {
-  const ballVelocity = multiplyScalarToVector(ballSpeed, ballDirection)
+  const ballVelocity = getVectorMultipliedWithScalar(ballSpeed, ballDirection)
   const normalizedBallVelocity = {
     x: ballVelocity.x / getNorm(ballVelocity),
     y: ballVelocity.y / getNorm(ballVelocity)

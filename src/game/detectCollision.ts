@@ -5,7 +5,7 @@ import {
 import { getBarCenterPosition, type Bar } from "./bar"
 import type { Block } from "./blocks"
 import { barSetting, widthOfEdgeOfCollisionWithBlocks } from "./settings"
-import { flipVector, type Vector } from "./utils"
+import { getFlippedVector, type Vector } from "./utils"
 
 export function updateDirectionByCollisionWithWall(
   collisionPointsOnBall: CollisionPointOnBall[],
@@ -15,10 +15,10 @@ export function updateDirectionByCollisionWithWall(
     collisionPointsOnBall
   )
   if (left.x <= 0 || window.innerWidth <= right.x) {
-    return flipVector(currentBallDirection, "horizontal")
+    return getFlippedVector(currentBallDirection, "horizontal")
   }
   if (window.innerHeight <= top.y) {
-    return flipVector(currentBallDirection, "vertical")
+    return getFlippedVector(currentBallDirection, "vertical")
   }
   // It's not necessary to update the direction by collision with the bottom wall
   // because the game is over.
@@ -36,7 +36,7 @@ export function updateDirectionByCollisionWithBar(
       10 &&
     Math.abs(getBarCenterPosition(bar).x - bottom.x) <= barSetting.width / 2
   ) {
-    return flipVector(currentBallDirection, "vertical")
+    return getFlippedVector(currentBallDirection, "vertical")
   }
   return { x: currentBallDirection.x, y: currentBallDirection.y }
 }
@@ -65,7 +65,7 @@ export function updateDirectionByCollisionWithBlocks(
         block.remain = false
         process.env.NODE_ENV === "development" &&
           console.log("removed by collision with bottom edge:", block.element)
-        return flipVector(currentBallDirection, "vertical")
+        return getFlippedVector(currentBallDirection, "vertical")
       }
       // top edge
       if (
@@ -79,7 +79,7 @@ export function updateDirectionByCollisionWithBlocks(
         block.remain = false
         process.env.NODE_ENV === "development" &&
           console.log("removed by collision with top edge:", block.element)
-        return flipVector(currentBallDirection, "vertical")
+        return getFlippedVector(currentBallDirection, "vertical")
       }
       // left edge
       if (
@@ -93,7 +93,7 @@ export function updateDirectionByCollisionWithBlocks(
         block.remain = false
         process.env.NODE_ENV === "development" &&
           console.log("removed by collision with left edge:", block.element)
-        return flipVector(currentBallDirection, "horizontal")
+        return getFlippedVector(currentBallDirection, "horizontal")
       }
       // right edge
       if (
@@ -107,7 +107,7 @@ export function updateDirectionByCollisionWithBlocks(
         block.remain = false
         process.env.NODE_ENV === "development" &&
           console.log("removed by collision with right edge:", block.element)
-        return flipVector(currentBallDirection, "horizontal")
+        return getFlippedVector(currentBallDirection, "horizontal")
       }
     }
   }

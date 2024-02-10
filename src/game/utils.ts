@@ -11,7 +11,7 @@ export type Vector = {
   y: number
 }
 
-export function multiplyScalarToVector(a: number, v: Vector): Vector {
+export function getVectorMultipliedWithScalar(a: number, v: Vector): Vector {
   return {
     x: a * v.x,
     y: a * v.y
@@ -26,14 +26,14 @@ export function getNorm(a: Vector): number {
   return Math.sqrt(getInnerProduct(a, a))
 }
 
-export function addVectors(a: Vector, b: Vector): Vector {
+export function getSumOfVectors(a: Vector, b: Vector): Vector {
   return {
     x: a.x + b.x,
     y: a.y + b.y
   }
 }
 
-export function flipVector(
+export function getFlippedVector(
   v: Vector,
   direction: "horizontal" | "vertical"
 ): Vector {
@@ -51,13 +51,13 @@ export function flipVector(
   }
 }
 
-export function rotateVector(v: Vector, radian: number): Vector {
+export function getRotatedVector(v: Vector, radian: number): Vector {
   const rotateMatrix = getRotateMatrix(radian)
-  return multiplyMatrixToVector(rotateMatrix, v)
+  return getVectorMultipliedWithMatrix(rotateMatrix, v)
 }
 type Matrix = number[][]
 
-function multiplyMatrixToVector(m: Matrix, v: Vector): Vector {
+function getVectorMultipliedWithMatrix(m: Matrix, v: Vector): Vector {
   return {
     x: m[0][0] * v.x + m[0][1] * v.y,
     y: m[1][0] * v.x + m[1][1] * v.y
