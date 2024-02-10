@@ -5,7 +5,8 @@ import {
   assert,
   isFrameElement,
   isPenetrableFrame,
-  isSVGElement
+  isSVGElement,
+  isTextareaElement
 } from "./utils"
 
 // TODO: Changing the value of `remain` of a block to `false` is done in `detectCollision.ts`.
@@ -67,6 +68,11 @@ function removeBlock(block: Block) {
     return
   }
 
+  if (isTextareaElement(element)) {
+    removeBlockOfTextareaElement(block)
+    return
+  }
+
   const originalVisibilities = []
   Array.from(block.element.children).forEach((childEl) => {
     originalVisibilities.push(getComputedStyleWithCache(childEl).visibility)
@@ -103,6 +109,13 @@ function removeBlockOfSVGElement(block: Block) {
   Object.assign(block.element.style, {
     visibility: "hidden"
   })
+}
+
+function removeBlockOfTextareaElement(block: Block) {
+  Object.assign(block.element.style, {
+    visibility: "hidden"
+  })
+  block.element.placeholder = ""
 }
 
 function updatePositionOfRemainingBlocks(blocks: Block[]) {

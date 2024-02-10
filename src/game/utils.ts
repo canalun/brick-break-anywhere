@@ -81,6 +81,12 @@ export function isSVGElement(element: Element): element is SVGElement {
   return element.tagName === "svg"
 }
 
+export function isTextareaElement(
+  element: Element
+): element is HTMLTextAreaElement {
+  return element.tagName === "TEXTAREA"
+}
+
 export function isFrameElement(
   element: Element
 ): element is HTMLIFrameElement | HTMLFrameElement {
