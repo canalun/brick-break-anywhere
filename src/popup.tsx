@@ -28,8 +28,8 @@ function IndexPopup() {
 
   return (
     <div style={{ padding: "16px" }}>
-      <h2>let's play a game!</h2>
-      <button onClick={sendMessageToIsolatedWorldOnActiveTab}>start!!</button>
+      <h2>Brick Break Anywhere</h2>
+      <button onClick={sendMessageToIsolatedWorldOnActiveTab}>Start!</button>
       <br />
       <label>
         <input
@@ -37,7 +37,7 @@ function IndexPopup() {
           checked={withScoreboard}
           onChange={(e) => setWithScoreboard(e.target.checked)}
         />
-        with score board (experimental)
+        score board (experimental)
       </label>
       <br />
       {process.env.NODE_ENV === "development" ? (
