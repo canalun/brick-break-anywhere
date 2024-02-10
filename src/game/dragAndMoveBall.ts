@@ -1,6 +1,6 @@
 import {
   getBallCenterPosition,
-  getCollisionPointsOnBall,
+  getCurrentCollisionPointsOnBall,
   type Ball
 } from "./ball"
 import type { Block } from "./blocks"
@@ -41,11 +41,10 @@ export function dragAndMoveBall(blocks: Block[]) {
     }
 
     updateDirectionByCollisionWithBlocks(
-      getCollisionPointsOnBall(
-        getBallCenterPosition(ball as Ball),
-        { x: e.movementX, y: e.movementY },
-        { x: e.movementX, y: e.movementY }
-      ),
+      getCurrentCollisionPointsOnBall(getBallCenterPosition(ball as Ball), {
+        x: e.movementX,
+        y: e.movementY
+      }),
       blocks,
       { x: e.movementX, y: e.movementY }
     )

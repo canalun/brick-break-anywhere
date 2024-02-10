@@ -1,5 +1,5 @@
 import type { Ball } from "./ball"
-import { getBallCenterPosition, getCollisionPointsOnBall } from "./ball"
+import { getBallCenterPosition, getCurrentCollisionPointsOnBall } from "./ball"
 import type { Bar } from "./bar"
 import type { Block } from "./blocks"
 import {
@@ -65,7 +65,6 @@ export function startBallAnimation(
       bar,
       blocks,
       currentBallDirection,
-      currentBallSpeed,
       ringSoundEffect
     )
 
@@ -85,13 +84,11 @@ function getUpdatedBallDirection(
   bar: Bar,
   blocks: Block[],
   currentBallDirection: Vector,
-  currentBallSpeed: number,
   ringSoundEffect: () => void
 ): Vector {
-  const collisionPointsOnBall = getCollisionPointsOnBall(
+  const collisionPointsOnBall = getCurrentCollisionPointsOnBall(
     getBallCenterPosition(ball),
-    currentBallDirection,
-    currentBallSpeed
+    currentBallDirection
   )
 
   const directionUpdatedByWall = updateDirectionByCollisionWithWall(
