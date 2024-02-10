@@ -41,8 +41,8 @@ function NewTab() {
         </p>
         <p>
           <strong>
-            On any web page, click the added icon and start the game from the
-            "start" button!!
+            On any web page (except for this page), click the added icon and
+            start the game from the "start" button!!
           </strong>
         </p>
         <img style={{ width: "300px" }} src={startButton}></img>
@@ -75,7 +75,7 @@ function NewTab() {
         </p>
         <p>
           <strong>
-            好きなページに移動して、先ほど追加されたアイコンをクリックし、スタートボタンからゲームを始めてください！
+            好きなウェブページ(ただしこのページ以外)で、先ほど追加されたアイコンをクリックし、スタートボタンからゲームを始めてください！
           </strong>
         </p>
         <img style={{ width: "300px" }} src={startButton}></img>
