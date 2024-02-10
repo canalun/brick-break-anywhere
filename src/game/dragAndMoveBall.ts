@@ -5,9 +5,8 @@ import {
 } from "./ball"
 import type { Block } from "./blocks"
 import { updateDirectionByCollisionWithBlocks } from "./detectCollision"
-import type { Scoreboard } from "./initializeScoreboard"
 import { main } from "./main"
-import { ballId, scoreboardHeight } from "./settings"
+import { ballId } from "./settings"
 import { startBlockAndScoreUpdate } from "./updateBlocks"
 
 // WARNING: Don't use in production.

@@ -73,7 +73,7 @@ function removeBlock(block: Block) {
     return
   }
 
-  const originalVisibilities = []
+  const originalVisibilities: string[] = []
   Array.from(block.element.children).forEach((childEl) => {
     originalVisibilities.push(getComputedStyleWithCache(childEl).visibility)
   })
@@ -106,12 +106,14 @@ function removeBlockOfFrameElement(block: Block) {
 }
 
 function removeBlockOfSVGElement(block: Block) {
+  assert(isSVGElement(block.element), "block's element must be svg")
   Object.assign(block.element.style, {
     visibility: "hidden"
   })
 }
 
 function removeBlockOfTextareaElement(block: Block) {
+  assert(isTextareaElement(block.element), "block's element must be textarea")
   Object.assign(block.element.style, {
     visibility: "hidden"
   })

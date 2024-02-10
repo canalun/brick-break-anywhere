@@ -1,11 +1,15 @@
 {
   "extends": "plasmo/templates/tsconfig.base",
-  "exclude": ["node_modules"],
+  "exclude": ["node_modules", "build"],
   "include": [".plasmo/index.d.ts", "./**/*.ts", "./**/*.tsx"],
   "compilerOptions": {
+    "target": "es2020",
+    "sourceMap": true,
     "paths": {
       "~*": ["./src/*"]
     },
-    "baseUrl": "."
+    "baseUrl": ".",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true
   }
 }
