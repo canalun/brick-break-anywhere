@@ -7,12 +7,7 @@ import {
   initialBottom,
   numberOfCollisionPoints
 } from "./settings"
-import {
-  getInnerProduct,
-  getNorm,
-  getVectorMultipliedWithScalar,
-  type Vector
-} from "./utils"
+import { getInnerProduct, type Vector } from "./utils"
 
 export type Ball = HTMLDivElement & { _ball: never }
 
@@ -73,17 +68,6 @@ export function getCurrentCollisionPointsOnBall(
   }
 
   return collisionPointsOnBall
-}
-
-export function getEdgedCollisionPointsOnBall(
-  collisionPoints: CollisionPointOnBall[]
-) {
-  return {
-    right: collisionPoints[0],
-    top: collisionPoints[Math.floor((numberOfCollisionPoints * 1) / 4)],
-    left: collisionPoints[Math.floor((numberOfCollisionPoints * 2) / 4)],
-    bottom: collisionPoints[Math.floor((numberOfCollisionPoints * 3) / 4)]
-  }
 }
 
 // for debug //////////////////////////////////////////
