@@ -30,36 +30,43 @@ export function startCheckIsGameOver(
 }
 
 function gameOver(blocks: Block[], options: { withScoreboard: boolean }) {
+  const countOfBrokenBlocks = blocks.filter((b) => !b.remain).length
+
   const gameOverMessage = document.createElement("div")
-  gameOverMessage.style.position = "absolute"
-  gameOverMessage.style.top = "50%"
-  gameOverMessage.style.left = "50%"
-  gameOverMessage.style.transform = "translate(-50%, -50%)"
-  gameOverMessage.style.padding = "20px"
-  gameOverMessage.style.backgroundColor = "rgba(255, 255, 255, 0.7)"
-  gameOverMessage.style.color = "block"
-  gameOverMessage.style.border = "2px solid black"
-  gameOverMessage.style.fontSize = "24px"
-  gameOverMessage.style.fontWeight = "bold"
-  gameOverMessage.style.textAlign = "center"
-  gameOverMessage.textContent = "Game Over"
-  gameOverMessage.style.zIndex = `${veilZIndex + 1}`
+  Object.assign(gameOverMessage.style, {
+    position: "absolute",
+    top: "50%",
+    left: "50%",
+    transform: "translate(-50%, -50%)",
+    padding: "20px",
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    color: "block",
+    border: "2px solid black",
+    fontSize: "24px",
+    fontWeight: "bold",
+    textAlign: "center",
+    zIndex: `${veilZIndex + 1}`
+  })
+  gameOverMessage.textContent =
+    countOfBrokenBlocks === blocks.length ? "Congratulations!" : "Game Over..."
   document.documentElement.appendChild(gameOverMessage)
 
-  const destroyedBlocks = document.createElement("div")
-  destroyedBlocks.style.marginTop = "20px"
-  destroyedBlocks.style.fontSize = "24px"
-  destroyedBlocks.innerHTML =
-    `Destroyed: ` +
-    `${blocks.filter((b) => !b.remain).length} / ${blocks.length} blocks<br>` +
-    `(${Math.round(
-      (blocks.filter((b) => !b.remain).length / blocks.length) * 100
-    )}%)`
-  gameOverMessage.appendChild(destroyedBlocks)
+  const score = document.createElement("div")
+  Object.assign(score.style, {
+    marginTop: "20px",
+    fontSize: "24px"
+  })
+  score.innerHTML =
+    `Breaks: ${countOfBrokenBlocks} / ${blocks.length} blocks` +
+    `<br>` +
+    `(${Math.round((countOfBrokenBlocks / blocks.length) * 100)}%)`
+  gameOverMessage.appendChild(score)
 
   const replayButton = document.createElement("button")
-  replayButton.style.marginTop = "20px"
-  replayButton.style.fontSize = "20px"
+  Object.assign(replayButton.style, {
+    marginTop: "20px",
+    fontSize: "20px"
+  })
   replayButton.textContent = "Replay(Reload Page)"
   replayButton.onclick = () => {
     replay(options)
