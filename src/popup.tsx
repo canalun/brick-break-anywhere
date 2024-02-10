@@ -13,6 +13,7 @@ function IndexPopup() {
         type: "start",
         withScoreboard
       })
+      window.close()
     })
   }, [withScoreboard])
 
@@ -23,6 +24,7 @@ function IndexPopup() {
         return
       }
       chrome.tabs.sendMessage(activeTab.id, { type: "test" })
+      window.close()
     })
   }, [])
 
