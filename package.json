@@ -1,8 +1,8 @@
 {
   "name": "brick-break-anywhere",
-  "displayName": "Brick break anywhere",
+  "displayName": "Brick Break Anywhere",
   "version": "0.0.1",
-  "description": "You can break bricks anywhere!!",
+  "description": "You can break bricks...ANYWHERE!!",
   "author": "canalun",
   "scripts": {
     "dev": "plasmo dev --verbose",
