@@ -50,18 +50,20 @@ export function getBallCenterPosition(ball: Ball): Vector {
   }
 }
 
+export type CollisionPointOnBall = Vector & { _collisionPointOnBall: never }
+
 export function getCollisionPointsOnBall(
   ballPosition: Vector,
   ballDirection: Vector,
   ballSpeed: number
-) {
+): CollisionPointOnBall[] {
   const ballVelocity = multiplyScalarToVector(ballSpeed, ballDirection)
   const normalizedBallVelocity = {
     x: ballVelocity.x / getNorm(ballVelocity),
     y: ballVelocity.y / getNorm(ballVelocity)
   }
 
-  const collisionPointsOnBall: Vector[] = []
+  const collisionPointsOnBall: CollisionPointOnBall[] = []
   for (let i = 0; i < numberOfCollisionPoints; i++) {
     const theta = ((2 * Math.PI) / numberOfCollisionPoints) * i
     const vectorForCollisionPoint = { x: Math.cos(theta), y: Math.sin(theta) }
@@ -69,7 +71,7 @@ export function getCollisionPointsOnBall(
       collisionPointsOnBall.push({
         x: ballPosition.x + Math.cos(theta) * (ballSetting.width / 2),
         y: ballPosition.y + Math.sin(theta) * (ballSetting.height / 2)
-      })
+      } as CollisionPointOnBall)
     }
   }
 
@@ -78,6 +80,17 @@ export function getCollisionPointsOnBall(
   }
 
   return collisionPointsOnBall
+}
+
+export function getEdgedCollisionPointsOnBall(
+  collisionPoints: CollisionPointOnBall[]
+) {
+  return {
+    right: collisionPoints[0],
+    top: collisionPoints[Math.floor((numberOfCollisionPoints * 1) / 4)],
+    left: collisionPoints[Math.floor((numberOfCollisionPoints * 2) / 4)],
+    bottom: collisionPoints[Math.floor((numberOfCollisionPoints * 3) / 4)]
+  }
 }
 
 // for debug //////////////////////////////////////////

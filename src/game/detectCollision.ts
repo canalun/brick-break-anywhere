@@ -1,30 +1,29 @@
+import {
+  getEdgedCollisionPointsOnBall,
+  type CollisionPointOnBall
+} from "./ball"
 import { getBarCenterPosition, type Bar } from "./bar"
 import type { Block } from "./blocks"
 import { barSetting, widthOfEdgeOfCollisionWithBlocks } from "./settings"
 import { type Vector } from "./utils"
 
 export function updateDirectionByCollisionWithWall(
-  collisionPointsOnBall: Vector[],
+  collisionPointsOnBall: CollisionPointOnBall[],
   currentBallDirection: Vector
 ): Vector {
-  const xs = [...collisionPointsOnBall.map((vector) => vector.x)]
-  const maxXOfCollisionPointsOnBall = Math.max(...xs)
-  const minXOfCollisionPointsOnBall = Math.min(...xs)
-
-  const ys = [...collisionPointsOnBall.map((vector) => vector.y)]
-  const maxYOfCollisionPointsOnBall = Math.max(...ys)
-  const minYOfCollisionPointsOnBall = Math.min(...ys)
-
-  if (window.innerWidth <= maxXOfCollisionPointsOnBall) {
+  const { right, top, left, bottom } = getEdgedCollisionPointsOnBall(
+    collisionPointsOnBall
+  )
+  if (window.innerWidth <= right.x) {
     return { x: -1, y: currentBallDirection.y }
   }
-  if (minXOfCollisionPointsOnBall <= 0) {
+  if (left.x <= 0) {
     return { x: 1, y: currentBallDirection.y }
   }
-  if (window.innerHeight <= maxYOfCollisionPointsOnBall) {
+  if (window.innerHeight <= top.y) {
     return { x: currentBallDirection.x, y: -1 }
   }
-  if (minYOfCollisionPointsOnBall <= 0) {
+  if (bottom.y <= 0) {
     // It's not necessary to update the direction by collision with the bottom wall
     // because the game is over.
     return { x: currentBallDirection.x, y: currentBallDirection.y }
@@ -33,25 +32,16 @@ export function updateDirectionByCollisionWithWall(
 }
 
 export function updateDirectionByCollisionWithBar(
-  collisionPointsOnBall: Vector[],
+  collisionPointsOnBall: CollisionPointOnBall[],
   bar: Bar,
   currentBallDirection: Vector
 ): Vector {
-  const minY = Math.min(...collisionPointsOnBall.map((v) => v.y))
-  const mostBottomPointsOnBall = collisionPointsOnBall.find((v) => v.y === minY)
-  if (!mostBottomPointsOnBall) {
-    console.log("mostBottomPointsOnBall is not found")
-    return { x: currentBallDirection.x, y: currentBallDirection.y }
-  }
+  const { bottom } = getEdgedCollisionPointsOnBall(collisionPointsOnBall)
 
   if (
-    Math.abs(
-      mostBottomPointsOnBall.y -
-        getBarCenterPosition(bar).y +
-        barSetting.height / 2
-    ) <= 10 &&
-    Math.abs(getBarCenterPosition(bar).x - mostBottomPointsOnBall.x) <=
-      barSetting.width / 2
+    Math.abs(bottom.y - getBarCenterPosition(bar).y + barSetting.height / 2) <=
+      10 &&
+    Math.abs(getBarCenterPosition(bar).x - bottom.x) <= barSetting.width / 2
   ) {
     return { x: currentBallDirection.x, y: 1 }
   }
@@ -59,7 +49,7 @@ export function updateDirectionByCollisionWithBar(
 }
 
 export function updateDirectionByCollisionWithBlocks(
-  collisionPointsOnBall: Vector[],
+  collisionPointsOnBall: CollisionPointOnBall[],
   blocks: Block[],
   currentBallDirection: Vector
 ): Vector {
