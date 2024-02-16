@@ -26,7 +26,7 @@ export function startBlockAndScoreUpdate(
       }
     }
     scoreboard &&
-      (scoreboard.textContent = `Score: ${score} / ${blocks.length} (${Math.floor((score / blocks.length) * 100)}%)`)
+      (scoreboard.textContent = `Score: ${score} / ${blocks.length} (${Math.round((score / blocks.length) * 100)}%)`)
 
     id = requestAnimationFrame(removeBlockAndUpdateScore)
   }
