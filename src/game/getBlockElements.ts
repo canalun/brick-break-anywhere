@@ -10,6 +10,10 @@ export function getBlockElements(): Element[] {
   return blockElements
 }
 
+const isPlayingOnGoogleSearchPage = (() => {
+  const url = new URL(window.location.href)
+  return url.hostname === "www.google.com" && url.pathname === "/search"
+})()
 function collectBlockElements(
   topNode: Document | ShadowRoot,
   canBeBlock: (el: Element) => boolean,
@@ -18,9 +22,16 @@ function collectBlockElements(
   const elements = Array.from(topNode.querySelectorAll("*"))
   for (let i = 0; i < elements.length; i++) {
     const element = elements[i]
-    if (isOutsideOfViewport(element)) {
+
+    if (
+      isOutsideOfViewport(element) ||
+      // ultra edge case on Google Search page
+      (isPlayingOnGoogleSearchPage &&
+        isHiddenByGoogleExpandableContent(element))
+    ) {
       continue
     }
+
     if (canBeBlock(element)) {
       if (process.env.NODE_ENV === "development") {
         element.classList.add("bba-block")
@@ -57,6 +68,29 @@ function isOutsideOfViewport(element: Element): boolean {
     window.innerHeight < rect.top ||
     rect.right < 0 ||
     window.innerWidth < rect.left
+  )
+}
+
+// Ultra edge case on Google Search page.
+// The alternative is to use `elementsFromPoint` to check visibility,
+// but it may be too slow or too complicated.
+// I didn't measure or actually implement it, though.
+const hiddenRoundButtonsInGoogleExpandableContent: Element[] = (() => {
+  const result = new Array<Element>()
+  if (isPlayingOnGoogleSearchPage) {
+    const expandableContainers = document.querySelectorAll(
+      "g-expandable-content"
+    )
+    for (const container of expandableContainers) {
+      const hiddenButtons = container.querySelectorAll('[aria-hidden="true"]')
+      result.push(...hiddenButtons)
+    }
+  }
+  return result
+})()
+function isHiddenByGoogleExpandableContent(element: Element): boolean {
+  return hiddenRoundButtonsInGoogleExpandableContent.some(
+    (el) => el === element || el.contains(element)
   )
 }
 
