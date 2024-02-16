@@ -52,5 +52,8 @@ export const ballAcceleration = 0.002
 export const minimumRadianBetweenBallDirectionAndBar = Math.PI / 6
 
 export const numberOfCollisionPoints = 36
+
+// The bug of ball's going through the bar or blocks happens,
+// when the value is too small. 3 and 15 is the magic number led by trial and error.
 export const redundancyOfCollisionWithBlocks = 3
 export const redundancyOfCollisionWithBar = 15

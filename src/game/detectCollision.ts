@@ -52,11 +52,14 @@ export function updateDirectionByCollisionWithBar(
 
   const isCollidingWithBar =
     currentBallDirection.y < 0 && // ball must be going down
-    Math.abs(
+    -1 * redundancyOfCollisionWithBar <=
       mostBottomPointsOnBall.y -
-        getBarCenterPosition(bar).y +
-        barSetting.height / 2
-    ) <= redundancyOfCollisionWithBar &&
+        (getBarCenterPosition(bar).y + barSetting.height / 2) &&
+    // The upper limit is -1,
+    // because the feeling of reflection is better when the ball is a bit lower than the bar top.
+    mostBottomPointsOnBall.y -
+      (getBarCenterPosition(bar).y + barSetting.height / 2) <=
+      -1 &&
     Math.abs(getBarCenterPosition(bar).x - mostBottomPointsOnBall.x) <=
       barSetting.width / 2
 
@@ -65,6 +68,8 @@ export function updateDirectionByCollisionWithBar(
     return currentBallDirection
   }
 
+  // update the direction considering the bar's movement
+  // it's a bit complicated, but it improves the game experience a lot!!
   const currentBarPosition = getBarCenterPosition(bar)
   const dx = (currentBarPosition.x - previousBarPosition.x) / 50
   const updatedDirection = getRotatedVector(
