@@ -13,7 +13,6 @@ function IndexPopup() {
         type: "start",
         withScoreboard
       })
-      window.close()
     })
   }, [withScoreboard])
 
@@ -36,7 +35,13 @@ function IndexPopup() {
         padding: "16px"
       }}>
       <h2>Brick Break Anywhere</h2>
-      <button onClick={sendMessageToIsolatedWorldOnActiveTab}>Start!</button>
+      <button
+        onClick={() => {
+          sendMessageToIsolatedWorldOnActiveTab()
+          window.close()
+        }}>
+        Start!
+      </button>
       <br />
       <div style={{ marginTop: "16px" }}>
         <label>
