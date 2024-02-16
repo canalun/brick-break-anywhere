@@ -4,7 +4,6 @@ import { main } from "~game/main"
 import { visualizeBlocks } from "~game/utils"
 
 export {}
-console.log("content script loaded.")
 
 // TODO: Enable the below code when add the "cross origin iframe" feature.
 // It's necessary to inject scripts to all frames, in order to handling cross origin iframes.
@@ -20,10 +19,9 @@ chrome.runtime.sendMessage({ type: "ContentIsReady" })
 
 chrome.runtime.onMessage.addListener(function (message) {
   if (message.type === "start") {
-    // Execute when the document has finished loading,
-    // as document.body is required for preventScroll,
-    // and it should be after iframes have been loaded to calculate the blocks.
-    // So, use the "complete" event rather than the "interactive".
+    // Use the "complete" event rather than the "interactive",
+    // because document.body is required for exec `preventScroll()`,
+    // and block calculation should be executed after iframes have been loaded.
     if (window.document.readyState === "complete") {
       main({ withScoreboard: message.withScoreboard })
     } else {
