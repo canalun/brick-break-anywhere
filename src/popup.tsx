@@ -1,7 +1,7 @@
 import { useCallback, useState } from "react"
 
 function IndexPopup() {
-  const [withScoreboard, setWithScoreboard] = useState(false)
+  const [withScoreboard, setWithScoreboard] = useState(true)
 
   const sendMessageToIsolatedWorldOnActiveTab = useCallback(() => {
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
@@ -50,7 +50,7 @@ function IndexPopup() {
             checked={withScoreboard}
             onChange={(e) => setWithScoreboard(e.target.checked)}
           />
-          with score board (experimental)
+          with score board
         </label>
       </div>
       <br />
