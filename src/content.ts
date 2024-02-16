@@ -17,14 +17,17 @@ export {}
 
 chrome.runtime.sendMessage({ type: "ContentIsReady" })
 
+let started = false // prevent multiple execution
 chrome.runtime.onMessage.addListener(function (message) {
-  if (message.type === "start") {
+  if (!started && message.type === "start") {
     // Use the "complete" event rather than the "interactive",
     // because document.body is required for exec `preventScroll()`,
     // and block calculation should be executed after iframes have been loaded.
     if (window.document.readyState === "complete") {
+      started = true
       main({ withScoreboard: message.withScoreboard })
     } else {
+      started = true
       window.addEventListener("load", () => {
         main({ withScoreboard: message.withScoreboard })
       })
