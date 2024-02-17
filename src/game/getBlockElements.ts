@@ -141,6 +141,11 @@ function isVisible(element: Element): boolean {
     )
   }
 
+  // Edge case on Github.
+  if (element.tagName === "RELATIVE-TIME") {
+    return true
+  }
+
   if (
     hasNoBorder(element) &&
     hasNoBackgroundColor(element) &&
@@ -151,7 +156,7 @@ function isVisible(element: Element): boolean {
     return false
   }
 
-  // Ultra edge case on Google Search page.
+  // Edge case on Google Search page.
   if (isClippedToTinySize(element)) {
     return false
   }
