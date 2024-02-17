@@ -1,8 +1,8 @@
 {
   "name": "brick-break-anywhere",
-  "displayName": "Brick Break Anywhere",
+  "displayName": "__MSG_extensionName__",
   "version": "1.0.0",
-  "description": "You can break bricks...ANYWHERE!!",
+  "description": "__MSG_extensionDescription__",
   "author": "canalun",
   "scripts": {
     "dev": "plasmo dev --verbose",
