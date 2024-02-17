@@ -1,7 +1,7 @@
 {
   "name": "brick-break-anywhere",
   "displayName": "Brick Break Anywhere",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "You can break bricks...ANYWHERE!!",
   "author": "canalun",
   "scripts": {
