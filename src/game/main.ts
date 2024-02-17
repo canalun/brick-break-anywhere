@@ -2,10 +2,11 @@ import { getBlocks } from "./blocks"
 import { freezePage } from "./freezePage"
 import { initializeBallAndBar } from "./initializeBallAndBar"
 import { initializeScoreboard } from "./initializeScoreboard"
+import { msg } from "./message"
 import { standby } from "./standby"
 
 export function main(options: { withScoreboard: boolean }) {
-  console.log("👶brick-break-anywhere starts👶")
+  console.log(msg)
 
   freezePage()
 
