@@ -21,7 +21,7 @@ export function startBlockAndScoreUpdate(
     for (let i = 0; i < blocks.length; i++) {
       const block = blocks[i]
       if (!block.remain) {
-        removeBlockAndUpdateBlocksPosition(block, blocks)
+        !block.removed && removeBlockAndUpdateBlocksPosition(block, blocks)
         scoreboard && score++
       }
     }
@@ -56,6 +56,8 @@ function removeBlockAndUpdateBlocksPosition(block: Block, blocks: Block[]) {
 }
 
 function removeBlock(block: Block) {
+  block.removed = true
+
   const element = block.element
 
   if (isFrameElement(element)) {

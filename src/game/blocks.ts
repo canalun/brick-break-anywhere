@@ -1,5 +1,7 @@
 import { getBlockElements } from "./getBlockElements"
 
+// A block is "remained" until the ball hits it,
+// and then it's "removed" when remove animation is done.
 export type Block = {
   uuid: string
   element: Element
@@ -10,6 +12,7 @@ export type Block = {
     right: number
   }
   remain: boolean
+  removed: boolean
 }
 
 export function getBlocks(): Block[] {
@@ -23,7 +26,8 @@ function convertElementToBlock(element: Element): Block {
     uuid: Math.random().toString(36).slice(-8),
     element,
     rect: getRectOfBlock(element),
-    remain: true
+    remain: true,
+    removed: false
   }
 }
 
