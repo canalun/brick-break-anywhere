@@ -24,6 +24,9 @@
     "typescript": "5.3.3"
   },
   "manifest": {
+    "permissions": [
+      "tabs"
+    ],
     "host_permissions": [
       "<all_urls>"
     ],
