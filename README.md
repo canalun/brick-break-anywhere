@@ -1,3 +1,6 @@
+🚧README is under construction...!🏗
+
+
 ![The preview of 'brick-break-anywhere'. A red ball moves around in a web page like wikipedia, amazon and google. The ball collides with elements such as buttons, images and texts in the web page. And then collided elements disappeared.](https://github.com/canalun/brick-break-anywhere/assets/61643630/553f5164-954c-450c-9b04-3688d9cd9185)
 
 This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
