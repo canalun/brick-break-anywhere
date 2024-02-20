@@ -1,3 +1,5 @@
+This repo is the source code of the chrome extension, ['Brick Block Anywhere'](https://chromewebstore.google.com/detail/brick-break-anywhere/lkbkphlgmknnachlgmbdmoepfnfdeckb)!!
+
 🚧README is under construction...!🏗
 
 
