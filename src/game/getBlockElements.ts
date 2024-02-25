@@ -1,5 +1,9 @@
-import { getComputedStyleWithCache } from "./getComputedStyleWithCache"
-import { isBBAElement, isFrameElement, isPenetrableFrame } from "./utils"
+import {
+  getComputedStyleWithCache,
+  isBBAElement,
+  isFrameElement,
+  isPenetrableFrame
+} from "./utils"
 
 export function getBlockElements(): Element[] {
   const blockElements: Element[] = []
