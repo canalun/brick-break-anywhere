@@ -4,7 +4,7 @@ import {
   barZIndex,
   initialBottom
 } from "../configuration/settings"
-import type { Vector } from "../utils"
+import type { Vector } from "../utils/vector"
 
 export type Bar = HTMLDivElement & { _bar: never }
 

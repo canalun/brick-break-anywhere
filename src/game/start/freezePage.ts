@@ -1,5 +1,5 @@
 import { veilZIndex } from "../configuration/settings"
-import { isFrameElement, isPenetrableFrame } from "../utils"
+import { isFrameElement, isPenetrableFrame } from "../utils/dom"
 
 export function freezePage() {
   setVeil()

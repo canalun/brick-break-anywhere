@@ -7,7 +7,7 @@ import {
   isPenetrableFrame,
   isSVGElement,
   isTextareaElement
-} from "../utils"
+} from "../utils/dom"
 
 // TODO: Changing the value of `remain` of a block to `false` is done in `detectCollision.ts`.
 //       It might be better to move the logic to here.

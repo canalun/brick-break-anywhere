@@ -7,8 +7,8 @@ import type { Ball } from "../object/ball"
 import { getBallCenterPosition } from "../object/ball"
 import type { Bar } from "../object/bar"
 import type { Block } from "../object/blocks"
-import type { Vector } from "../utils"
-import { getVectorMultipliedWithScalar } from "../utils"
+import type { Vector } from "../utils/vector"
+import { getVectorMultipliedWithScalar } from "../utils/vector"
 import { getUpdatedBallDirection, getUpdatedBallSpeed } from "./updateBall"
 
 export function startBallAnimation(

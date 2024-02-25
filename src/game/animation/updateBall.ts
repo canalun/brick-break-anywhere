@@ -13,7 +13,11 @@ import {
 } from "../object/ball"
 import { getBarCenterPosition, type Bar } from "../object/bar"
 import type { Block } from "../object/blocks"
-import { getFlippedVector, getRotatedVector, type Vector } from "../utils"
+import {
+  getFlippedVector,
+  getRotatedVector,
+  type Vector
+} from "../utils/vector"
 
 export function getUpdatedBallSpeed(currentBallSpeed: number) {
   return currentBallSpeed + ballAcceleration

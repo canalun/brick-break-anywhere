@@ -15,7 +15,7 @@ import {
   getSumOfVectors,
   getVectorMultipliedWithScalar,
   type Vector
-} from "../utils"
+} from "../utils/vector"
 
 export type Ball = HTMLDivElement & { _ball: never }
 

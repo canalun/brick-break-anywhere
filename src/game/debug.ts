@@ -13,7 +13,7 @@ import {
   type Ball
 } from "./object/ball"
 import type { Block } from "./object/blocks"
-import type { Vector } from "./utils"
+import type { Vector } from "./utils/vector"
 
 // This file contains tools only for debug.
 // These tools should never be used in production.
