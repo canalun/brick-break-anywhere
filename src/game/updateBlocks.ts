@@ -1,6 +1,6 @@
 import { getRectOfBlock, type Block } from "./blocks"
 import { getComputedStyleWithCache } from "./getComputedStyleWithCache"
-import type { Scoreboard } from "./initializeScoreboard"
+import type { Scoreboard } from "./scoreboard"
 import {
   assert,
   isFrameElement,

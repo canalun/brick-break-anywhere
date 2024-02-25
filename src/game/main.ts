@@ -2,8 +2,8 @@ import { initializeBall } from "./ball"
 import { initializeBar } from "./bar"
 import { getBlocks } from "./blocks"
 import { freezePage } from "./freezePage"
-import { initializeScoreboard } from "./initializeScoreboard"
 import { msg } from "./message"
+import { initializeScoreboard } from "./scoreboard"
 import { standby } from "./standby"
 
 export function main(options: { withScoreboard: boolean }) {
