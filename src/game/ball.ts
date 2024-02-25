@@ -1,9 +1,12 @@
 import {
+  updateVisualizedCollisionPointsOnBall,
+  visualizeCollisionPointsOnBall
+} from "./debug"
+import {
   ballId,
   ballSetting,
   ballZIndex,
   barSetting,
-  collisionPointOnBallClass,
   initialBottom,
   numberOfCollisionPoints
 } from "./settings"
@@ -82,40 +85,3 @@ export function getCurrentCollisionPointsOnBall(
 
   return collisionPointsOnBall
 }
-
-// for debug //////////////////////////////////////////
-const divsForCollisionPointsOnBall: HTMLDivElement[] = []
-function visualizeCollisionPointsOnBall() {
-  for (let i = 0; i < numberOfCollisionPoints; i++) {
-    const collisionPointOnBall = document.createElement("div")
-    collisionPointOnBall.classList.add(collisionPointOnBallClass)
-    Object.assign(collisionPointOnBall.style, {
-      position: "fixed",
-      left: "0px",
-      bottom: "0px",
-      width: "3px",
-      height: "3px",
-      backgroundColor: "black",
-      borderRadius: "50%",
-      zIndex: ballZIndex + 1
-    })
-    document.documentElement.insertAdjacentElement(
-      "beforeend",
-      collisionPointOnBall
-    )
-    divsForCollisionPointsOnBall.push(collisionPointOnBall)
-  }
-}
-function updateVisualizedCollisionPointsOnBall(
-  collisionPointsOnBall: Vector[]
-) {
-  for (let i = 0; i < collisionPointsOnBall.length; i++) {
-    const collisionPointOnBall = collisionPointsOnBall[i]
-    divsForCollisionPointsOnBall[i].style.transform =
-      `translate(` +
-      `${collisionPointOnBall.x}px,` +
-      `${-collisionPointOnBall.y}px` +
-      `)`
-  }
-}
-///////////////////////////////////////////////////////
