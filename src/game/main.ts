@@ -1,10 +1,10 @@
-import { msg } from "./configuration/easterEggs"
+import { displayMessageInConsole } from "./configuration/easterEggs"
 import { freezePage } from "./start/freezePage"
 import { initializeObjects } from "./start/initializeObjects"
 import { standby } from "./start/standby"
 
 export function main(options: { withScoreboard: boolean }) {
-  console.log(msg)
+  displayMessageInConsole()
 
   try {
     freezePage()

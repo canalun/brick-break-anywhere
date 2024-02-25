@@ -1,4 +1,4 @@
-export const msg = `
+const msg = `
 //    _        _    _
 //   | |__ _ _(_)__| |__
 //   | '_ | '_| / _| / /
@@ -16,3 +16,7 @@ export const msg = `
 You found me!!
 https://github.com/canalun/brick-break-anywhere
 `
+
+export function displayMessageInConsole() {
+  console.log(msg)
+}
