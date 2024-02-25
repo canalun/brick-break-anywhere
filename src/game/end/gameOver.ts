@@ -1,3 +1,8 @@
+import {
+  createRequestReplayToBackgroundMessage,
+  isMessageReplayIsConfirmedOnBackgroundMessage
+} from "~message"
+
 import { ballSetting, veilZIndex } from "../configuration/settings"
 import { getBallCenterPosition, type Ball } from "../object/ball"
 import type { Block } from "../object/blocks"
@@ -76,10 +81,10 @@ function gameOver(blocks: Block[], options: { withScoreboard: boolean }) {
 
 function replay(options: { withScoreboard: boolean }) {
   chrome.runtime.onMessage.addListener((message) => {
-    if (message.type === "ReplayIsConfirmedOnBackground") {
+    if (isMessageReplayIsConfirmedOnBackgroundMessage(message)) {
       location.reload()
     }
   })
 
-  chrome.runtime.sendMessage({ type: "RequestReplayToBackground", options })
+  chrome.runtime.sendMessage(createRequestReplayToBackgroundMessage(options))
 }

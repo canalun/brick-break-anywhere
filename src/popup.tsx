@@ -1,5 +1,12 @@
 import { useCallback, useState } from "react"
 
+import {
+  createStartMessage,
+  createTestMessage,
+  type StartMessage,
+  type TestMessage
+} from "~message"
+
 function IndexPopup() {
   const [withScoreboard, setWithScoreboard] = useState(true)
 
@@ -9,10 +16,10 @@ function IndexPopup() {
       if (!activeTab.id) {
         return
       }
-      chrome.tabs.sendMessage(activeTab.id, {
-        type: "start",
-        withScoreboard
-      })
+      chrome.tabs.sendMessage<StartMessage>(
+        activeTab.id,
+        createStartMessage({ withScoreboard })
+      )
     })
   }, [withScoreboard])
 
@@ -22,7 +29,7 @@ function IndexPopup() {
       if (!activeTab.id) {
         return
       }
-      chrome.tabs.sendMessage(activeTab.id, { type: "test" })
+      chrome.tabs.sendMessage<TestMessage>(activeTab.id, createTestMessage())
       window.close()
     })
   }, [])

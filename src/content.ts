@@ -1,6 +1,11 @@
 import { dragAndMoveBall, visualizeBlocks } from "~game/debug"
 import { main } from "~game/main"
 import { getBlocks } from "~game/object/blocks"
+import {
+  createContentIsReadyMessage,
+  isMessageStartMessage,
+  isMessageTestMessage
+} from "~message"
 
 export {}
 
@@ -14,21 +19,21 @@ export {}
 //   all_frames: true
 // }
 
-chrome.runtime.sendMessage({ type: "ContentIsReady" })
+chrome.runtime.sendMessage(createContentIsReadyMessage())
 
 let started = false // prevent multiple execution
 chrome.runtime.onMessage.addListener(function (message) {
-  if (!started && message.type === "start") {
+  if (!started && isMessageStartMessage(message)) {
     // Use the "complete" event rather than the "interactive",
     // because document.body is required for exec `preventScroll()`,
     // and block calculation should be executed after iframes have been loaded.
     if (window.document.readyState === "complete") {
       started = true
-      main({ withScoreboard: message.withScoreboard })
+      main({ withScoreboard: message.options.withScoreboard })
     } else {
       started = true
       window.addEventListener("load", () => {
-        main({ withScoreboard: message.withScoreboard })
+        main({ withScoreboard: message.options.withScoreboard })
       })
     }
   }
@@ -36,7 +41,7 @@ chrome.runtime.onMessage.addListener(function (message) {
 
 if (process.env.NODE_ENV === "development") {
   chrome.runtime.onMessage.addListener(function (message) {
-    if (message.type === "test") {
+    if (isMessageTestMessage(message)) {
       const blocks = getBlocks()
       visualizeBlocks(blocks)
       dragAndMoveBall(blocks)
