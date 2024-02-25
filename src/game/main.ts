@@ -1,6 +1,7 @@
+import { initializeBall } from "./ball"
+import { initializeBar } from "./bar"
 import { getBlocks } from "./blocks"
 import { freezePage } from "./freezePage"
-import { initializeBallAndBar } from "./initializeBallAndBar"
 import { initializeScoreboard } from "./initializeScoreboard"
 import { msg } from "./message"
 import { standby } from "./standby"
@@ -19,4 +20,16 @@ export function main(options: { withScoreboard: boolean }) {
   } catch (e) {
     console.log(e)
   }
+}
+
+function initializeBallAndBar() {
+  const ball = initializeBall()
+  const bar = initializeBar()
+
+  const container = document.createElement("div")
+  document.documentElement.insertAdjacentElement("beforeend", container)
+  container.insertAdjacentElement("beforeend", ball)
+  container.insertAdjacentElement("beforeend", bar)
+
+  return { ball, bar }
 }
