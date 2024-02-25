@@ -3,7 +3,7 @@ import {
   isBBAElement,
   isFrameElement,
   isPenetrableFrame
-} from "./utils"
+} from "../utils"
 
 export function getBlockElements(): Element[] {
   const blockElements: Element[] = []

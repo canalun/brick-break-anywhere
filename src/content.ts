@@ -1,6 +1,6 @@
-import { getBlocks } from "~game/blocks"
 import { dragAndMoveBall, visualizeBlocks } from "~game/debug"
 import { main } from "~game/main"
+import { getBlocks } from "~game/object/blocks"
 
 export {}
 

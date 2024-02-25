@@ -1,12 +1,16 @@
-import type { Ball } from "./ball"
-import type { Bar } from "./bar"
-import type { Block } from "./blocks"
-import { startCheckIsGameOver } from "./gameOver"
-import type { Scoreboard } from "./scoreboard"
-import { ballSetting, barSetting, initialBottom } from "./settings"
-import { setSoundEffect } from "./soundEffect"
-import { startBallAnimation } from "./updateBall"
-import { startBlockAndScoreUpdate } from "./updateBlocks"
+import { startBallAnimation } from "../animation/startBallAnimation"
+import { startBlockAndScoreUpdate } from "../animation/updateBlocks"
+import {
+  ballSetting,
+  barSetting,
+  initialBottom
+} from "../configuration/settings"
+import { setSoundEffect } from "../configuration/soundEffect"
+import { startCheckIsGameOver } from "../end/gameOver"
+import type { Ball } from "../object/ball"
+import type { Bar } from "../object/bar"
+import type { Block } from "../object/blocks"
+import type { Scoreboard } from "../object/scoreboard"
 
 export function standby(
   ball: Ball,

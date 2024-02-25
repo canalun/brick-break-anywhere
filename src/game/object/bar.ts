@@ -1,5 +1,10 @@
-import { barId, barSetting, barZIndex, initialBottom } from "./settings"
-import type { Vector } from "./utils"
+import {
+  barId,
+  barSetting,
+  barZIndex,
+  initialBottom
+} from "../configuration/settings"
+import type { Vector } from "../utils"
 
 export type Bar = HTMLDivElement & { _bar: never }
 

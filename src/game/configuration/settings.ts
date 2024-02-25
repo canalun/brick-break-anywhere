@@ -1,4 +1,4 @@
-import type { Vector } from "./utils"
+import type { Vector } from "../utils"
 
 export const ballId = "bba-ball"
 export const barId = "bba-bar"

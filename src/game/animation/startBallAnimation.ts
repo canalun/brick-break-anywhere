@@ -1,20 +1,15 @@
-import type { Ball } from "./ball"
-import { getBallCenterPosition, getCurrentCollisionPointsOnBall } from "./ball"
-import type { Bar } from "./bar"
-import type { Block } from "./blocks"
 import {
-  updateDirectionByCollisionWithBar,
-  updateDirectionByCollisionWithBlocks,
-  updateDirectionByCollisionWithWall
-} from "./detectCollision"
-import {
-  ballAcceleration,
   ballSetting,
   initialBallDirection,
   initialBallSpeed
-} from "./settings"
-import type { Vector } from "./utils"
-import { getVectorMultipliedWithScalar } from "./utils"
+} from "../configuration/settings"
+import type { Ball } from "../object/ball"
+import { getBallCenterPosition } from "../object/ball"
+import type { Bar } from "../object/bar"
+import type { Block } from "../object/blocks"
+import type { Vector } from "../utils"
+import { getVectorMultipliedWithScalar } from "../utils"
+import { getUpdatedBallDirection, getUpdatedBallSpeed } from "./updateBall"
 
 export function startBallAnimation(
   ball: Ball,
@@ -73,47 +68,4 @@ export function startBallAnimation(
       currentBallDirection
     )
   }
-}
-
-function getUpdatedBallSpeed(currentBallSpeed: number) {
-  return currentBallSpeed + ballAcceleration
-}
-
-function getUpdatedBallDirection(
-  ball: Ball,
-  bar: Bar,
-  blocks: Block[],
-  currentBallDirection: Vector,
-  ringSoundEffect: () => void
-): Vector {
-  const collisionPointsOnBall = getCurrentCollisionPointsOnBall(
-    getBallCenterPosition(ball),
-    currentBallDirection
-  )
-
-  const directionUpdatedByWall = updateDirectionByCollisionWithWall(
-    collisionPointsOnBall,
-    currentBallDirection
-  )
-
-  const directionUpdatedByBar = updateDirectionByCollisionWithBar(
-    collisionPointsOnBall,
-    bar,
-    directionUpdatedByWall
-  )
-
-  const directionUpdatedByBlock = updateDirectionByCollisionWithBlocks(
-    collisionPointsOnBall,
-    blocks,
-    directionUpdatedByBar
-  )
-
-  if (
-    directionUpdatedByBlock.x !== currentBallDirection.x ||
-    directionUpdatedByBlock.y !== currentBallDirection.y
-  ) {
-    ringSoundEffect()
-  }
-
-  return directionUpdatedByBlock
 }

@@ -3,7 +3,7 @@ import {
   barId,
   collisionPointOnBallClass,
   scoreboardId
-} from "./settings"
+} from "./configuration/settings"
 
 export type Vector = {
   x: number

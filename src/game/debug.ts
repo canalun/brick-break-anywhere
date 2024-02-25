@@ -1,18 +1,18 @@
-import {
-  getBallCenterPosition,
-  getCurrentCollisionPointsOnBall,
-  type Ball
-} from "./ball"
-import type { Block } from "./blocks"
-import { updateDirectionByCollisionWithBlocks } from "./detectCollision"
-import { main } from "./main"
+import { updateBallDirectionByCollisionWithBlocks } from "./animation/updateBall"
+import { startBlockAndScoreUpdate } from "./animation/updateBlocks"
 import {
   ballId,
   ballZIndex,
   collisionPointOnBallClass,
   numberOfCollisionPoints
-} from "./settings"
-import { startBlockAndScoreUpdate } from "./updateBlocks"
+} from "./configuration/settings"
+import { main } from "./main"
+import {
+  getBallCenterPosition,
+  getCurrentCollisionPointsOnBall,
+  type Ball
+} from "./object/ball"
+import type { Block } from "./object/blocks"
 import type { Vector } from "./utils"
 
 // This file contains tools only for debug.
@@ -97,7 +97,7 @@ export function dragAndMoveBall(blocks: Block[]) {
       ball.style.top = `${e.clientY - offsetY}px`
     }
 
-    updateDirectionByCollisionWithBlocks(
+    updateBallDirectionByCollisionWithBlocks(
       getCurrentCollisionPointsOnBall(getBallCenterPosition(ball as Ball), {
         x: e.movementX,
         y: e.movementY

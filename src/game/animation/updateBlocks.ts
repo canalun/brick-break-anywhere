@@ -1,5 +1,5 @@
-import { getRectOfBlock, type Block } from "./blocks"
-import type { Scoreboard } from "./scoreboard"
+import { getRectOfBlock, type Block } from "../object/blocks"
+import type { Scoreboard } from "../object/scoreboard"
 import {
   assert,
   getComputedStyleWithCache,
@@ -7,7 +7,7 @@ import {
   isPenetrableFrame,
   isSVGElement,
   isTextareaElement
-} from "./utils"
+} from "../utils"
 
 // TODO: Changing the value of `remain` of a block to `false` is done in `detectCollision.ts`.
 //       It might be better to move the logic to here.

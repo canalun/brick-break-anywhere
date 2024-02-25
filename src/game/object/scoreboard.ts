@@ -1,4 +1,8 @@
-import { scoreboardHeight, scoreboardId, veilZIndex } from "./settings"
+import {
+  scoreboardHeight,
+  scoreboardId,
+  veilZIndex
+} from "../configuration/settings"
 
 export type Scoreboard = HTMLDivElement & { _scoreboard: never }
 

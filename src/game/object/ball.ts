@@ -1,21 +1,21 @@
 import {
-  updateVisualizedCollisionPointsOnBall,
-  visualizeCollisionPointsOnBall
-} from "./debug"
-import {
   ballId,
   ballSetting,
   ballZIndex,
   barSetting,
   initialBottom,
   numberOfCollisionPoints
-} from "./settings"
+} from "../configuration/settings"
+import {
+  updateVisualizedCollisionPointsOnBall,
+  visualizeCollisionPointsOnBall
+} from "../debug"
 import {
   getInnerProduct,
   getSumOfVectors,
   getVectorMultipliedWithScalar,
   type Vector
-} from "./utils"
+} from "../utils"
 
 export type Ball = HTMLDivElement & { _ball: never }
 

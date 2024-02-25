@@ -1,15 +1,64 @@
-import type { CollisionPointOnBall } from "./ball"
-import { getBarCenterPosition, type Bar } from "./bar"
-import type { Block } from "./blocks"
 import {
+  ballAcceleration,
   barSetting,
   minimumRadianBetweenBallDirectionAndBar,
   redundancyOfCollisionWithBar,
   redundancyOfCollisionWithBlocks
-} from "./settings"
-import { getFlippedVector, getRotatedVector, type Vector } from "./utils"
+} from "../configuration/settings"
+import {
+  getBallCenterPosition,
+  getCurrentCollisionPointsOnBall,
+  type Ball,
+  type CollisionPointOnBall
+} from "../object/ball"
+import { getBarCenterPosition, type Bar } from "../object/bar"
+import type { Block } from "../object/blocks"
+import { getFlippedVector, getRotatedVector, type Vector } from "../utils"
 
-export function updateDirectionByCollisionWithWall(
+export function getUpdatedBallSpeed(currentBallSpeed: number) {
+  return currentBallSpeed + ballAcceleration
+}
+
+export function getUpdatedBallDirection(
+  ball: Ball,
+  bar: Bar,
+  blocks: Block[],
+  currentBallDirection: Vector,
+  ringSoundEffect: () => void
+): Vector {
+  const collisionPointsOnBall = getCurrentCollisionPointsOnBall(
+    getBallCenterPosition(ball),
+    currentBallDirection
+  )
+
+  const directionUpdatedByWall = updateBallDirectionByCollisionWithWall(
+    collisionPointsOnBall,
+    currentBallDirection
+  )
+
+  const directionUpdatedByBar = updateBallDirectionByCollisionWithBar(
+    collisionPointsOnBall,
+    bar,
+    directionUpdatedByWall
+  )
+
+  const directionUpdatedByBlock = updateBallDirectionByCollisionWithBlocks(
+    collisionPointsOnBall,
+    blocks,
+    directionUpdatedByBar
+  )
+
+  if (
+    directionUpdatedByBlock.x !== currentBallDirection.x ||
+    directionUpdatedByBlock.y !== currentBallDirection.y
+  ) {
+    ringSoundEffect()
+  }
+
+  return directionUpdatedByBlock
+}
+
+function updateBallDirectionByCollisionWithWall(
   collisionPointsOnBall: CollisionPointOnBall[],
   currentBallDirection: Vector
 ): Vector {
@@ -38,7 +87,7 @@ export function updateDirectionByCollisionWithWall(
 // because the value is updated immediately after the game starts.
 let previousBarPosition: Vector = { x: 0, y: 0 }
 let counter = 0
-export function updateDirectionByCollisionWithBar(
+function updateBallDirectionByCollisionWithBar(
   collisionPointsOnBall: Vector[],
   bar: Bar,
   currentBallDirection: Vector
@@ -107,7 +156,7 @@ export function updateDirectionByCollisionWithBar(
   }
 }
 
-export function updateDirectionByCollisionWithBlocks(
+export function updateBallDirectionByCollisionWithBlocks(
   collisionPointsOnBall: Vector[],
   blocks: Block[],
   currentBallDirection: Vector

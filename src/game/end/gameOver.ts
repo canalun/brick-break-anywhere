@@ -1,7 +1,7 @@
-import { getBallCenterPosition, type Ball } from "./ball"
-import type { Block } from "./blocks"
-import type { Scoreboard } from "./scoreboard"
-import { ballSetting, veilZIndex } from "./settings"
+import { ballSetting, veilZIndex } from "../configuration/settings"
+import { getBallCenterPosition, type Ball } from "../object/ball"
+import type { Block } from "../object/blocks"
+import type { Scoreboard } from "../object/scoreboard"
 
 export function startCheckIsGameOver(
   ball: Ball,
