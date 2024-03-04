@@ -49,6 +49,7 @@ export const initialBallDirection: Vector = {
 // per frame
 export const ballAcceleration = 0.002
 
+// Minimum value of the angle between the ball's direction and the bar
 export const minimumRadianBetweenBallDirectionAndBar = Math.PI / 6
 
 export const numberOfCollisionPoints = 36
