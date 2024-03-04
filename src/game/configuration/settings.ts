@@ -5,6 +5,11 @@ export const barId = "bba-bar"
 export const scoreboardId = "bba-scoreboard"
 export const collisionPointOnBallClass = "bba-collision-point-on-ball"
 
+export type StartOptions = {
+  withScoreboard: boolean
+  initialBallSpeed: "low" | "middle" | "high" | "superHigh"
+}
+
 type BarSetting = {
   width: number
   height: number
@@ -50,7 +55,24 @@ export const numberOfCollisionPoints = 36
 export const redundancyOfCollisionWithBlocks = 3
 export const redundancyOfCollisionWithBar = barSetting.height
 
-export const initialBallSpeed = 2.5 // per frame
+export const getInitialBallSpeed = (
+  initialBallSpeed: StartOptions["initialBallSpeed"]
+) => {
+  // per frame
+  switch (initialBallSpeed) {
+    case "low":
+      return 2.5
+    case "middle":
+      return 3.5
+    case "high":
+      return 4.5
+    case "superHigh":
+      return 6.5
+    default:
+      const _: never = initialBallSpeed
+      throw new Error(`Invalid initialBallSpeed: ${_}`)
+  }
+}
 export const ballAcceleration = 0.002 // per frame
 export const maximumLimitOfBallSpeed = redundancyOfCollisionWithBar - 2 // per frame
 export const initialBallDirection: Vector = {

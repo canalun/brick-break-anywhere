@@ -3,7 +3,8 @@ import { startBlockAndScoreUpdate } from "../animation/updateBlocks"
 import {
   ballSetting,
   barSetting,
-  initialBottom
+  initialBottom,
+  type StartOptions
 } from "../configuration/settings"
 import { setSoundEffect } from "../configuration/soundEffect"
 import { startCheckIsGameOver } from "../end/gameOver"
@@ -16,7 +17,8 @@ export function standby(
   ball: Ball,
   bar: Bar,
   blocks: Block[],
-  scoreboard?: Scoreboard
+  scoreboard: Scoreboard | null,
+  startOptions: StartOptions
 ) {
   const ring = setSoundEffect()
 
@@ -29,10 +31,16 @@ export function standby(
 
     window.addEventListener("mousemove", moveBar)
 
-    const stopBallAnimation = startBallAnimation(ball, bar, blocks, ring)
+    const stopBallAnimation = startBallAnimation(
+      ball,
+      bar,
+      blocks,
+      startOptions.initialBallSpeed,
+      ring
+    )
     const stopBlockAndScoreUpdate = startBlockAndScoreUpdate(blocks, scoreboard)
 
-    startCheckIsGameOver(ball, blocks, scoreboard, [
+    startCheckIsGameOver(ball, blocks, startOptions, [
       stopBallAnimation,
       stopBlockAndScoreUpdate,
       () => {

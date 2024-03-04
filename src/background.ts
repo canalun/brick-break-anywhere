@@ -15,21 +15,20 @@ chrome.runtime.onMessage.addListener((message, sender) => {
   const senderTabId = sender.tab.id
 
   if (isMessageRequestReplayToBackgroundMessage(message)) {
-    const { withScoreboard } = message.options
     const startReplay: Parameters<
       typeof chrome.runtime.onMessage.addListener
-    >[0] = (message, _sender) => {
+    >[0] = (_message, _sender) => {
       if (!_sender.tab?.id) {
         return
       }
       const _senderTabId = _sender.tab.id
       if (
         _senderTabId === senderTabId &&
-        isMessageContentIsReadyMessage(message)
+        isMessageContentIsReadyMessage(_message)
       ) {
         chrome.tabs.sendMessage(
           _senderTabId,
-          createStartMessage({ withScoreboard })
+          createStartMessage(message.options)
         )
       }
       chrome.runtime.onMessage.removeListener(startReplay)

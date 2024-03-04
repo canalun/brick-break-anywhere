@@ -29,11 +29,11 @@ chrome.runtime.onMessage.addListener(function (message) {
     // and block calculation should be executed after iframes have been loaded.
     if (window.document.readyState === "complete") {
       started = true
-      main({ withScoreboard: message.options.withScoreboard })
+      main(message.options)
     } else {
       started = true
       window.addEventListener("load", () => {
-        main({ withScoreboard: message.options.withScoreboard })
+        main(message.options)
       })
     }
   }

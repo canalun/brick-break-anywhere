@@ -1,11 +1,9 @@
+import type { StartOptions } from "~game/configuration/settings"
+
 const start = "start"
 export type StartMessage = {
   type: typeof start
   options: StartOptions
-}
-
-export type StartOptions = {
-  withScoreboard: boolean
 }
 
 export function createStartMessage(options: StartOptions): StartMessage {

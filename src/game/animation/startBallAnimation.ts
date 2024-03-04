@@ -1,7 +1,8 @@
 import {
   ballSetting,
+  getInitialBallSpeed,
   initialBallDirection,
-  initialBallSpeed
+  type StartOptions
 } from "../configuration/settings"
 import type { Ball } from "../object/ball"
 import { getBallCenterPosition } from "../object/ball"
@@ -15,9 +16,10 @@ export function startBallAnimation(
   ball: Ball,
   bar: Bar,
   blocks: Block[],
+  initialBallSpeed: StartOptions["initialBallSpeed"],
   ringSoundEffect: () => void
 ) {
-  let currentBallSpeed = initialBallSpeed
+  let currentBallSpeed = getInitialBallSpeed(initialBallSpeed)
   let currentBallDirection: Vector = initialBallDirection
   let currentBallVelocity: Vector = getVectorMultipliedWithScalar(
     currentBallSpeed,

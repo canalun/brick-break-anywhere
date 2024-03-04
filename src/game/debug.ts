@@ -70,14 +70,14 @@ export function updateVisualizedCollisionPointsOnBall(
 }
 
 export function dragAndMoveBall(blocks: Block[]) {
-  main({ withScoreboard: false })
+  main({ withScoreboard: false, initialBallSpeed: "middle" })
 
   const ball = document.getElementById(ballId)
   if (!ball) {
     return
   }
 
-  startBlockAndScoreUpdate(blocks)
+  startBlockAndScoreUpdate(blocks, null)
 
   // drag and move ball
   let isDragging = false

@@ -1,5 +1,6 @@
-import { useCallback, useState } from "react"
+import { useState } from "react"
 
+import type { StartOptions } from "~game/configuration/settings"
 import {
   createStartMessage,
   createTestMessage,
@@ -8,9 +9,17 @@ import {
 } from "~message"
 
 function IndexPopup() {
-  const [withScoreboard, setWithScoreboard] = useState(true)
+  const [withScoreboard, setWithScoreboard] =
+    useState<StartOptions["withScoreboard"]>(true)
+  const [initialBallSpeed, setInitialBallSpeed] =
+    useState<StartOptions["initialBallSpeed"]>("middle")
+  const handleSelectBallInitialSpeed = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setInitialBallSpeed(e.target.value as StartOptions["initialBallSpeed"])
+  }
 
-  const sendMessageToIsolatedWorldOnActiveTab = useCallback(() => {
+  const sendMessageToIsolatedWorldOnActiveTab = () => {
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
       var activeTab = tabs[0]
       if (!activeTab.id) {
@@ -18,12 +27,12 @@ function IndexPopup() {
       }
       chrome.tabs.sendMessage<StartMessage>(
         activeTab.id,
-        createStartMessage({ withScoreboard })
+        createStartMessage({ withScoreboard, initialBallSpeed })
       )
     })
-  }, [withScoreboard])
+  }
 
-  const sendMessageToIsolatedWorldOnActiveTabForTest = useCallback(() => {
+  const sendMessageToIsolatedWorldOnActiveTabForTest = () => {
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
       var activeTab = tabs[0]
       if (!activeTab.id) {
@@ -32,13 +41,13 @@ function IndexPopup() {
       chrome.tabs.sendMessage<TestMessage>(activeTab.id, createTestMessage())
       window.close()
     })
-  }, [])
+  }
 
   return (
     <div
       style={{
-        maxWidth: "220px",
-        minWidth: "220px",
+        maxWidth: "240px",
+        minWidth: "240px",
         padding: "16px"
       }}>
       <h2>Brick Break Anywhere</h2>
@@ -51,13 +60,61 @@ function IndexPopup() {
       </button>
       <br />
       <div style={{ marginTop: "16px" }}>
+        Initial Ball Speed <br />
         <label>
           <input
-            type="checkbox"
+            type="radio"
+            value="low"
+            checked={initialBallSpeed === "low"}
+            onChange={handleSelectBallInitialSpeed}
+          />
+          Low
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="middle"
+            checked={initialBallSpeed === "middle"}
+            onChange={handleSelectBallInitialSpeed}
+          />
+          Middle
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="high"
+            checked={initialBallSpeed === "high"}
+            onChange={handleSelectBallInitialSpeed}
+          />
+          High
+        </label>
+        <label>
+          <input
+            type="radio"
+            value="superHigh"
+            checked={initialBallSpeed === "superHigh"}
+            onChange={handleSelectBallInitialSpeed}
+          />
+          Super High
+        </label>
+      </div>
+      <div style={{ marginTop: "16px" }}>
+        Score Board <br />
+        <label>
+          <input
+            type="radio"
             checked={withScoreboard}
             onChange={(e) => setWithScoreboard(e.target.checked)}
           />
-          with score board
+          On
+        </label>
+        <label>
+          <input
+            type="radio"
+            checked={!withScoreboard}
+            onChange={(e) => setWithScoreboard(!e.target.checked)}
+          />
+          Off
         </label>
       </div>
       <br />

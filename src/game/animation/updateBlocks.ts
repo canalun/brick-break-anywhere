@@ -13,7 +13,7 @@ import {
 //       It might be better to move the logic to here.
 export function startBlockAndScoreUpdate(
   blocks: Block[],
-  scoreboard?: Scoreboard
+  scoreboard: Scoreboard | null
 ) {
   let id = requestAnimationFrame(removeBlockAndUpdateScore)
   function removeBlockAndUpdateScore() {

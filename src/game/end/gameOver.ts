@@ -3,15 +3,18 @@ import {
   isMessageReplayIsConfirmedOnBackgroundMessage
 } from "~message"
 
-import { ballSetting, veilZIndex } from "../configuration/settings"
+import {
+  ballSetting,
+  veilZIndex,
+  type StartOptions
+} from "../configuration/settings"
 import { getBallCenterPosition, type Ball } from "../object/ball"
 import type { Block } from "../object/blocks"
-import type { Scoreboard } from "../object/scoreboard"
 
 export function startCheckIsGameOver(
   ball: Ball,
   blocks: Block[],
-  scoreboard: Scoreboard | undefined,
+  options: StartOptions,
   stopAnimationFuncs: (() => void)[]
 ) {
   requestAnimationFrame(checkIsGameOver)
@@ -20,13 +23,13 @@ export function startCheckIsGameOver(
     const isBallTouchBottom =
       getBallCenterPosition(ball).y - ballSetting.radius <= 0
     if (isBallTouchBottom) {
-      gameOver(blocks, { withScoreboard: !!scoreboard })
+      gameOver(blocks, options)
       stopAnimationFuncs.forEach((f) => f())
       return
     }
     const isAllBlocksDestroyed = !blocks.some((b) => b.remain)
     if (isAllBlocksDestroyed) {
-      gameOver(blocks, { withScoreboard: !!scoreboard })
+      gameOver(blocks, options)
       stopAnimationFuncs.forEach((f) => f())
       return
     }
@@ -34,7 +37,7 @@ export function startCheckIsGameOver(
   }
 }
 
-function gameOver(blocks: Block[], options: { withScoreboard: boolean }) {
+function gameOver(blocks: Block[], options: StartOptions) {
   const countOfBrokenBlocks = blocks.filter((b) => !b.remain).length
 
   const gameOverMessage = document.createElement("div")
@@ -79,7 +82,7 @@ function gameOver(blocks: Block[], options: { withScoreboard: boolean }) {
   gameOverMessage.appendChild(replayButton)
 }
 
-function replay(options: { withScoreboard: boolean }) {
+function replay(options: StartOptions) {
   chrome.runtime.onMessage.addListener((message) => {
     if (isMessageReplayIsConfirmedOnBackgroundMessage(message)) {
       location.reload()

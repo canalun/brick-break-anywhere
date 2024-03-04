@@ -1,11 +1,13 @@
+import type { StartOptions } from "~game/configuration/settings"
+
 import { initializeBall } from "../object/ball"
 import { initializeBar } from "../object/bar"
 import { getBlocks } from "../object/blocks"
 import { initializeScoreboard } from "../object/scoreboard"
 
-export function initializeObjects(options: { withScoreboard: boolean }) {
+export function initializeObjects(options: StartOptions) {
   const { ball, bar } = initializeBallAndBar()
-  const scoreboard = options.withScoreboard ? initializeScoreboard() : undefined
+  const scoreboard = options.withScoreboard ? initializeScoreboard() : null
   const blocks = getBlocks()
   return { ball, bar, blocks, scoreboard }
 }
