@@ -36,31 +36,45 @@ export function getUpdatedBallDirection(
     currentBallDirection
   )
 
-  const directionUpdatedByWall = updateBallDirectionByCollisionWithWall(
+  const directionUpdatedByBlock = updateBallDirectionByCollisionWithBlocks(
     collisionPointsOnBall,
+    blocks,
     currentBallDirection
   )
+  if (
+    directionUpdatedByBlock.x !== currentBallDirection.x ||
+    directionUpdatedByBlock.y !== currentBallDirection.y
+  ) {
+    ringSoundEffect()
+    return directionUpdatedByBlock
+  }
+
+  const directionUpdatedByWall = updateBallDirectionByCollisionWithWall(
+    collisionPointsOnBall,
+    directionUpdatedByBlock
+  )
+  if (
+    directionUpdatedByWall.x !== currentBallDirection.x ||
+    directionUpdatedByWall.y !== currentBallDirection.y
+  ) {
+    ringSoundEffect()
+    return directionUpdatedByWall
+  }
 
   const directionUpdatedByBar = updateBallDirectionByCollisionWithBar(
     collisionPointsOnBall,
     bar,
     directionUpdatedByWall
   )
-
-  const directionUpdatedByBlock = updateBallDirectionByCollisionWithBlocks(
-    collisionPointsOnBall,
-    blocks,
-    directionUpdatedByBar
-  )
-
   if (
-    directionUpdatedByBlock.x !== currentBallDirection.x ||
-    directionUpdatedByBlock.y !== currentBallDirection.y
+    directionUpdatedByBar.x !== currentBallDirection.x ||
+    directionUpdatedByBar.y !== currentBallDirection.y
   ) {
     ringSoundEffect()
+    return directionUpdatedByBar
   }
 
-  return directionUpdatedByBlock
+  return currentBallDirection
 }
 
 function updateBallDirectionByCollisionWithWall(
@@ -175,7 +189,6 @@ export function updateBallDirectionByCollisionWithBlocks(
       }
       // bottom edge
       if (
-        currentBallDirection.y > 0 && // ball must be going up
         block.rect.left <= collisionPointOnBall.x &&
         collisionPointOnBall.x <= block.rect.right &&
         0 <= block.rect.bottom - collisionPointOnBall.y &&
@@ -192,7 +205,6 @@ export function updateBallDirectionByCollisionWithBlocks(
       }
       // top edge
       if (
-        currentBallDirection.y < 0 && // ball must be going down
         block.rect.left <= collisionPointOnBall.x &&
         collisionPointOnBall.x <= block.rect.right &&
         0 <= collisionPointOnBall.y - block.rect.top &&
@@ -209,7 +221,6 @@ export function updateBallDirectionByCollisionWithBlocks(
       }
       // left edge
       if (
-        currentBallDirection.x > 0 && // ball must be going right
         0 <= block.rect.left - collisionPointOnBall.x &&
         block.rect.left - collisionPointOnBall.x <=
           redundancyOfCollisionWithBlocks &&
@@ -226,7 +237,6 @@ export function updateBallDirectionByCollisionWithBlocks(
       }
       // right edge
       if (
-        currentBallDirection.x < 0 && // ball must be going left
         0 <= collisionPointOnBall.x - block.rect.right &&
         collisionPointOnBall.x - block.rect.right <=
           redundancyOfCollisionWithBlocks &&
