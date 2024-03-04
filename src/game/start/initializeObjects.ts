@@ -1,4 +1,4 @@
-import type { StartOptions } from "~game/configuration/settings"
+import { containerId, type StartOptions } from "~game/configuration/settings"
 
 import { initializeBall } from "../object/ball"
 import { initializeBar } from "../object/bar"
@@ -17,6 +17,7 @@ function initializeBallAndBar() {
   const bar = initializeBar()
 
   const container = document.createElement("div")
+  container.id = containerId
   document.documentElement.insertAdjacentElement("beforeend", container)
   container.insertAdjacentElement("beforeend", ball)
   container.insertAdjacentElement("beforeend", bar)

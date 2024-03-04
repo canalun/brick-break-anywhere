@@ -2,6 +2,7 @@ import type { Vector } from "../utils/vector"
 
 export const ballId = "bba-ball"
 export const barId = "bba-bar"
+export const containerId = "bba-container"
 export const scoreboardId = "bba-scoreboard"
 export const collisionPointOnBallClass = "bba-collision-point-on-ball"
 

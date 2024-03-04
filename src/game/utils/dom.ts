@@ -2,6 +2,7 @@ import {
   ballId,
   barId,
   collisionPointOnBallClass,
+  containerId,
   scoreboardId
 } from "../configuration/settings"
 
@@ -44,6 +45,7 @@ export function isBBAElement(element: Element): boolean {
     element.id === ballId ||
     element.id === barId ||
     element.id === scoreboardId ||
+    element.id === containerId ||
     element.classList.contains(collisionPointOnBallClass)
   )
 }
