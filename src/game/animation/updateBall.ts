@@ -1,6 +1,7 @@
 import {
   ballAcceleration,
   barSetting,
+  maximumLimitOfBallSpeed,
   minimumRadianBetweenBallDirectionAndBar,
   redundancyOfCollisionWithBar,
   redundancyOfCollisionWithBlocks
@@ -20,7 +21,7 @@ import {
 } from "../utils/vector"
 
 export function getUpdatedBallSpeed(currentBallSpeed: number) {
-  return currentBallSpeed + ballAcceleration
+  return Math.min(currentBallSpeed + ballAcceleration, maximumLimitOfBallSpeed)
 }
 
 export function getUpdatedBallDirection(

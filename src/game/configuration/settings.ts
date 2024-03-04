@@ -15,7 +15,7 @@ export const barSetting: BarSetting = (() => {
   const width = window.innerWidth * 0.28
   return {
     width,
-    height: Math.max((10 * width) / 250, 10),
+    height: Math.max((10 * width) / 250, 10), // Just trial and error led me to this value.
     color: "blue"
   }
 })()
@@ -40,15 +40,6 @@ export const ballZIndex = 2147483646
 export const barZIndex = ballZIndex
 export const veilZIndex = ballZIndex - 1
 
-// per frame
-export const initialBallSpeed = 2.5
-export const initialBallDirection: Vector = {
-  x: Math.cos(Math.PI / 4),
-  y: Math.cos(Math.PI / 4)
-}
-// per frame
-export const ballAcceleration = 0.002
-
 // Minimum value of the angle between the ball's direction and the bar
 export const minimumRadianBetweenBallDirectionAndBar = Math.PI / 6
 
@@ -57,4 +48,12 @@ export const numberOfCollisionPoints = 36
 // The bug of ball's going through the bar or blocks happens,
 // when the value is too small. 3 and 15 is the magic number led by trial and error.
 export const redundancyOfCollisionWithBlocks = 3
-export const redundancyOfCollisionWithBar = 15
+export const redundancyOfCollisionWithBar = barSetting.height
+
+export const initialBallSpeed = 2.5 // per frame
+export const ballAcceleration = 0.002 // per frame
+export const maximumLimitOfBallSpeed = redundancyOfCollisionWithBar - 2 // per frame
+export const initialBallDirection: Vector = {
+  x: Math.cos(Math.PI / 4),
+  y: Math.cos(Math.PI / 4)
+}
