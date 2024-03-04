@@ -79,13 +79,15 @@ function removeBlock(block: Block) {
   Array.from(block.element.children).forEach((childEl) => {
     originalVisibilities.push(getComputedStyleWithCache(childEl).visibility)
   })
-  Object.assign(block.element.style, {
-    visibility: "hidden"
-  })
-  Array.from(block.element.children).forEach((childEl, i) => {
-    Object.assign(childEl.style, {
-      visibility: originalVisibilities[i]
+  ;(block.element as HTMLElement).style && // TODO: remove type assertion
+    Object.assign((block.element as HTMLElement).style, {
+      visibility: "hidden"
     })
+  Array.from(block.element.children).forEach((childEl, i) => {
+    ;(childEl as HTMLElement).style && // TODO: remove type assertion
+      Object.assign((childEl as HTMLElement).style, {
+        visibility: originalVisibilities[i]
+      })
   })
 }
 

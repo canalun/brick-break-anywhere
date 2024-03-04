@@ -23,13 +23,15 @@ export function visualizeBlocks(blocks: Block[]) {
   for (let i = 0; i < blocks.length; i++) {
     const blockElement = blocks[i].element
     if (blocks[i].remain) {
-      Object.assign(blockElement.style, {
-        border: "0.1px solid red"
-      })
+      ;(blockElement as HTMLElement).style && // TODO: remove type assertion
+        Object.assign((blockElement as HTMLElement).style, {
+          border: "0.1px solid red"
+        })
     } else {
-      Object.assign(blockElement.style, {
-        border: "none"
-      })
+      ;(blockElement as HTMLElement).style && // TODO: remove type assertion
+        Object.assign((blockElement as HTMLElement).style, {
+          border: "none"
+        })
     }
   }
 }

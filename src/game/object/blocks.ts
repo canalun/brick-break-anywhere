@@ -6,7 +6,7 @@ import { getBlockElements } from "./getBlockElements"
 // and then it's "removed" when remove animation is done.
 export type Block = {
   uuid: string
-  element: Element
+  element: Element // this includes not only HTMLElement but also others like SVGElement.
   rect: {
     top: number
     bottom: number
