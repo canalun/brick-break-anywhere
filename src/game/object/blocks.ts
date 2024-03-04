@@ -1,3 +1,5 @@
+import { assert } from "~game/utils/dom"
+
 import { getBlockElements } from "./getBlockElements"
 
 // A block is "remained" until the ball hits it,
@@ -61,8 +63,9 @@ function addFrameOffsetToRect(
     right: number
   }
 ) {
-  let currentOwnerDocument = element.ownerDocument
-  while (currentOwnerDocument !== window.top.document) {
+  let currentOwnerDocument: Document | null = element.ownerDocument
+  assert(!!window.top, "window.top not found")
+  while (currentOwnerDocument && currentOwnerDocument !== window.top.document) {
     const _srcFrameRect =
       currentOwnerDocument.defaultView?.frameElement?.getBoundingClientRect()
     if (!_srcFrameRect) {
@@ -75,7 +78,7 @@ function addFrameOffsetToRect(
     rect.right += _srcFrameRect.left
 
     currentOwnerDocument =
-      currentOwnerDocument.defaultView?.frameElement?.ownerDocument
+      currentOwnerDocument.defaultView?.frameElement?.ownerDocument || null
   }
   return rect
 }

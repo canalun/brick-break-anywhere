@@ -31,6 +31,7 @@ export function isPenetrableFrame(
   frame: HTMLIFrameElement | HTMLFrameElement
 ): boolean {
   try {
+    // @ts-ignore: intentional access to frame's document
     frame.contentWindow.document
   } catch (e) {
     return false

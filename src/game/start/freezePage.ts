@@ -1,9 +1,10 @@
 import { veilZIndex } from "../configuration/settings"
-import { isFrameElement, isPenetrableFrame } from "../utils/dom"
+import { assert, isFrameElement, isPenetrableFrame } from "../utils/dom"
 
 export function freezePage() {
   setVeil()
   clearTimeoutAll()
+  assert(!!window.top, "window.top is not available")
   preventScroll(window.top)
 }
 
@@ -47,12 +48,13 @@ function preventScroll(window: Window) {
 
   Array.from(window.document.querySelectorAll("iframe, frame")).forEach(
     (frame) => {
-      isFrameElement(frame) && isPenetrableFrame(frame)
+      isFrameElement(frame) && isPenetrableFrame(frame) && frame.contentWindow
         ? preventScroll(frame.contentWindow)
         : frame.addEventListener("load", () => {
             // fire preventScroll when iframe is reloaded
             isFrameElement(frame) &&
               isPenetrableFrame(frame) &&
+              frame.contentWindow &&
               preventScroll(frame.contentWindow)
           })
     }

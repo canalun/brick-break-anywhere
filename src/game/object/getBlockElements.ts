@@ -45,22 +45,22 @@ function collectBlockElements(
     if (element.shadowRoot) {
       collectBlockElements(element.shadowRoot, canBeBlock, blockElements)
     }
-    if (isFrameElement(element)) {
-      if (isPenetrableFrame(element)) {
-        element.contentWindow.document.readyState === "complete"
-          ? collectBlockElements(
-              element.contentDocument,
-              canBeBlock,
-              blockElements
-            )
-          : element.addEventListener("load", () => {
+    if (isFrameElement(element) && isPenetrableFrame(element)) {
+      element.contentWindow &&
+      element.contentWindow.document.readyState === "complete"
+        ? collectBlockElements(
+            element.contentWindow.document,
+            canBeBlock,
+            blockElements
+          )
+        : element.addEventListener("load", () => {
+            element.contentWindow &&
               collectBlockElements(
-                element.contentDocument,
+                element.contentWindow.document,
                 canBeBlock,
                 blockElements
               )
-            })
-      }
+          })
     }
   }
 }
@@ -171,7 +171,10 @@ function isVisible(element: Element): boolean {
 function hasNoTextNode(element: Element): boolean {
   const childNodes = Array.from(element.childNodes)
   const result = !childNodes.some(
-    (node) => node.nodeType === Node.TEXT_NODE && node.textContent.trim()
+    (node) =>
+      node.nodeType === Node.TEXT_NODE &&
+      node.textContent &&
+      node.textContent.trim()
   )
   result &&
     process.env.NODE_ENV === "development" &&
@@ -329,7 +332,7 @@ function hasVisibleChildNodes(element: Element): boolean {
       case Node.ELEMENT_NODE:
         return isVisibleWithCache(node as Element)
       case Node.TEXT_NODE:
-        return node.textContent.trim() !== ""
+        return node.textContent && node.textContent.trim() !== ""
       default:
         return false
     }
