@@ -1,10 +1,6 @@
 # Brick Break Anywhere
 
-Ever thought your browsing experience needed a bit more...bouncing?
-
-With Brick Break Anywhere, you can turn any webpage into an impromptu game of brick breaker!
-
-**In short, you can break bricks on any WEB PAGE!!**
+**You can break bricks on any WEB PAGE!!**
 
 ![The preview of 'brick-break-anywhere'. A red ball moves around in a web page like wikipedia, amazon and google. The ball collides with elements such as buttons, images and texts in the web page. And then collided elements disappeared.](https://github.com/canalun/brick-break-anywhere/assets/61643630/622ccd89-fb17-4e3c-af04-1928a988c753)
 
