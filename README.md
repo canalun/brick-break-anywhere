@@ -1,40 +1,30 @@
-This repo is the source code of the chrome extension, ['Brick Block Anywhere'](https://chromewebstore.google.com/detail/brick-break-anywhere/lkbkphlgmknnachlgmbdmoepfnfdeckb)!!
+Do you know [Brick Block Anywhere](https://chromewebstore.google.com/detail/brick-break-anywhere/lkbkphlgmknnachlgmbdmoepfnfdeckb)?
 
-🚧README is under construction...!🏗
+You can break bricks on any WEB PAGE!!
 
+![The preview of 'brick-break-anywhere'. A red ball moves around in a web page like wikipedia, amazon and google. The ball collides with elements such as buttons, images and texts in the web page. And then collided elements disappeared.](https://github.com/canalun/brick-break-anywhere/assets/61643630/622ccd89-fb17-4e3c-af04-1928a988c753)
 
-![The preview of 'brick-break-anywhere'. A red ball moves around in a web page like wikipedia, amazon and google. The ball collides with elements such as buttons, images and texts in the web page. And then collided elements disappeared.](https://github.com/canalun/brick-break-anywhere/assets/61643630/553f5164-954c-450c-9b04-3688d9cd9185)
+# For Players🎮
+You can install the extension from chrome web store:
+
+https://chromewebstore.google.com/detail/brick-break-anywhere/lkbkphlgmknnachlgmbdmoepfnfdeckb
+
+# For Developers🎉
+Thank you for developing or reverse-engineering this game!✌
 
 This is a [Plasmo extension](https://docs.plasmo.com/) project bootstrapped with [`plasmo init`](https://www.npmjs.com/package/plasmo).
 
 ## Getting Started
-
-First, run the development server:
-
-```bash
-pnpm dev
-# or
-npm run dev
-```
-
-Open your browser and load the appropriate development build. For example, if you are developing for the chrome browser, using manifest v3, use: `build/chrome-mv3-dev`.
-
-You can start editing the popup by modifying `popup.tsx`. It should auto-update as you make changes. To add an options page, simply add a `options.tsx` file to the root of the project, with a react component default exported. Likewise to add a content page, add a `content.ts` file to the root of the project, importing some module and do some logic, then reload the extension on your browser.
-
-For further guidance, [visit our Documentation](https://docs.plasmo.com/)
+Run `yarn dev`, and load `build/chrome-mv3-dev` in your browser.
 
 ## Making production build
 
-Run the following:
-
-```bash
-pnpm build
-# or
-npm run build
-```
+Run `yarn build`, and load `build/chrome-mv3-prod` in your browser.
 
 This should create a production bundle for your extension, ready to be zipped and published to the stores.
 
-## Submit to the webstores
+# Appendix
+The below document explains the overview of how it works.
+https://docs.google.com/presentation/d/1hjs2J4fScWcs42oJ11F9uv1iuSnb_25TEZxyJo6UlLU/edit?usp=sharing
 
-The easiest way to deploy your Plasmo extension is to use the built-in [bpp](https://bpp.browser.market) GitHub action. Prior to using this action however, make sure to build your extension and upload the first version to the store to establish the basic credentials. Then, simply follow [this setup instruction](https://docs.plasmo.com/framework/workflows/submit) and you should be on your way for automated submission!
+(The doc was used [when this extension was featured in JSConf 2023 in Japan!🎉](https://jsconf.jp/2023/talk/canalun-1/))
