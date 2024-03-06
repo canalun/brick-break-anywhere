@@ -1,6 +1,6 @@
 # Brick Break Anywhere
 
-**You can break bricks on any WEB PAGE!!**
+**You can break bricks on any WEB PAGE!!** It's realized by vanilla DOM scripting:)
 
 chrome web store: https://chromewebstore.google.com/detail/brick-break-anywhere/lkbkphlgmknnachlgmbdmoepfnfdeckb
 
