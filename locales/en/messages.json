@@ -4,5 +4,8 @@
   },
   "extensionDescription": {
     "message": "Turn any webpage into an impromptu brick-breaking game!"
+  },
+  "optionPageTitle": {
+    "message": "Brick Break Anywhere"
   }
 }

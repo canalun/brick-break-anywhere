@@ -4,5 +4,8 @@
   },
   "extensionDescription": {
     "message": "どんなwebページもブロックくずしに早変わり！"
+  },
+  "optionPageTitle": {
+    "message": "Webページ崩し"
   }
 }
