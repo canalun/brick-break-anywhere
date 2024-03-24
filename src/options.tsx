@@ -2,8 +2,12 @@ import addedIcon from "data-base64:../assets/added_icon.png"
 import extListIcon from "data-base64:../assets/ext_list_icon.png"
 import pin from "data-base64:../assets/pin.png"
 import startButton from "data-base64:../assets/start_button.png"
+import { useEffect } from "react"
 
 function NewTab() {
+  useEffect(() => {
+    document.title = chrome.i18n.getMessage("optionPageTitle")
+  }, [])
   return (
     <>
       <h1>Brick Break Anywhere</h1>
