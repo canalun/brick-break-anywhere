@@ -50,6 +50,6 @@ chrome.runtime.onMessage.addListener(function(message) {
   if (window.document.readyState === "complete") {
     mainOrDebug()
   } else {
-    window.addEventListener("load", () => {mainOrDebug()})
+    window.addEventListener("load", mainOrDebug)
   }
 })
