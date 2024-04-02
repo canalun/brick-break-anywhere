@@ -6,13 +6,13 @@ import {
   collisionPointOnBallClass,
   numberOfCollisionPoints
 } from "./configuration/settings"
-import { main } from "./main"
 import {
   getBallCenterPosition,
   getCurrentCollisionPointsOnBall,
   type Ball
 } from "./object/ball"
 import type { Block } from "./object/blocks"
+import { assert } from "./utils/dom"
 import type { Vector } from "./utils/vector"
 
 // This file contains tools only for debug.
@@ -72,12 +72,8 @@ export function updateVisualizedCollisionPointsOnBall(
 }
 
 export function dragAndMoveBall(blocks: Block[]) {
-  main({ withScoreboard: false, initialBallSpeed: "middle" })
-
   const ball = document.getElementById(ballId)
-  if (!ball) {
-    return
-  }
+  assert(ball !== null, "ball element must be found")
 
   startBlockAndScoreUpdate(blocks, null)
 

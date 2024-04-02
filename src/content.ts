@@ -22,29 +22,34 @@ export {}
 chrome.runtime.sendMessage(createContentIsReadyMessage())
 
 let started = false // prevent multiple execution
-chrome.runtime.onMessage.addListener(function (message) {
-  if (!started && isMessageStartMessage(message)) {
-    // Use the "complete" event rather than the "interactive",
-    // because document.body is required for exec `preventScroll()`,
-    // and block calculation should be executed after iframes have been loaded.
-    if (window.document.readyState === "complete") {
-      started = true
-      main(message.options)
-    } else {
-      started = true
-      window.addEventListener("load", () => {
-        main(message.options)
-      })
-    }
-  }
-})
+chrome.runtime.onMessage.addListener(function(message) {
 
-if (process.env.NODE_ENV === "development") {
-  chrome.runtime.onMessage.addListener(function (message) {
-    if (isMessageTestMessage(message)) {
+  let mainOrDebug: () => void;
+  if (isMessageStartMessage(message)) {
+    mainOrDebug = () => main(message.options)
+  } else if (isMessageTestMessage(message)) {
+    mainOrDebug = () => {
       const blocks = getBlocks()
       visualizeBlocks(blocks)
+      main({withScoreboard : false, initialBallSpeed : "middle"})
       dragAndMoveBall(blocks)
     }
-  })
-}
+  } else {
+    return
+  }
+
+  // Check and mark as started only when the message is "start" or "test".
+  if (started) {
+    return
+  }
+  started = true
+
+  // Use the "complete" event rather than the "interactive",
+  // because document.body is required for exec `preventScroll()`,
+  // and block calculation should be executed after iframes have been loaded.
+  if (window.document.readyState === "complete") {
+    mainOrDebug()
+  } else {
+    window.addEventListener("load", mainOrDebug)
+  }
+})
