@@ -20,7 +20,7 @@ export function standby(
   scoreboard: Scoreboard | null,
   startOptions: StartOptions
 ) {
-  const ring = setSoundEffect()
+  const ring = startOptions.sound ? setSoundEffect() : () => {}
 
   window.addEventListener("mousemove", moveBarAndBall)
 
