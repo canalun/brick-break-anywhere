@@ -2,7 +2,6 @@ import {
   ballAcceleration,
   barSetting,
   maximumLimitOfBallSpeed,
-  minimumRadianBetweenBallDirectionAndBar,
   redundancyOfCollisionWithBar,
   redundancyOfCollisionWithBlocks
 } from "../configuration/settings"
@@ -102,10 +101,6 @@ function updateBallDirectionByCollisionWithWall(
   return currentBallDirection
 }
 
-// It's not necessary to consider the initial value of `previousBarPosition`,
-// because the value is updated immediately after the game starts.
-let previousBarPosition: Vector = { x: 0, y: 0 }
-let counter = 0
 function updateBallDirectionByCollisionWithBar(
   collisionPointsOnBall: Vector[],
   bar: Bar,
@@ -118,61 +113,32 @@ function updateBallDirectionByCollisionWithBar(
     return currentBallDirection
   }
 
+  const currentBarPosition = getBarCenterPosition(bar)
+
   const isCollidingWithBar =
     currentBallDirection.y < 0 && // ball must be going down
     -1 * redundancyOfCollisionWithBar <=
       mostBottomPointsOnBall.y -
-        (getBarCenterPosition(bar).y + barSetting.height / 2) &&
+        (currentBarPosition.y + barSetting.height / 2) &&
     // The upper limit is -1,
     // because the feeling of reflection is better when the ball is a bit lower than the bar top.
-    mostBottomPointsOnBall.y -
-      (getBarCenterPosition(bar).y + barSetting.height / 2) <=
+    mostBottomPointsOnBall.y - (currentBarPosition.y + barSetting.height / 2) <=
       -1 &&
-    Math.abs(getBarCenterPosition(bar).x - mostBottomPointsOnBall.x) <=
+    Math.abs(currentBarPosition.x - mostBottomPointsOnBall.x) <=
       barSetting.width / 2
 
   if (!isCollidingWithBar) {
-    previousBarPosition = getBarCenterPosition(bar)
     return currentBallDirection
   }
 
-  // update the direction considering the bar's movement
-  // it's a bit complicated, but it improves the game experience a lot!!
-  const currentBarPosition = getBarCenterPosition(bar)
-  const dx = (currentBarPosition.x - previousBarPosition.x) / 50
+  // Update the direction according to how close the collision point is to the edge of the bar.
   const updatedDirection = getRotatedVector(
-    getFlippedVector(currentBallDirection, "vertical"),
-    (Math.PI / 6) * (Math.abs(dx) < 1 ? dx : dx / Math.abs(dx))
+    { x: 0, y: 1 },
+    (Math.PI / 3) *
+      ((currentBarPosition.x - mostBottomPointsOnBall.x) /
+        (barSetting.width / 2))
   )
-
-  const isUpdatedDirectionWithinLimit =
-    0 <= updatedDirection.y &&
-    Math.cos(Math.PI - minimumRadianBetweenBallDirectionAndBar) <=
-      updatedDirection.x &&
-    updatedDirection.x <= Math.cos(minimumRadianBetweenBallDirectionAndBar)
-
-  return throttledAssign(previousBarPosition, currentBarPosition) &&
-    isUpdatedDirectionWithinLimit
-    ? updatedDirection
-    : 0 <= updatedDirection.x
-      ? {
-          x: Math.cos(minimumRadianBetweenBallDirectionAndBar),
-          y: Math.sin(minimumRadianBetweenBallDirectionAndBar)
-        }
-      : {
-          x: Math.cos(Math.PI - minimumRadianBetweenBallDirectionAndBar),
-          y: Math.sin(Math.PI - minimumRadianBetweenBallDirectionAndBar)
-        }
-
-  ////////////////////////////////////////
-  function throttledAssign<T>(variable: T, value: T) {
-    if (counter === 7) {
-      counter = 0
-      return (variable = value) && variable
-    }
-    counter++
-    return variable
-  }
+  return updatedDirection
 }
 
 export function updateBallDirectionByCollisionWithBlocks(
