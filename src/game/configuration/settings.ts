@@ -9,6 +9,7 @@ export const collisionPointOnBallClass = "bba-collision-point-on-ball"
 export type StartOptions = {
   withScoreboard: boolean
   initialBallSpeed: "low" | "middle" | "high" | "superHigh"
+  sound: boolean
 }
 
 type BarSetting = {

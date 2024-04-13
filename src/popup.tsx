@@ -18,6 +18,7 @@ function IndexPopup() {
   ) => {
     setInitialBallSpeed(e.target.value as StartOptions["initialBallSpeed"])
   }
+  const [sound, setSound] = useState(true)
 
   const sendMessageToIsolatedWorldOnActiveTab = () => {
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
@@ -27,7 +28,7 @@ function IndexPopup() {
       }
       chrome.tabs.sendMessage<StartMessage>(
         activeTab.id,
-        createStartMessage({ withScoreboard, initialBallSpeed })
+        createStartMessage({ withScoreboard, initialBallSpeed, sound })
       )
     })
   }
@@ -113,6 +114,25 @@ function IndexPopup() {
             type="radio"
             checked={!withScoreboard}
             onChange={(e) => setWithScoreboard(!e.target.checked)}
+          />
+          Off
+        </label>
+      </div>
+      <div style={{ marginTop: "16px" }}>
+        Sound {sound ? "🔊" : "🔇"}<br />
+        <label>
+          <input
+            type="radio"
+            checked={sound}
+            onChange={(e) => setSound(e.target.checked)}
+          />
+          On
+        </label>
+        <label>
+          <input
+            type="radio"
+            checked={!sound}
+            onChange={(e) => setSound(!e.target.checked)}
           />
           Off
         </label>
