@@ -1478,10 +1478,10 @@
   dependencies:
     "@parcel/plugin" "2.9.3"
 
-"@plasmohq/parcel-config@0.40.2":
-  version "0.40.2"
-  resolved "https://registry.yarnpkg.com/@plasmohq/parcel-config/-/parcel-config-0.40.2.tgz#29c1fada0b850951caf77c179998d01c28975190"
-  integrity sha512-YuE2wxtmMcygz+YC0YZbFRsRp6Vqe+qs+TJs15sn5jKVcOu01RZeKuThKOmcTCc1M6Bcst5OkGsV8RmkpGKKCQ==
+"@plasmohq/parcel-config@0.40.5":
+  version "0.40.5"
+  resolved "https://registry.yarnpkg.com/@plasmohq/parcel-config/-/parcel-config-0.40.5.tgz#513046494736615bd421aae3fefbc0d38e05a340"
+  integrity sha512-2uXGCURaKazxG8UKGnwZCQ0cfi9sns9JkyC5ERVQJqTmjE81Rwzd/QxjuoufQ2/kvcg3klb3952X1znmD7prlQ==
   dependencies:
     "@parcel/compressor-raw" "2.9.3"
     "@parcel/config-default" "2.9.3"
@@ -1510,12 +1510,12 @@
     "@plasmohq/parcel-optimizer-encapsulate" "0.0.7"
     "@plasmohq/parcel-optimizer-es" "0.4.0"
     "@plasmohq/parcel-packager" "0.6.14"
-    "@plasmohq/parcel-resolver" "0.13.2"
-    "@plasmohq/parcel-resolver-post" "0.4.3"
+    "@plasmohq/parcel-resolver" "0.14.0"
+    "@plasmohq/parcel-resolver-post" "0.4.4"
     "@plasmohq/parcel-runtime" "0.23.1"
     "@plasmohq/parcel-transformer-inject-env" "0.2.11"
     "@plasmohq/parcel-transformer-inline-css" "0.3.11"
-    "@plasmohq/parcel-transformer-manifest" "0.17.9"
+    "@plasmohq/parcel-transformer-manifest" "0.18.0"
     "@plasmohq/parcel-transformer-svelte" "0.5.2"
     "@plasmohq/parcel-transformer-vue" "0.5.0"
 
@@ -1585,10 +1585,10 @@
     "@parcel/utils" "2.9.3"
     nullthrows "1.1.1"
 
-"@plasmohq/parcel-resolver-post@0.4.3":
-  version "0.4.3"
-  resolved "https://registry.yarnpkg.com/@plasmohq/parcel-resolver-post/-/parcel-resolver-post-0.4.3.tgz#1d92646400e4da63ae18d68a4159b67040a6168d"
-  integrity sha512-+KxdAOyBJNK7wxLUbLhx0d4AWQg2trcCK8rwOSNL8JP0OgtSDaOFa2NqCTFwuccGco4PzmK+27U17LWSGTFAOQ==
+"@plasmohq/parcel-resolver-post@0.4.4":
+  version "0.4.4"
+  resolved "https://registry.yarnpkg.com/@plasmohq/parcel-resolver-post/-/parcel-resolver-post-0.4.4.tgz#501a722b347497de893080ffb0c19956d62c281e"
+  integrity sha512-n39U5z2aGAfCDFydpvEDXx0MWtqYwh0+aX4QS49/IsmZMM1Ra+GnHs/gfeJz0jtN83EytlbwSoDcXRkORx9rIQ==
   dependencies:
     "@parcel/core" "2.9.3"
     "@parcel/hash" "2.9.3"
@@ -1598,10 +1598,10 @@
     tsup "7.2.0"
     typescript "5.2.2"
 
-"@plasmohq/parcel-resolver@0.13.2":
-  version "0.13.2"
-  resolved "https://registry.yarnpkg.com/@plasmohq/parcel-resolver/-/parcel-resolver-0.13.2.tgz#b5adb7a68cd83ff19f19b2655f4541ec8ccc98ab"
-  integrity sha512-JVXk65c5g5rOci9xmuvEqpemOFc6yTlGO1A1LCllFeByl2hBszRCBBSNp9wsaes2gQIbClgzFjbOSijKV3acNw==
+"@plasmohq/parcel-resolver@0.14.0":
+  version "0.14.0"
+  resolved "https://registry.yarnpkg.com/@plasmohq/parcel-resolver/-/parcel-resolver-0.14.0.tgz#5d985854c4df202dba434164a5940bc3c3484a7e"
+  integrity sha512-OPGFiv2SxDEJl9sNPKfjkQ3QaqKOzSDx8E85Bq9FCOKCj+EWTPfoeUOAuMkHY/ArcvDBhWAo3Zu66f2U7iPEGQ==
   dependencies:
     "@parcel/core" "2.9.3"
     "@parcel/hash" "2.9.3"
@@ -1640,10 +1640,10 @@
     browserslist "4.22.1"
     lightningcss "1.21.8"
 
-"@plasmohq/parcel-transformer-manifest@0.17.9":
-  version "0.17.9"
-  resolved "https://registry.yarnpkg.com/@plasmohq/parcel-transformer-manifest/-/parcel-transformer-manifest-0.17.9.tgz#0ca4227fb3b5bd15f1079de8bf2ac8c9f6095462"
-  integrity sha512-syL5AbC7sKCNd6jpNU6qKdeUVWUDhiWLoHC5IYTVGcdVjKBql6lgs+e2JehjNB1BYW2lTrY5v3lI26Z6P6+/9Q==
+"@plasmohq/parcel-transformer-manifest@0.18.0":
+  version "0.18.0"
+  resolved "https://registry.yarnpkg.com/@plasmohq/parcel-transformer-manifest/-/parcel-transformer-manifest-0.18.0.tgz#882ee29c84403f8797251e83831bdcda984479bb"
+  integrity sha512-6X6ubo37Ic7u1y3MjY+vt23Gb3ULtOsH1MbKw3jZMiG8nLGXqXRfiHSyNxJWAdpk7N7ASE8dHnZ+5g3E57bldA==
   dependencies:
     "@mischnic/json-sourcemap" "0.1.0"
     "@parcel/core" "2.9.3"
@@ -4039,10 +4039,10 @@ pirates@^4.0.1:
   resolved "https://registry.yarnpkg.com/pirates/-/pirates-4.0.6.tgz#3018ae32ecfcff6c29ba2267cbf21166ac1f36b9"
   integrity sha512-saLsH7WeYYPiD25LDuLRRY/i+6HaPYr6G1OUlN39otzkSTxKnubR9RTxS3/Kk50s1g2JTgFwWQDQyplC5/SHZg==
 
-plasmo@0.84.2:
-  version "0.84.2"
-  resolved "https://registry.yarnpkg.com/plasmo/-/plasmo-0.84.2.tgz#a839c4ba46e542c69690ae9c4a3e0fe81f050da6"
-  integrity sha512-9fyuQubUdYOHEs7plvppB7tPfyqTpA1UlWEYUGeVOgKQ6/rhvpvjBLCWyhzy/S3CrzXL8nZ7HQ1xHka4Coe0PA==
+plasmo@0.85.2:
+  version "0.85.2"
+  resolved "https://registry.yarnpkg.com/plasmo/-/plasmo-0.85.2.tgz#56e7e2992ce1f48c1033502f0a5c6aba34f2d7a1"
+  integrity sha512-qf9mONnb0JV0quYMM3qi23wuAIabzlhsDmHw4HMuBXjDp0ysruzGoOiFQmAbEMK7lMMFFepPkcDftu0c8MNhBw==
   dependencies:
     "@expo/spawn-async" "1.7.2"
     "@parcel/core" "2.9.3"
@@ -4050,7 +4050,7 @@ plasmo@0.84.2:
     "@parcel/package-manager" "2.9.3"
     "@parcel/watcher" "2.2.0"
     "@plasmohq/init" "0.7.0"
-    "@plasmohq/parcel-config" "0.40.2"
+    "@plasmohq/parcel-config" "0.40.5"
     "@plasmohq/parcel-core" "0.1.8"
     buffer "6.0.3"
     chalk "5.3.0"
