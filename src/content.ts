@@ -31,7 +31,10 @@ chrome.runtime.onMessage.addListener(function(message) {
     mainOrDebug = () => {
       const blocks = getBlocks()
       visualizeBlocks(blocks)
-      main({withScoreboard : false, initialBallSpeed : "middle"})
+      main({
+        ...message.options,
+        withScoreboard : false
+      })
       dragAndMoveBall(blocks)
     }
   } else {

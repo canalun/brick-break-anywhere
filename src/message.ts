@@ -21,11 +21,13 @@ export function isMessageStartMessage(message: any): message is StartMessage {
 const test = "test"
 export type TestMessage = {
   type: typeof test
+  options: StartOptions
 }
 
-export function createTestMessage(): TestMessage {
+export function createTestMessage(options: StartOptions): TestMessage {
   return {
-    type: test
+    type: test,
+    options
   }
 }
 
