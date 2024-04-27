@@ -75,7 +75,7 @@ function gameOver(blocks: Block[], options: StartOptions) {
     marginTop: "20px",
     fontSize: "20px"
   })
-  replayButton.textContent = "Replay(Reload Page)"
+  replayButton.textContent = "Replay"
   replayButton.onclick = () => {
     replay(options)
   }
