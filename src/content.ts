@@ -1,4 +1,5 @@
 import { dragAndMoveBall, visualizeBlocks } from "~game/debug"
+import { replay } from "~game/end/gameOver"
 import { main } from "~game/main"
 import { getBlocks } from "~game/object/blocks"
 import {
@@ -43,6 +44,7 @@ chrome.runtime.onMessage.addListener(function(message) {
 
   // Check and mark as started only when the message is "start" or "test".
   if (started) {
+    replay(message.options)
     return
   }
   started = true

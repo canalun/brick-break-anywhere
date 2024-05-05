@@ -82,7 +82,7 @@ function gameOver(blocks: Block[], options: StartOptions) {
   gameOverMessage.appendChild(replayButton)
 }
 
-function replay(options: StartOptions) {
+export function replay(options: StartOptions) {
   chrome.runtime.onMessage.addListener((message) => {
     if (isMessageReplayIsConfirmedOnBackgroundMessage(message)) {
       location.reload()
