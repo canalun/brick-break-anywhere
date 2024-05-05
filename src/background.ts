@@ -7,7 +7,6 @@ import {
 
 export {}
 
-// Add eventlistener to send message to content.js when the page is reloaded
 chrome.runtime.onMessage.addListener((message, sender) => {
   if (!sender.tab?.id) {
     return
