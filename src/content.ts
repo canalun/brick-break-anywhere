@@ -27,14 +27,17 @@ chrome.runtime.onMessage.addListener(function(message) {
 
   let mainOrDebug: () => void;
   if (isMessageStartMessage(message)) {
-    mainOrDebug = () => main(message.options)
+    mainOrDebug = () => main(message)
   } else if (isMessageTestMessage(message)) {
     mainOrDebug = () => {
       const blocks = getBlocks()
       visualizeBlocks(blocks)
       main({
-        ...message.options,
-        withScoreboard : false
+        type: "test",
+        options: {
+          ...message.options,
+          withScoreboard: false
+        }
       })
       dragAndMoveBall(blocks)
     }
@@ -44,7 +47,7 @@ chrome.runtime.onMessage.addListener(function(message) {
 
   // Check and mark as started only when the message is "start" or "test".
   if (started) {
-    replay(message.options)
+    replay(message)
     return
   }
   started = true

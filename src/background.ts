@@ -1,6 +1,5 @@
 import {
   createReplayIsConfirmedOnBackgroundMessage,
-  createStartMessage,
   isMessageContentIsReadyMessage,
   isMessageRequestReplayToBackgroundMessage
 } from "~message"
@@ -27,7 +26,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
       ) {
         chrome.tabs.sendMessage(
           _senderTabId,
-          createStartMessage(message.options)
+          message.message
         )
       }
       chrome.runtime.onMessage.removeListener(startReplay)

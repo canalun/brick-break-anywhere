@@ -35,6 +35,8 @@ export function isMessageTestMessage(message: any): message is TestMessage {
   return message.type === test
 }
 
+export type AnyStartMessage = StartMessage | TestMessage
+
 // For replay, this game uses three kinds of messages.
 // 1. RequestReplayToBackgroundMessage
 // 2. ReplayIsConfirmedOnBackgroundMessage
@@ -42,15 +44,15 @@ export function isMessageTestMessage(message: any): message is TestMessage {
 const requestReplayToBackground = "requestReplayToBackground"
 type RequestReplayToBackgroundMessage = {
   type: typeof requestReplayToBackground
-  options: StartOptions
+  message: AnyStartMessage
 }
 
 export function createRequestReplayToBackgroundMessage(
-  options: StartOptions
+  message: AnyStartMessage
 ): RequestReplayToBackgroundMessage {
   return {
     type: requestReplayToBackground,
-    options
+    message
   }
 }
 
