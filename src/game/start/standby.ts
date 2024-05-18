@@ -1,10 +1,10 @@
-import type { AnyStartMessage } from "~message"
 import { startBallAnimation } from "../animation/startBallAnimation"
 import { startBlockAndScoreUpdate } from "../animation/updateBlocks"
 import {
   ballSetting,
   barSetting,
   initialBottom,
+  type StartOptions
 } from "../configuration/settings"
 import { setSoundEffect } from "../configuration/soundEffect"
 import { startCheckIsGameOver } from "../end/gameOver"
@@ -18,9 +18,8 @@ export function standby(
   bar: Bar,
   blocks: Block[],
   scoreboard: Scoreboard | null,
-  startMessage: AnyStartMessage
+  startOptions: StartOptions
 ) {
-  const startOptions = startMessage.options
   const ring = startOptions.sound ? setSoundEffect() : () => {}
 
   window.addEventListener("mousemove", moveBarAndBall)
@@ -41,7 +40,7 @@ export function standby(
     )
     const stopBlockAndScoreUpdate = startBlockAndScoreUpdate(blocks, scoreboard)
 
-    startCheckIsGameOver(ball, blocks, startMessage, [
+    startCheckIsGameOver(ball, blocks, startOptions, [
       stopBallAnimation,
       stopBlockAndScoreUpdate,
       () => {
