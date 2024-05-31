@@ -1,4 +1,5 @@
 import { dragAndMoveBall, visualizeBlocks } from "~game/debug"
+import { replay } from "~game/end/gameOver"
 import { main } from "~game/main"
 import { getBlocks } from "~game/object/blocks"
 import {
@@ -26,12 +27,18 @@ chrome.runtime.onMessage.addListener(function(message) {
 
   let mainOrDebug: () => void;
   if (isMessageStartMessage(message)) {
-    mainOrDebug = () => main(message.options)
+    mainOrDebug = () => main(message)
   } else if (isMessageTestMessage(message)) {
     mainOrDebug = () => {
       const blocks = getBlocks()
       visualizeBlocks(blocks)
-      main({withScoreboard : false, initialBallSpeed : "middle"})
+      main({
+        type: "test",
+        options: {
+          ...message.options,
+          withScoreboard: false
+        }
+      })
       dragAndMoveBall(blocks)
     }
   } else {
@@ -40,6 +47,7 @@ chrome.runtime.onMessage.addListener(function(message) {
 
   // Check and mark as started only when the message is "start" or "test".
   if (started) {
+    replay(message)
     return
   }
   started = true

@@ -1,13 +1,11 @@
 import {
   createReplayIsConfirmedOnBackgroundMessage,
-  createStartMessage,
   isMessageContentIsReadyMessage,
   isMessageRequestReplayToBackgroundMessage
 } from "~message"
 
 export {}
 
-// Add eventlistener to send message to content.js when the page is reloaded
 chrome.runtime.onMessage.addListener((message, sender) => {
   if (!sender.tab?.id) {
     return
@@ -28,7 +26,7 @@ chrome.runtime.onMessage.addListener((message, sender) => {
       ) {
         chrome.tabs.sendMessage(
           _senderTabId,
-          createStartMessage(message.options)
+          message.message
         )
       }
       chrome.runtime.onMessage.removeListener(startReplay)

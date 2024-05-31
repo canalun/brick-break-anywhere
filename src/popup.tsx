@@ -39,7 +39,10 @@ function IndexPopup() {
       if (!activeTab.id) {
         return
       }
-      chrome.tabs.sendMessage<TestMessage>(activeTab.id, createTestMessage())
+      chrome.tabs.sendMessage<TestMessage>(
+        activeTab.id,
+        createTestMessage({ withScoreboard, initialBallSpeed, sound })
+      )
       window.close()
     })
   }

@@ -1,12 +1,12 @@
 import {
   createRequestReplayToBackgroundMessage,
-  isMessageReplayIsConfirmedOnBackgroundMessage
+  isMessageReplayIsConfirmedOnBackgroundMessage,
+  type AnyStartMessage,
 } from "~message"
 
 import {
   ballSetting,
   veilZIndex,
-  type StartOptions
 } from "../configuration/settings"
 import { getBallCenterPosition, type Ball } from "../object/ball"
 import type { Block } from "../object/blocks"
@@ -14,7 +14,7 @@ import type { Block } from "../object/blocks"
 export function startCheckIsGameOver(
   ball: Ball,
   blocks: Block[],
-  options: StartOptions,
+  message: AnyStartMessage,
   stopAnimationFuncs: (() => void)[]
 ) {
   requestAnimationFrame(checkIsGameOver)
@@ -23,13 +23,13 @@ export function startCheckIsGameOver(
     const isBallTouchBottom =
       getBallCenterPosition(ball).y - ballSetting.radius <= 0
     if (isBallTouchBottom) {
-      gameOver(blocks, options)
+      gameOver(blocks, message)
       stopAnimationFuncs.forEach((f) => f())
       return
     }
     const isAllBlocksDestroyed = !blocks.some((b) => b.remain)
     if (isAllBlocksDestroyed) {
-      gameOver(blocks, options)
+      gameOver(blocks, message)
       stopAnimationFuncs.forEach((f) => f())
       return
     }
@@ -37,7 +37,7 @@ export function startCheckIsGameOver(
   }
 }
 
-function gameOver(blocks: Block[], options: StartOptions) {
+function gameOver(blocks: Block[], message: AnyStartMessage) {
   const countOfBrokenBlocks = blocks.filter((b) => !b.remain).length
 
   const gameOverMessage = document.createElement("div")
@@ -75,19 +75,19 @@ function gameOver(blocks: Block[], options: StartOptions) {
     marginTop: "20px",
     fontSize: "20px"
   })
-  replayButton.textContent = "Replay(Reload Page)"
+  replayButton.textContent = "Replay"
   replayButton.onclick = () => {
-    replay(options)
+    replay(message)
   }
   gameOverMessage.appendChild(replayButton)
 }
 
-function replay(options: StartOptions) {
+export function replay(message: AnyStartMessage) {
   chrome.runtime.onMessage.addListener((message) => {
     if (isMessageReplayIsConfirmedOnBackgroundMessage(message)) {
       location.reload()
     }
   })
 
-  chrome.runtime.sendMessage(createRequestReplayToBackgroundMessage(options))
+  chrome.runtime.sendMessage(createRequestReplayToBackgroundMessage(message))
 }
