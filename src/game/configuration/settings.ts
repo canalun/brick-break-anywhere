@@ -9,7 +9,19 @@ export const collisionPointOnBallClass = "bba-collision-point-on-ball"
 export type StartOptions = {
   withScoreboard: boolean
   initialBallSpeed: "low" | "middle" | "high" | "superHigh"
-  sound: boolean
+  sound: boolean,
+  visualizeBlocks: boolean,
+  controlMode: "normal" | "mouse"
+}
+
+export function disableScoreboardIfDebug(options: StartOptions): StartOptions {
+  if (options.visualizeBlocks || options.controlMode === "mouse") {
+    return {
+      ...options,
+      withScoreboard: false
+    }
+  }
+  return options
 }
 
 type BarSetting = {

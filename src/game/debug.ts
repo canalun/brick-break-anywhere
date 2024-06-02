@@ -1,9 +1,11 @@
-import { updateBallDirectionByCollisionWithBlocks } from "./animation/updateBall"
+import { updateBallDirectionByCollisionWithBlocks, updateBallPositionTo } from "./animation/updateBall"
 import { startBlockAndScoreUpdate } from "./animation/updateBlocks"
 import {
   ballId,
+  ballSetting,
   ballZIndex,
   collisionPointOnBallClass,
+  initialBottom,
   numberOfCollisionPoints
 } from "./configuration/settings"
 import {
@@ -71,37 +73,32 @@ export function updateVisualizedCollisionPointsOnBall(
   }
 }
 
-export function dragAndMoveBall(blocks: Block[]) {
+export function controlBallByMouse(blocks: Block[]): () => void {
   const ball = document.getElementById(ballId)
   assert(ball !== null, "ball element must be found")
 
   startBlockAndScoreUpdate(blocks, null)
 
-  // drag and move ball
-  let isDragging = false
-  let offsetX = 0
-  let offsetY = 0
-  ball.addEventListener("mousedown", (e) => {
-    isDragging = true
-    offsetX = e.clientX - ball.getBoundingClientRect().left
-    offsetY = e.clientY - ball.getBoundingClientRect().top
-  })
-  ball.addEventListener("mouseup", () => {
-    isDragging = false
-  })
-  ball.addEventListener("mousemove", (e) => {
-    if (isDragging) {
-      ball.style.left = `${e.clientX - offsetX}px`
-      ball.style.top = `${e.clientY - offsetY}px`
+  function onMousemove(e: MouseEvent){
+    const mousePosition = {
+      x: e.clientX - ballSetting.radius,
+      y: -(window.innerHeight - e.clientY - initialBottom + ballSetting.radius)
     }
+    updateBallPositionTo(ball as Ball, mousePosition)
 
+    const mouseDirection = { x: e.movementX, y: e.movementY }
     updateBallDirectionByCollisionWithBlocks(
-      getCurrentCollisionPointsOnBall(getBallCenterPosition(ball as Ball), {
-        x: e.movementX,
-        y: e.movementY
-      }),
+      getCurrentCollisionPointsOnBall(
+        getBallCenterPosition(ball as Ball),
+        mouseDirection
+      ),
       blocks,
-      { x: e.movementX, y: e.movementY }
+      mouseDirection
     )
-  })
+  }
+  document.documentElement.addEventListener("mousemove", onMousemove)
+
+  return function removeControlBallByMouse() {
+    document.documentElement.removeEventListener("mousemove", onMousemove)
+  }
 }

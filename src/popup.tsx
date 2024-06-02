@@ -3,9 +3,7 @@ import { useState } from "react"
 import type { StartOptions } from "~game/configuration/settings"
 import {
   createStartMessage,
-  createTestMessage,
   type StartMessage,
-  type TestMessage
 } from "~message"
 
 function IndexPopup() {
@@ -28,7 +26,13 @@ function IndexPopup() {
       }
       chrome.tabs.sendMessage<StartMessage>(
         activeTab.id,
-        createStartMessage({ withScoreboard, initialBallSpeed, sound })
+        createStartMessage({
+          withScoreboard,
+          initialBallSpeed,
+          sound,
+          visualizeBlocks: false,
+          controlMode: "normal"
+        })
       )
     })
   }
@@ -39,9 +43,15 @@ function IndexPopup() {
       if (!activeTab.id) {
         return
       }
-      chrome.tabs.sendMessage<TestMessage>(
+      chrome.tabs.sendMessage<StartMessage>(
         activeTab.id,
-        createTestMessage({ withScoreboard, initialBallSpeed, sound })
+        createStartMessage({
+          withScoreboard,
+          initialBallSpeed,
+          sound,
+          visualizeBlocks: true,
+          controlMode: "mouse"
+        })
       )
       window.close()
     })

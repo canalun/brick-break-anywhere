@@ -17,24 +17,6 @@ export function isMessageStartMessage(message: any): message is StartMessage {
   return message.type === start
 }
 
-// For start debug mode.
-const test = "test"
-export type TestMessage = {
-  type: typeof test
-  options: StartOptions
-}
-
-export function createTestMessage(options: StartOptions): TestMessage {
-  return {
-    type: test,
-    options
-  }
-}
-
-export function isMessageTestMessage(message: any): message is TestMessage {
-  return message.type === test
-}
-
 // For replay, this game uses three kinds of messages.
 // 1. RequestReplayToBackgroundMessage
 // 2. ReplayIsConfirmedOnBackgroundMessage

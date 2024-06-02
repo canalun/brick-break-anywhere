@@ -1,3 +1,4 @@
+import { controlBallByMouse } from "~game/debug"
 import { startBallAnimation } from "../animation/startBallAnimation"
 import { startBlockAndScoreUpdate } from "../animation/updateBlocks"
 import {
@@ -12,6 +13,7 @@ import type { Ball } from "../object/ball"
 import type { Bar } from "../object/bar"
 import type { Block } from "../object/blocks"
 import type { Scoreboard } from "../object/scoreboard"
+import { updateBallPositionTo } from "~game/animation/updateBall"
 
 export function standby(
   ball: Ball,
@@ -31,13 +33,15 @@ export function standby(
 
     window.addEventListener("mousemove", moveBar)
 
-    const stopBallAnimation = startBallAnimation(
-      ball,
-      bar,
-      blocks,
-      startOptions.initialBallSpeed,
-      ring
-    )
+    const stopBallAnimation = startOptions.controlMode === "normal"
+      ? startBallAnimation(
+          ball,
+          bar,
+          blocks,
+          startOptions.initialBallSpeed,
+          ring
+        )
+      : controlBallByMouse(blocks)
     const stopBlockAndScoreUpdate = startBlockAndScoreUpdate(blocks, scoreboard)
 
     startCheckIsGameOver(ball, blocks, startOptions, [
@@ -53,13 +57,12 @@ export function standby(
     bar.style.transform =
       `translate(` +
       `${e.clientX - barSetting.width / 2}px, ` +
-      `${-1 * initialBottom}px` +
+      `${-initialBottom}px` +
       `)`
-    ball.style.transform =
-      `translate(` +
-      `${e.clientX - ballSetting.radius}px, ` +
-      `${-(initialBottom + barSetting.height)}px` +
-      `)`
+    updateBallPositionTo(ball, {
+      x: e.clientX - ballSetting.radius,
+      y: -(initialBottom + barSetting.height)
+    })
   }
 
   function moveBar(e: MouseEvent) {
