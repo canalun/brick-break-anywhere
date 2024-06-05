@@ -234,6 +234,7 @@ export function updateBallPositionBy(ball: Ball, velocity: Vector): void {
   })
 }
 
+// TODO: Also available for Bar?
 export function updateBallPositionTo(ball: Ball, position: { x: number, y: number }): void {
   Object.assign(ball.style, {
     transform:
