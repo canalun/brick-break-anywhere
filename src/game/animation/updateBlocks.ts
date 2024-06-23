@@ -42,8 +42,8 @@ export function startBlockAndScoreUpdate(
 function removeBlockAndUpdateBlocksPosition(block: Block, blocks: Block[]) {
   // make to-be-removed element red just a moment before removing it
   const element = block.element as HTMLElement // TODO: remove type assertion
-  const originalBorderWidth = getComputedStyleWithCache(element).borderWidth
-  element.style.border = `${originalBorderWidth === "0px" ? "1px" : originalBorderWidth} solid red`
+  const originalOutlineWidth = getComputedStyleWithCache(element).outlineWidth
+  element.style.outline = `${originalOutlineWidth === "0px" ? "1px" : originalOutlineWidth} solid red`
 
   setTimeout(() => {
     removeBlock(block)
