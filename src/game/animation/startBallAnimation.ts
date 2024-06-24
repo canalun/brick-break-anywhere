@@ -1,16 +1,14 @@
 import {
-  ballSetting,
   getInitialBallSpeed,
   initialBallDirection,
   type StartOptions
 } from "../configuration/settings"
 import type { Ball } from "../object/ball"
-import { getBallCenterPosition } from "../object/ball"
 import type { Bar } from "../object/bar"
 import type { Block } from "../object/blocks"
 import type { Vector } from "../utils/vector"
 import { getVectorMultipliedWithScalar } from "../utils/vector"
-import { getUpdatedBallDirection, getUpdatedBallSpeed } from "./updateBall"
+import { getUpdatedBallDirection, getUpdatedBallSpeed, updateBallPositionBy } from "./updateBall"
 
 export function startBallAnimation(
   ball: Ball,
@@ -31,7 +29,7 @@ export function startBallAnimation(
   })
   function updateBall(ball: Ball): void {
     updateBallVelocity(ball)
-    updateBallPosition(ball)
+    updateBallPositionBy(ball, currentBallVelocity)
     id = requestAnimationFrame(() => updateBall(ball))
   }
 
@@ -40,17 +38,6 @@ export function startBallAnimation(
     window.addEventListener("click", stopBallAnimation)
   }
   return stopBallAnimation
-
-  function updateBallPosition(ball: Ball): void {
-    const currentBallPosition = getBallCenterPosition(ball)
-    Object.assign(ball.style, {
-      transform:
-        `translate(` +
-        `${currentBallPosition.x - ballSetting.radius + currentBallVelocity.x}px, ` +
-        `${-(currentBallPosition.y - ballSetting.radius + currentBallVelocity.y)}px` +
-        `)`
-    })
-  }
 
   function updateBallVelocity(ball: Ball): void {
     // acceleration

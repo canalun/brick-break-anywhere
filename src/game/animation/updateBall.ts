@@ -1,5 +1,6 @@
 import {
   ballAcceleration,
+  ballSetting,
   barSetting,
   maximumLimitOfBallSpeed,
   redundancyOfCollisionWithBar,
@@ -19,7 +20,9 @@ import {
   type Vector
 } from "../utils/vector"
 
-export function getUpdatedBallSpeed(currentBallSpeed: number) {
+export { updateObjectPositionTo as updateBallPositionTo } from "./updateObject"
+
+export function getUpdatedBallSpeed(currentBallSpeed: number): number {
   return Math.min(currentBallSpeed + ballAcceleration, maximumLimitOfBallSpeed)
 }
 
@@ -220,4 +223,15 @@ export function updateBallDirectionByCollisionWithBlocks(
     }
   }
   return { x: currentBallDirection.x, y: currentBallDirection.y }
+}
+
+export function updateBallPositionBy(ball: Ball, velocity: Vector): void {
+  const currentBallPosition = getBallCenterPosition(ball)
+  Object.assign(ball.style, {
+    transform:
+    `translate(` +
+      `${currentBallPosition.x - ballSetting.radius + velocity.x}px, ` +
+      `${-(currentBallPosition.y - ballSetting.radius + velocity.y)}px` +
+      `)`
+  })
 }
