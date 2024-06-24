@@ -14,6 +14,7 @@ import type { Bar } from "../object/bar"
 import type { Block } from "../object/blocks"
 import type { Scoreboard } from "../object/scoreboard"
 import { updateBallPositionTo } from "~game/animation/updateBall"
+import { updateBarPositionTo } from "~game/animation/updateBar"
 
 export function standby(
   ball: Ball,
@@ -54,11 +55,10 @@ export function standby(
   })
 
   function moveBarAndBall(e: MouseEvent) {
-    bar.style.transform =
-      `translate(` +
-      `${e.clientX - barSetting.width / 2}px, ` +
-      `${-initialBottom}px` +
-      `)`
+    updateBarPositionTo(bar, {
+      x: e.clientX - barSetting.width / 2,
+      y: -initialBottom
+    });
     updateBallPositionTo(ball, {
       x: e.clientX - ballSetting.radius,
       y: -(initialBottom + barSetting.height)

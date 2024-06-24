@@ -20,6 +20,8 @@ import {
   type Vector
 } from "../utils/vector"
 
+export { updateObjectPositionTo as updateBallPositionTo } from "./updateObject"
+
 export function getUpdatedBallSpeed(currentBallSpeed: number): number {
   return Math.min(currentBallSpeed + ballAcceleration, maximumLimitOfBallSpeed)
 }
@@ -230,17 +232,6 @@ export function updateBallPositionBy(ball: Ball, velocity: Vector): void {
     `translate(` +
       `${currentBallPosition.x - ballSetting.radius + velocity.x}px, ` +
       `${-(currentBallPosition.y - ballSetting.radius + velocity.y)}px` +
-      `)`
-  })
-}
-
-// TODO: Also available for Bar?
-export function updateBallPositionTo(ball: Ball, position: { x: number, y: number }): void {
-  Object.assign(ball.style, {
-    transform:
-    `translate(` +
-      `${position.x}px, ` +
-      `${position.y}px` +
       `)`
   })
 }
