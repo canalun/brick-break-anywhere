@@ -14,16 +14,6 @@ export type StartOptions = {
   controlMode: "normal" | "mouse"
 }
 
-export function disableScoreboardIfDebug(options: StartOptions): StartOptions {
-  if (options.visualizeBlocks || options.controlMode === "mouse") {
-    return {
-      ...options,
-      withScoreboard: false
-    }
-  }
-  return options
-}
-
 type BarSetting = {
   width: number
   height: number

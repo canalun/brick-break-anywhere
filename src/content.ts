@@ -1,4 +1,3 @@
-import { disableScoreboardIfDebug } from "~game/configuration/settings"
 import { replay } from "~game/end/gameOver"
 import { main } from "~game/main"
 import {
@@ -38,10 +37,10 @@ chrome.runtime.onMessage.addListener(function(message) {
   // because document.body is required for exec `preventScroll()`,
   // and block calculation should be executed after iframes have been loaded.
   if (window.document.readyState === "complete") {
-    main(disableScoreboardIfDebug(message.options))
+    main(message.options)
   } else {
     window.addEventListener("load", () => {
-      main(disableScoreboardIfDebug(message.options))
+      main(message.options)
     })
   }
 })

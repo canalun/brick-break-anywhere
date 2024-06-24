@@ -17,6 +17,7 @@ function IndexPopup() {
     setInitialBallSpeed(e.target.value as StartOptions["initialBallSpeed"])
   }
   const [sound, setSound] = useState(true)
+  const [debug, setDebug] = useState(false)
 
   const sendMessageToIsolatedWorldOnActiveTab = () => {
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
@@ -27,7 +28,7 @@ function IndexPopup() {
       chrome.tabs.sendMessage<StartMessage>(
         activeTab.id,
         createStartMessage({
-          withScoreboard,
+          withScoreboard: withScoreboard && !debug,
           initialBallSpeed,
           sound,
           visualizeBlocks: false,
@@ -35,6 +36,7 @@ function IndexPopup() {
         })
       )
     })
+    window.close()
   }
 
   const sendMessageToIsolatedWorldOnActiveTabForTest = () => {
@@ -46,7 +48,7 @@ function IndexPopup() {
       chrome.tabs.sendMessage<StartMessage>(
         activeTab.id,
         createStartMessage({
-          withScoreboard,
+          withScoreboard: false,
           initialBallSpeed,
           sound,
           visualizeBlocks: true,
@@ -57,6 +59,14 @@ function IndexPopup() {
     })
   }
 
+  const start = () => {
+    if (debug) {
+      sendMessageToIsolatedWorldOnActiveTabForTest()
+    } else {
+      sendMessageToIsolatedWorldOnActiveTab()
+    }
+  }
+
   return (
     <div
       style={{
@@ -65,13 +75,7 @@ function IndexPopup() {
         padding: "16px"
       }}>
       <h2>Brick Break Anywhere</h2>
-      <button
-        onClick={() => {
-          sendMessageToIsolatedWorldOnActiveTab()
-          window.close()
-        }}>
-        Start!
-      </button>
+      <button onClick={start}> Start! </button>
       <br />
       <div style={{ marginTop: "16px" }}>
         Initial Ball Speed <br />
@@ -117,6 +121,7 @@ function IndexPopup() {
         <label>
           <input
             type="radio"
+            disabled={debug}
             checked={withScoreboard}
             onChange={(e) => setWithScoreboard(e.target.checked)}
           />
@@ -125,6 +130,7 @@ function IndexPopup() {
         <label>
           <input
             type="radio"
+            disabled={debug}
             checked={!withScoreboard}
             onChange={(e) => setWithScoreboard(!e.target.checked)}
           />
@@ -150,12 +156,29 @@ function IndexPopup() {
           Off
         </label>
       </div>
-      <br />
       {process.env.NODE_ENV === "development" ? (
-        <button onClick={sendMessageToIsolatedWorldOnActiveTabForTest}>
-          debug mode
-        </button>
+        <div style={{ marginTop: "16px" }}>
+          Debug Mode<br />
+          <label>
+            <input
+              type="radio"
+              checked={debug}
+              onChange={(e) => setDebug(e.target.checked)}
+            />
+            On
+          </label>
+          <label>
+            <input
+              type="radio"
+              checked={!debug}
+              onChange={(e) => setDebug(!e.target.checked)}
+            />
+            Off
+          </label>
+        </div>
       ) : null}
+      <br />
+      <button onClick={start}> Start! </button>
     </div>
   )
 }
