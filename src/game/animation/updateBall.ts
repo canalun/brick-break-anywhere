@@ -153,69 +153,69 @@ export function updateBallDirectionByCollisionWithBlocks(
       if (!block.remain) {
         continue
       }
-      // bottom edge
-      if (
-        block.rect.left <= collisionPointOnBall.x &&
-        collisionPointOnBall.x <= block.rect.right &&
-        0 <= block.rect.bottom - collisionPointOnBall.y &&
-        block.rect.bottom - collisionPointOnBall.y <=
-          redundancyOfCollisionWithBlocks
-      ) {
-        block.remain = false
-        process.env.NODE_ENV === "development" &&
-          console.log(
-            "block removed by collision with bottom edge:",
-            block.element
-          )
-        return getFlippedVector(currentBallDirection, "vertical")
-      }
-      // top edge
-      if (
-        block.rect.left <= collisionPointOnBall.x &&
-        collisionPointOnBall.x <= block.rect.right &&
-        0 <= collisionPointOnBall.y - block.rect.top &&
-        collisionPointOnBall.y - block.rect.top <=
-          redundancyOfCollisionWithBlocks
-      ) {
-        block.remain = false
-        process.env.NODE_ENV === "development" &&
-          console.log(
-            "block removed by collision with top edge:",
-            block.element
-          )
-        return getFlippedVector(currentBallDirection, "vertical")
-      }
-      // left edge
-      if (
-        0 <= block.rect.left - collisionPointOnBall.x &&
-        block.rect.left - collisionPointOnBall.x <=
-          redundancyOfCollisionWithBlocks &&
-        block.rect.bottom <= collisionPointOnBall.y &&
-        collisionPointOnBall.y <= block.rect.top
-      ) {
-        block.remain = false
-        process.env.NODE_ENV === "development" &&
-          console.log(
-            "block removed by collision with left edge:",
-            block.element
-          )
-        return getFlippedVector(currentBallDirection, "horizontal")
-      }
-      // right edge
-      if (
-        0 <= collisionPointOnBall.x - block.rect.right &&
-        collisionPointOnBall.x - block.rect.right <=
-          redundancyOfCollisionWithBlocks &&
-        block.rect.bottom <= collisionPointOnBall.y &&
-        collisionPointOnBall.y <= block.rect.top
-      ) {
-        block.remain = false
-        process.env.NODE_ENV === "development" &&
-          console.log(
-            "block removed by collision with right edge:",
-            block.element
-          )
-        return getFlippedVector(currentBallDirection, "horizontal")
+      for (let h = 0; h < block.rects.length; h++) {
+        const rect = block.rects[h]
+        // bottom edge
+        if (
+          rect.left <= collisionPointOnBall.x &&
+          collisionPointOnBall.x <= rect.right &&
+          0 <= rect.bottom - collisionPointOnBall.y &&
+          rect.bottom - collisionPointOnBall.y <=
+            redundancyOfCollisionWithBlocks
+        ) {
+          block.remain = false
+          process.env.NODE_ENV === "development" &&
+            console.log(
+              "block removed by collision with bottom edge:",
+              block.element
+            )
+          return getFlippedVector(currentBallDirection, "vertical")
+        }
+        // top edge
+        if (
+          rect.left <= collisionPointOnBall.x &&
+          collisionPointOnBall.x <= rect.right &&
+          0 <= collisionPointOnBall.y - rect.top &&
+          collisionPointOnBall.y - rect.top <= redundancyOfCollisionWithBlocks
+        ) {
+          block.remain = false
+          process.env.NODE_ENV === "development" &&
+            console.log(
+              "block removed by collision with top edge:",
+              block.element
+            )
+          return getFlippedVector(currentBallDirection, "vertical")
+        }
+        // left edge
+        if (
+          0 <= rect.left - collisionPointOnBall.x &&
+          rect.left - collisionPointOnBall.x <= redundancyOfCollisionWithBlocks &&
+          rect.bottom <= collisionPointOnBall.y &&
+          collisionPointOnBall.y <= rect.top
+        ) {
+          block.remain = false
+          process.env.NODE_ENV === "development" &&
+            console.log(
+              "block removed by collision with left edge:",
+              block.element
+            )
+          return getFlippedVector(currentBallDirection, "horizontal")
+        }
+        // right edge
+        if (
+          0 <= collisionPointOnBall.x - rect.right &&
+          collisionPointOnBall.x - rect.right <= redundancyOfCollisionWithBlocks &&
+          rect.bottom <= collisionPointOnBall.y &&
+          collisionPointOnBall.y <= rect.top
+        ) {
+          block.remain = false
+          process.env.NODE_ENV === "development" &&
+            console.log(
+              "block removed by collision with right edge:",
+              block.element
+            )
+          return getFlippedVector(currentBallDirection, "horizontal")
+        }
       }
     }
   }
