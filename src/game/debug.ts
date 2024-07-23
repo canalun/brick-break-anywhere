@@ -27,12 +27,12 @@ export function visualizeBlocks(blocks: Block[]) {
     if (blocks[i].remain) {
       ;(blockElement as HTMLElement).style && // TODO: remove type assertion
         Object.assign((blockElement as HTMLElement).style, {
-          border: "0.1px solid red"
+          outline: "0.1px solid red"
         })
     } else {
       ;(blockElement as HTMLElement).style && // TODO: remove type assertion
         Object.assign((blockElement as HTMLElement).style, {
-          border: "none"
+          outline: "none"
         })
     }
   }
