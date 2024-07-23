@@ -44,7 +44,7 @@ function removeBlockAndUpdateBlocksPosition(block: Block, blocks: Block[]) {
   const element = block.element as HTMLElement // TODO: remove type assertion
   const originalBorderWidth = getComputedStyleWithCache(element).borderWidth
   if (originalBorderWidth === "0px") {
-    element.style.outline = `1px solid red`
+    element.style.outline = "1px solid red"
   } else {
     element.style.border = `${originalBorderWidth} solid red`
   }
