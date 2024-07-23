@@ -1,11 +1,8 @@
-import { dragAndMoveBall, visualizeBlocks } from "~game/debug"
 import { replay } from "~game/end/gameOver"
 import { main } from "~game/main"
-import { getBlocks } from "~game/object/blocks"
 import {
   createContentIsReadyMessage,
   isMessageStartMessage,
-  isMessageTestMessage
 } from "~message"
 
 export {}
@@ -25,29 +22,13 @@ chrome.runtime.sendMessage(createContentIsReadyMessage())
 let started = false // prevent multiple execution
 chrome.runtime.onMessage.addListener(function(message) {
 
-  let mainOrDebug: () => void;
-  if (isMessageStartMessage(message)) {
-    mainOrDebug = () => main(message)
-  } else if (isMessageTestMessage(message)) {
-    mainOrDebug = () => {
-      const blocks = getBlocks()
-      visualizeBlocks(blocks)
-      main({
-        type: "test",
-        options: {
-          ...message.options,
-          withScoreboard: false
-        }
-      })
-      dragAndMoveBall(blocks)
-    }
-  } else {
+  if (!isMessageStartMessage(message)) {
     return
   }
 
-  // Check and mark as started only when the message is "start" or "test".
+  // Check and mark as started only when the message is "start".
   if (started) {
-    replay(message)
+    replay(message.options)
     return
   }
   started = true
@@ -56,8 +37,10 @@ chrome.runtime.onMessage.addListener(function(message) {
   // because document.body is required for exec `preventScroll()`,
   // and block calculation should be executed after iframes have been loaded.
   if (window.document.readyState === "complete") {
-    mainOrDebug()
+    main(message.options)
   } else {
-    window.addEventListener("load", mainOrDebug)
+    window.addEventListener("load", () => {
+      main(message.options)
+    })
   }
 })

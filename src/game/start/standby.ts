@@ -1,10 +1,11 @@
-import type { AnyStartMessage } from "~message"
+import { controlBallByMouse } from "~game/debug"
 import { startBallAnimation } from "../animation/startBallAnimation"
 import { startBlockAndScoreUpdate } from "../animation/updateBlocks"
 import {
   ballSetting,
   barSetting,
   initialBottom,
+  type StartOptions
 } from "../configuration/settings"
 import { setSoundEffect } from "../configuration/soundEffect"
 import { startCheckIsGameOver } from "../end/gameOver"
@@ -12,15 +13,16 @@ import type { Ball } from "../object/ball"
 import type { Bar } from "../object/bar"
 import type { Block } from "../object/blocks"
 import type { Scoreboard } from "../object/scoreboard"
+import { updateBallPositionTo } from "~game/animation/updateBall"
+import { updateBarPositionTo } from "~game/animation/updateBar"
 
 export function standby(
   ball: Ball,
   bar: Bar,
   blocks: Block[],
   scoreboard: Scoreboard | null,
-  startMessage: AnyStartMessage
+  startOptions: StartOptions
 ) {
-  const startOptions = startMessage.options
   const ring = startOptions.sound ? setSoundEffect() : () => {}
 
   window.addEventListener("mousemove", moveBarAndBall)
@@ -32,16 +34,18 @@ export function standby(
 
     window.addEventListener("mousemove", moveBar)
 
-    const stopBallAnimation = startBallAnimation(
-      ball,
-      bar,
-      blocks,
-      startOptions.initialBallSpeed,
-      ring
-    )
+    const stopBallAnimation = startOptions.controlMode === "normal"
+      ? startBallAnimation(
+          ball,
+          bar,
+          blocks,
+          startOptions.initialBallSpeed,
+          ring
+        )
+      : controlBallByMouse(blocks)
     const stopBlockAndScoreUpdate = startBlockAndScoreUpdate(blocks, scoreboard)
 
-    startCheckIsGameOver(ball, blocks, startMessage, [
+    startCheckIsGameOver(ball, blocks, startOptions, [
       stopBallAnimation,
       stopBlockAndScoreUpdate,
       () => {
@@ -51,16 +55,14 @@ export function standby(
   })
 
   function moveBarAndBall(e: MouseEvent) {
-    bar.style.transform =
-      `translate(` +
-      `${e.clientX - barSetting.width / 2}px, ` +
-      `${-1 * initialBottom}px` +
-      `)`
-    ball.style.transform =
-      `translate(` +
-      `${e.clientX - ballSetting.radius}px, ` +
-      `${-(initialBottom + barSetting.height)}px` +
-      `)`
+    updateBarPositionTo(bar, {
+      x: e.clientX - barSetting.width / 2,
+      y: -initialBottom
+    });
+    updateBallPositionTo(ball, {
+      x: e.clientX - ballSetting.radius,
+      y: -(initialBottom + barSetting.height)
+    })
   }
 
   function moveBar(e: MouseEvent) {
