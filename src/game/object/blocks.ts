@@ -56,7 +56,7 @@ function addFrameOffsetToRect(
   element: Element,
   rect: Rect
 ): Rect {
-  let result = { ...rect };
+  const result = { ...rect };
   let currentOwnerDocument: Document | null = element.ownerDocument
   assert(!!window.top, "window.top not found")
   while (currentOwnerDocument && currentOwnerDocument !== window.top.document) {
