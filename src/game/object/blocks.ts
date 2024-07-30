@@ -7,14 +7,16 @@ import { getBlockElements } from "./getBlockElements"
 export type Block = {
   uuid: string
   element: Element // this includes not only HTMLElement but also others like SVGElement.
-  rect: {
-    top: number
-    bottom: number
-    left: number
-    right: number
-  }
+  rects: Rect[]
   remain: boolean
   removed: boolean
+}
+
+export type Rect = {
+  top: number
+  bottom: number
+  left: number
+  right: number
 }
 
 export function getBlocks(): Block[] {
@@ -27,42 +29,34 @@ function convertElementToBlock(element: Element): Block {
     // e.g. http://abehiroshi.la.coocan.jp/
     uuid: Math.random().toString(36).slice(-8),
     element,
-    rect: getRectOfBlock(element),
+    rects: getRectsOfBlock(element),
     remain: true,
     removed: false
   }
 }
 
-export function getRectOfBlock(element: Element) {
-  const __rect = element.getBoundingClientRect()
-  const _rect = {
-    top: __rect.top,
-    bottom: __rect.bottom,
-    left: __rect.left,
-    right: __rect.right
+export function getRectsOfBlock(element: Element): Rect[] {
+  const result: Rect[] = [];
+  const rects = element.getClientRects();
+  for (let i = 0; i < rects.length; i++) {
+    const { top, bottom, left, right } = rects[i];
+    const rect = { top, bottom, left, right }
+    const offsetAddedRect = addFrameOffsetToRect(element, rect)
+    result.push({
+      top: window.innerHeight - offsetAddedRect.top,
+      bottom: window.innerHeight - offsetAddedRect.bottom,
+      left: offsetAddedRect.left,
+      right: offsetAddedRect.right
+    });
   }
-
-  const offsetAddedRect = addFrameOffsetToRect(element, _rect)
-
-  const rect = {
-    top: window.innerHeight - offsetAddedRect.top,
-    bottom: window.innerHeight - offsetAddedRect.bottom,
-    left: offsetAddedRect.left,
-    right: offsetAddedRect.right
-  }
-
-  return rect
+  return result;
 }
 
 function addFrameOffsetToRect(
   element: Element,
-  rect: {
-    top: number
-    bottom: number
-    left: number
-    right: number
-  }
-) {
+  rect: Rect
+): Rect {
+  const result = { ...rect };
   let currentOwnerDocument: Document | null = element.ownerDocument
   assert(!!window.top, "window.top not found")
   while (currentOwnerDocument && currentOwnerDocument !== window.top.document) {
@@ -72,13 +66,13 @@ function addFrameOffsetToRect(
       throw new Error("srcFrameRect not found")
     }
 
-    rect.top += _srcFrameRect.top
-    rect.bottom += _srcFrameRect.top
-    rect.left += _srcFrameRect.left
-    rect.right += _srcFrameRect.left
+    result.top += _srcFrameRect.top
+    result.bottom += _srcFrameRect.top
+    result.left += _srcFrameRect.left
+    result.right += _srcFrameRect.left
 
     currentOwnerDocument =
       currentOwnerDocument.defaultView?.frameElement?.ownerDocument || null
   }
-  return rect
+  return result
 }

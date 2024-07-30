@@ -1,4 +1,4 @@
-import { getRectOfBlock, type Block } from "../object/blocks"
+import { getRectsOfBlock, type Block } from "../object/blocks"
 import type { Scoreboard } from "../object/scoreboard"
 import {
   assert,
@@ -133,7 +133,7 @@ function updatePositionOfRemainingBlocks(blocks: Block[]) {
     if (!blocks[i].remain) {
       return
     }
-    const rect = getRectOfBlock(blocks[i].element)
-    Object.assign(blocks[i], { rect })
+    const rects = getRectsOfBlock(blocks[i].element)
+    Object.assign(blocks[i], { rects })
   }
 }
