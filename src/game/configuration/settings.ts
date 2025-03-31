@@ -11,6 +11,7 @@ export type StartOptions = {
   initialBallSpeed: "low" | "middle" | "high" | "superHigh"
   sound: boolean,
   visualizeBlocks: boolean,
+  demo: boolean,
   controlMode: "normal" | "mouse"
 }
 
