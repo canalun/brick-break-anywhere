@@ -35,8 +35,8 @@ export function startBallAnimation(
     updateBallVelocity(ball)
     updateBallPositionBy(ball, currentBallVelocity)
     // To prevent the ball from falling into a loop as much as possible
-    const fluctuation = barSetting.width * 0.4 - Math.random() * 5;
     if (startOptions.demo) {
+      const fluctuation = barSetting.width * 0.4 - Math.random() * 5;
       moveBarTo(bar, getBallCenterPosition(ball).x - fluctuation)
     }
     id = requestAnimationFrame(() => updateBall(ball))
