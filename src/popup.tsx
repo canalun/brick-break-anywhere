@@ -18,6 +18,7 @@ function IndexPopup() {
   }
   const [sound, setSound] = useState(true)
   const [debug, setDebug] = useState(false)
+  const [demo, setDemo] = useState(false)
 
   const sendMessageToIsolatedWorldOnActiveTab = () => {
     chrome.tabs.query({ currentWindow: true, active: true }, function (tabs) {
@@ -31,6 +32,7 @@ function IndexPopup() {
           withScoreboard: withScoreboard && !debug,
           initialBallSpeed,
           sound,
+          demo,
           visualizeBlocks: false,
           controlMode: "normal"
         })
@@ -51,6 +53,7 @@ function IndexPopup() {
           withScoreboard: false,
           initialBallSpeed,
           sound,
+          demo,
           visualizeBlocks: true,
           controlMode: "mouse"
         })
@@ -157,25 +160,46 @@ function IndexPopup() {
         </label>
       </div>
       {process.env.NODE_ENV === "development" ? (
-        <div style={{ marginTop: "16px" }}>
-          Debug Mode<br />
-          <label>
-            <input
-              type="radio"
-              checked={debug}
-              onChange={(e) => setDebug(e.target.checked)}
-            />
-            On
-          </label>
-          <label>
-            <input
-              type="radio"
-              checked={!debug}
-              onChange={(e) => setDebug(!e.target.checked)}
-            />
-            Off
-          </label>
-        </div>
+        <>
+          <div style={{ marginTop: "16px" }}>
+            Debug Mode<br />
+            <label>
+              <input
+                type="radio"
+                checked={debug}
+                onChange={(e) => setDebug(e.target.checked)}
+              />
+              On
+            </label>
+            <label>
+              <input
+                type="radio"
+                checked={!debug}
+                onChange={(e) => setDebug(!e.target.checked)}
+              />
+              Off
+            </label>
+          </div>
+          <div style={{ marginTop: "16px" }}>
+            Demo<br />
+            <label>
+              <input
+                type="radio"
+                checked={demo}
+                onChange={(e) => setDemo(e.target.checked)}
+              />
+              On
+            </label>
+            <label>
+              <input
+                type="radio"
+                checked={!demo}
+                onChange={(e) => setDemo(!e.target.checked)}
+              />
+              Off
+            </label>
+          </div>
+        </>
       ) : null}
       <br />
       <button onClick={start}> Start! </button>
