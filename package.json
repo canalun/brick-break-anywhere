@@ -1,12 +1,13 @@
 {
   "name": "brick-break-anywhere",
   "displayName": "__MSG_extensionName__",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "__MSG_extensionDescription__",
   "author": "canalun",
   "scripts": {
     "dev": "plasmo dev --verbose",
     "build": "plasmo build",
+    "build-firefox": "plasmo build --target=firefox",
     "package": "plasmo package"
   },
   "dependencies": {
